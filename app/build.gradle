@@ -26,7 +26,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'XYZ_ATM.App'
+    mainClass = 'ATM_Runner.App'
 }
 
 tasks.named('test') {
