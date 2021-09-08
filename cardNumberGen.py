@@ -1,6 +1,6 @@
 import random
 import sys
-if(len(sys.argv) > 1 and isinstance((int(sys.argv[1])), int)):
+if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
     i = 0
     text_file = open("output.txt", "w")
     while(i<int(sys.argv[1])):
