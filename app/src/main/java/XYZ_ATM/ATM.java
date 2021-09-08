@@ -1,4 +1,4 @@
-package XYZ_ATM
+package XYZ_ATM;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.LocalDate;
 
 public class ATM{
 
-    private HashMap<double, int> balance;
+    private HashMap<Double, Integer> balance;
     private ArrayList<Card> validCards;
     private LocalDate date;
 
-    public ATM(HashMap<double, int> balance, ArrayList<Card> validCards, LocalDate date) {
+    public ATM(HashMap<Double, Integer> balance, ArrayList<Card> validCards, LocalDate date) {
         this.balance = balance;
         this.validCards = validCards;
         this.date = LocalDate.now();
@@ -30,6 +30,10 @@ public class ATM{
 
     private boolean checkExpDate(Card c){
 
+    }
+
+    public void setBalance(HashMap<Double, Integer> balance){
+        this.balance = balance;
     }
 
     private boolean checkIssDate(Card c){
