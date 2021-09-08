@@ -26,7 +26,7 @@ public class User{
 
     public void addCard(Card newCard){
         cards = Arrays.copyOf(cards, cards.length + 1);
-        cards[card.length - 1] = newCard;
+        cards[cards.length - 1] = newCard;
     }
 
     public String getUserID() {
