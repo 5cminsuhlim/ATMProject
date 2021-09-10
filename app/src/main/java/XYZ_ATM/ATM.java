@@ -16,11 +16,9 @@ public class ATM{
         this.date = LocalDate.now();
     }
 
-    private int isValid(Card c,String userPin){
-        if (!checkCardNumber(c)){
-            return -1;
-        }
-        else if(!checkPin(c,userPin)){
+    private int isValid(Card c,String userInPin){
+
+        if(!checkPin(c,userPin)){
             return -2;
         }
         else if(!checkExpDate(c)){
@@ -40,8 +38,24 @@ public class ATM{
         }
     }
 
-    private boolean checkCardNumber(Card c){
-        return c.getCard_number().length() == 5 && validCards.contains(c);
+    private boolean checkCardNumber(String UserIn){
+
+        if (UserIn.length() != 5) {
+            // Returns -11 if the user entered a wrong size card
+            return -11;
+        }
+        for (int i = 0, i < validCards.size(),i++){
+            if(validCards.get(i).getCardNumber().equals(UserIn)){
+                // return index if card is found in validCards
+                return i;
+            }
+        }
+        //Return -1 if Card does not exist.
+        return -1
+    }
+
+    private Card getCard(int cardIndex){
+        return validcCards.get(cardIndex);
     }
 
     private boolean checkPin(Card c, String userPin){
