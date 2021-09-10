@@ -16,8 +16,28 @@ public class ATM{
         this.date = LocalDate.now();
     }
 
-    private boolean isValid(Card c){
-        return checkCardNumber(c) && checkExpDate(c) && checkIssDate(c); //checkPin needs to be verified too
+    private int isValid(Card c,String userPin){
+        if (!checkCardNumber(c)){
+            return -1;
+        }
+        else if(!checkPin(c,userPin)){
+            return -2;
+        }
+        else if(!checkExpDate(c)){
+            return -3;
+        }
+        else if(!checkIssDate(c)){
+            return -4;
+        }
+        else if(!c.isStolen()){
+            return -5;
+        }
+        else if(!c.isBlocked()){
+            return -6;
+        }
+        else{
+            return 0;
+        }
     }
 
     private boolean checkCardNumber(Card c){
