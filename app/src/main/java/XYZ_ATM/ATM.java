@@ -50,8 +50,12 @@ public class ATM{
         return currentDate >= cardIssue; // making sure the card is active already
     }
 
-    private String apologize(){
-
+    private void apologize(Card c){
+        if(c.isStolen()){
+            System.out.println("The inserted card has been recognized as lost or stolen. " +
+                    "Further action will be restricted. " +
+                    "We apologize for the inconvenience.");
+        }
     }
 
     private String error(){
