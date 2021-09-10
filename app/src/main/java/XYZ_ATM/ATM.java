@@ -16,7 +16,7 @@ public class ATM{
         this.date = LocalDate.now();
     }
 
-    private int isValid(Card c,String userInPin){
+    public int isValid(Card c,String userInPin){
 
         if(!checkPin(c,userPin)){
             return -2;
@@ -38,7 +38,7 @@ public class ATM{
         }
     }
 
-    private boolean checkCardNumber(String UserIn){
+    public boolean checkCardNumber(String UserIn){
 
         if (UserIn.length() != 5) {
             // Returns -11 if the user entered a wrong size card
@@ -54,15 +54,15 @@ public class ATM{
         return -1
     }
 
-    private Card getCard(int cardIndex){
+    public Card getCard(int cardIndex){
         return validcCards.get(cardIndex);
     }
 
-    private boolean checkPin(Card c, String userPin){
+    public boolean checkPin(Card c, String userPin){
         return userPin.equals(c.getPin());
     }
 
-    private boolean checkExpDate(Card c){
+    public boolean checkExpDate(Card c){
         String dateString;
         dateString = date.toString(); // converts to string in the format YYYY-MM-DD
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
@@ -76,7 +76,7 @@ public class ATM{
         this.balance = balance;
     }
 
-    private boolean checkIssDate(Card c){
+    public boolean checkIssDate(Card c){
         String dateString;
         dateString = date.toString();
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
@@ -84,7 +84,7 @@ public class ATM{
         return currentDate >= cardIssue; // making sure the card is active already
     }
 
-    private void apologize(Card c){
+    public void apologize(Card c){
         if(c.isStolen()){
             System.out.println("The inserted card has been recognized as lost or stolen. " +
                     "Further action will be restricted. " +
@@ -92,35 +92,69 @@ public class ATM{
         }
     }
 
-    private String error(){
-
+    public void error(){
+        System.out.println("ERROR: Insufficient funds remaining in the ATM.");
     }
 
-    private void withdraw(){
+    //incomplete
+    public void withdraw(User u, double userInput){
+        double toWithdraw = userInput;
+        double count;
 
-    }
-
-    public void deposit(User u, int userInput){
-        int received = 0;
-
-        System.out.println("")
-
-
-        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
-
+        if(userInput > u.getBalance() && userInput > checkTotalBalance()){
+            error();
+            return u.getBalance();
+        }
+        else if(userInput > u.getBalance()){
+            return u.getBalance();
+        }
+        else if(userInput > checkTotalBalance()){
+            error();
         }
 
-        //update userBalance
-        u.setBalance(u.getBalance() + userInput);
+        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
+            count = toWithdraw % entry.getKey();
+
+
+            /*if withdrawing $257,
+                  257 - [(257 % 100) * 100] = 57
+                  57 - [(57 % 50) * 50] = 7
+                  7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
+                  7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
+
+            */
+            if(toWithdraw >= count){
+                toWithdraw -= count * entry.getKey();
+
+                //updates the count for the respective currency
+                balance.put(entry.getKey(), entry.getValue() - count);
+            }
+        }
+
+        //subtract withdrawn amount from userBalance
+        u.setBalance(u.getBalance() - userInput);
     }
-    HashMap<Double, Integer> balance
+
+    //incomplete
+    public void deposit(User u, HashMap<Double, Integer> userInput){
+        int received = 0;
+
+        for(Map.Entry<Double, Integer> entry : userInput.entrySet()){
+            received += entry.getKey() * entry.getValue();
+        }
+
+        //combine the count for each type of currency from userInput to the existing ATM balance
+        userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+
+        //add received amount to userBalance
+        u.setBalance(u.getBalance() + received);
+    }
 
     //returns individual breakdown of each coin/note
     public void checkIndivBalance(){
         for(Map.Entry<Double, Integer> entry : balance.entrySet()){
             System.out.println("Currency: " + entry.getKey() +
                     ", Quantity: " + entry.getValue());
-
         }
     }
 
