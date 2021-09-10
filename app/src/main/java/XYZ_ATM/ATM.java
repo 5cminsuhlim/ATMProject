@@ -100,11 +100,32 @@ public class ATM{
 
     }
 
-    public void deposit(){
+    public void deposit(User u, int userInput){
+        int received = 0;
 
+        System.out.println("")
+
+
+        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
+
+        }
+
+        //update userBalance
+        u.setBalance(u.getBalance() + userInput);
+    }
+    HashMap<Double, Integer> balance
+
+    //returns individual breakdown of each coin/note
+    public void checkIndivBalance(){
+        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
+            System.out.println("Currency: " + entry.getKey() +
+                    ", Quantity: " + entry.getValue());
+
+        }
     }
 
-    public double checkBalance(){
+    //returns sum total of all coins/notes
+    public double checkTotalBalance(){
         double totalBal = 0;
         for(Map.Entry<Double, Integer> entry : balance.entrySet()){
             totalBal += entry.getKey() * entry.getValue();
