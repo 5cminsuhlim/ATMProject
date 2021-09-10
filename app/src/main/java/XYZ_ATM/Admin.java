@@ -1,4 +1,7 @@
 package XYZ_ATM;
+
+import java.util.HashMap;
+
 public class Admin {
 
     private String adminID;
@@ -23,6 +26,10 @@ public class Admin {
 
     public void setAdminPin(String adminPin) {
         this.adminPin = adminPin;
+    }
+
+    public void adminSetBal(ATM currAtm, HashMap<Double, Integer> balance){
+        currAtm.setBalance(balance);
     }
 
 

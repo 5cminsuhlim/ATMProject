@@ -38,6 +38,10 @@ public class ATM{
         //since the years are just numbers, later dates are just bigger numbers so making sure the expiry date is bigger
     }
 
+    public void setBalance(HashMap<Double, Integer> balance){
+        this.balance = balance;
+    }
+
     private boolean checkIssDate(Card c){
         String dateString;
         dateString = date.toString();
