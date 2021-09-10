@@ -92,8 +92,8 @@ public class ATM{
         }
     }
 
-    public String error(){
-
+    public void error(){
+        System.out.println("ERROR: Insufficient funds remaining in the ATM.");
     }
 
     //incomplete
