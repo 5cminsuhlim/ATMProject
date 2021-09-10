@@ -96,31 +96,65 @@ public class ATM{
 
     }
 
-    private void withdraw(){
+    //incomplete
+    private void withdraw(User u, double userInput){
+        double toWithdraw = userInput;
+        double count;
 
-    }
-
-    public void deposit(User u, int userInput){
-        int received = 0;
-
-        System.out.println("")
-
-
-        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
-
+        if(userInput > u.getBalance() && userInput > checkTotalBalance()){
+            error();
+            return u.getBalance();
+        }
+        else if(userInput > u.getBalance()){
+            return u.getBalance();
+        }
+        else if(userInput > checkTotalBalance()){
+            error();
         }
 
-        //update userBalance
-        u.setBalance(u.getBalance() + userInput);
+        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
+            count = toWithdraw % entry.getKey();
+
+
+            /*if withdrawing $257,
+                  257 - [(257 % 100) * 100] = 57
+                  57 - [(57 % 50) * 50] = 7
+                  7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
+                  7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
+
+            */
+            if(toWithdraw >= count){
+                toWithdraw -= count * entry.getKey();
+
+                //updates the count for the respective currency
+                balance.put(entry.getKey(), entry.getValue() - count);
+            }
+        }
+
+        //subtract withdrawn amount from userBalance
+        u.setBalance(u.getBalance() - userInput);
     }
-    HashMap<Double, Integer> balance
+
+    //incomplete
+    public void deposit(User u, HashMap<Double, Integer> userInput){
+        int received = 0;
+
+        for(Map.Entry<Double, Integer> entry : userInput.entrySet()){
+            received += entry.getKey() * entry.getValue();
+        }
+
+        //combine the count for each type of currency from userInput to the existing ATM balance
+        userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+
+        //add received amount to userBalance
+        u.setBalance(u.getBalance() + received);
+    }
 
     //returns individual breakdown of each coin/note
     public void checkIndivBalance(){
         for(Map.Entry<Double, Integer> entry : balance.entrySet()){
             System.out.println("Currency: " + entry.getKey() +
                     ", Quantity: " + entry.getValue());
-
         }
     }
 
