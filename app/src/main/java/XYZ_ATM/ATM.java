@@ -16,7 +16,7 @@ public class ATM{
         this.date = LocalDate.now();
     }
 
-    private int isValid(Card c,String userInPin){
+    public int isValid(Card c,String userInPin){
 
         if(!checkPin(c,userPin)){
             return -2;
@@ -38,7 +38,7 @@ public class ATM{
         }
     }
 
-    private boolean checkCardNumber(String UserIn){
+    public boolean checkCardNumber(String UserIn){
 
         if (UserIn.length() != 5) {
             // Returns -11 if the user entered a wrong size card
@@ -54,15 +54,15 @@ public class ATM{
         return -1
     }
 
-    private Card getCard(int cardIndex){
+    public Card getCard(int cardIndex){
         return validcCards.get(cardIndex);
     }
 
-    private boolean checkPin(Card c, String userPin){
+    public boolean checkPin(Card c, String userPin){
         return userPin.equals(c.getPin());
     }
 
-    private boolean checkExpDate(Card c){
+    public boolean checkExpDate(Card c){
         String dateString;
         dateString = date.toString(); // converts to string in the format YYYY-MM-DD
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
@@ -76,7 +76,7 @@ public class ATM{
         this.balance = balance;
     }
 
-    private boolean checkIssDate(Card c){
+    public boolean checkIssDate(Card c){
         String dateString;
         dateString = date.toString();
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
@@ -84,7 +84,7 @@ public class ATM{
         return currentDate >= cardIssue; // making sure the card is active already
     }
 
-    private void apologize(Card c){
+    public void apologize(Card c){
         if(c.isStolen()){
             System.out.println("The inserted card has been recognized as lost or stolen. " +
                     "Further action will be restricted. " +
@@ -92,12 +92,12 @@ public class ATM{
         }
     }
 
-    private String error(){
+    public String error(){
 
     }
 
     //incomplete
-    private void withdraw(User u, double userInput){
+    public void withdraw(User u, double userInput){
         double toWithdraw = userInput;
         double count;
 
