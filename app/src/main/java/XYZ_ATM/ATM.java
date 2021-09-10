@@ -71,10 +71,18 @@ public class ATM{
     }
 
     public double checkBalance(){
+        double totalBal = 0;
+        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
+            totalBal += entry.getKey() * entry.getValue();
+        }
 
+        return totalBal;
     }
 
-    public boolean promptUser(){ //checking to proceed / cancel
-
+    public boolean promptUser(int userInput){ //checking to proceed / cancel
+        if(userInput == 1){
+            return true;
+        }
+        return false;
     }
 }
