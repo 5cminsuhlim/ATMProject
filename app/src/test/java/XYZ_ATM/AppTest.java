@@ -3,6 +3,7 @@
  */
 package XYZ_ATM;
 
+import Card.java;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,5 +11,24 @@ class AppTest {
     @Test void appHasAGreeting() {
         App classUnderTest = new App();
         assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    }
+
+    @Test
+    void CheckCardClass(){
+        String cardnum = "54321";
+        String cardpin = "4321";
+        String startdate = "09/2018";
+        String expdate = "01/2022";
+        String UID = "6969";
+        boolean stolen = false;
+
+        Card testCard = new Card(cardnum,cardpin,startdate,expdate,UID,stolen);
+        assertEquals("54321", testCard.getCard_number(), "Card number returned is incorrect");
+        assertEquals("4321",testCard.getPin(),"Card Pin returned is incorrect");
+        assertEquals("09/2018",testCard.getStart_date(),"Start date returned is incorrect");
+        assertEquals("01/2022",testCard.getExpiry_date(), "Expiry date returned is incorrect");
+        assertEquals("6969",testCard.getUID(),"UID return is incorrect");
+        asseertEquals(false,testCard.isStolen(),"Stolen should not be true");
+        assertEquals(false, testCard.isBlocked(),"Blocked should not be true");
     }
 }
