@@ -4,6 +4,7 @@
 package XYZ_ATM;
 
 import Card.java;
+import java.util.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,8 +28,36 @@ class AppTest {
         assertEquals("4321",testCard.getPin(),"Card Pin returned is incorrect");
         assertEquals("09/2018",testCard.getStart_date(),"Start date returned is incorrect");
         assertEquals("01/2022",testCard.getExpiry_date(), "Expiry date returned is incorrect");
-        assertEquals("6969",testCard.getUID(),"UID return is incorrect");
+        assertEquals("6969",testCard.getUID(),"UID returned is incorrect");
         asseertEquals(false,testCard.isStolen(),"Stolen should not be true");
         assertEquals(false, testCard.isBlocked(),"Blocked should not be true");
+    }
+
+    @Test
+    void checkUserClass(){
+        String cardnum = "54321";
+        String cardpin = "4321";
+        String startdate = "09/2018";
+        String expdate = "01/2022";
+        String UID = "6969";
+        boolean stolen = false;
+
+        Card testCard = new Card(cardnum,cardpin,startdate,expdate,UID,stolen);
+
+        String userID = "6969";
+        String full_name = "first_name last_name";
+        double balance = 2000.00;
+
+        ArrayList<Card> cards = new ArrayList<Card>();
+        cards.add(testCard);
+
+        User testUser = new User(cards, userID, full_name, balance);
+        assertEquals(cards, testUser.getCards(), "Card ArrayList is incorrect");
+        assertEquals(userID, testUser.getUserID(), "UserID returned is incorrect");
+        assertEquals(full_name, testUser.getFullName(), "Full name returned is incorrect");
+        assertEquals(balance, testUser.getBalance(), "Balance returned is incorrect");
+
+
+
     }
 }
