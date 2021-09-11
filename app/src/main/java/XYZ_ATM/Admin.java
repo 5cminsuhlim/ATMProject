@@ -1,5 +1,6 @@
 package XYZ_ATM;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class Admin {
@@ -28,7 +29,7 @@ public class Admin {
         this.adminPin = adminPin;
     }
 
-    public void adminSetBal(ATM currAtm, HashMap<Double, Integer> balance){
+    public void adminSetBal(ATM currAtm, HashMap<BigDecimal, Integer> balance){
         currAtm.setBalance(balance);
     }
 
