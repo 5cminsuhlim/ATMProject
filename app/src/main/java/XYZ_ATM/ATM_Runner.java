@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 
 public class ATM_Runner{
 
-
     public static void main(String[] args){
         System.out.println("Initialising ATM...\n");
         ArrayList<Card> validCards = readCards(); // get validcards into a list by calling the readCards method
@@ -35,34 +34,39 @@ public class ATM_Runner{
         while(running) { // loops entire thing
             while(true) { // break when done with the atm/when the card is ejected so it prompts for another card
                 Scanner atmInput = new Scanner(System.in); // create scanner to get user input
-                System.out.println("Welcome to XYZ ATM!\n\nPlease insert your card (Enter Card Number).\n");
+                System.out.println("Please insert your card (Enter Card Number).\n");
                 String cardNumber = atmInput.next(); // cardnumber from user input
-                int cardIndex = numberToCard(cardNumber, atm); // gets the card object from the number
+                int cardIndex = atm.checkCardNumber(cardNumber); // gets the card object from the number
                 if(cardIndex == -1){ // card was not found
                     System.out.println("Card not linked to any account in the system. " +
-                            "Please try again or use a different card.");
+                            "Please try again or use a different card.\n");
                     atmInput.close();
                     break; // prompt for card again
+                } else if(cardIndex == -11){
+                    System.out.println("Card number must be 5 digits. Please try again.\n");
                 }
 
                 Card card = atm.getCard(cardIndex); // gets the card object of the entered card number
+                boolean logged_in = true;
+                while(logged_in){
+                    System.out.println("Options: \n1: Withdraw\n2: Deposit\n3: Check Balance\n4: Exit\n");
+                    String option = atmInput.next();
 
-                System.out.println("Options: \n1: Withdraw\n2: Deposit\n3: Check Balance\n4: Exit");
-                String option = atmInput.next();
-
-                switch (option) {
-                    case "1":
-
-                    case "2":
-
-                    case "3":
-
-                    case "4":
-                        atmInput.close();
-                        break;
-                    default:
-                        System.out.println("Invalid Input, please try again.");
-                        break;
+                    switch (option) {
+                        case "1":
+                            System.out.println("Please enter the amount you would like to withdraw\n");
+                            String withdrawAmount = atmInput.next();
+                        case "2":
+                            System.out.println("Please enter the amount you would like to deposit\n");
+                            String depositAmount = atmInput.next();
+                        case "3":
+                            System.out.println("Your balance is \n");
+                        case "4":
+                            atmInput.close();
+                            logged_in = false;
+                        default:
+                            System.out.println("Invalid Input, please try again.");
+                    }
                 }
             }
         }
@@ -92,16 +96,5 @@ public class ATM_Runner{
             System.out.println("error"); // placeholder
         }
         return validCards; // returns the arraylist of cards to pass to an ATM object
-    }
-
-    private static int numberToCard(String number, ATM atm) {
-        int i = 0;
-        for(Card card : atm.getCardList()){ // iterate through cards within the atm card list
-            if(card.getCard_number().equals(number)){
-                return i; // returns the card index
-            } else{
-                i++;
-            }
-        } return -1; // error meaning that a card with this number was not found.
     }
 }
