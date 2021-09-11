@@ -30,6 +30,7 @@ public class ATM{
             return -4;
         }
         else if(!c.isStolen()){
+            apologize(c);
             return -5;
         }
         else if(!c.isBlocked()){
@@ -92,11 +93,9 @@ public class ATM{
     }
 
     public void apologize(Card c){
-        if(c.isStolen()){
-            System.out.println("The inserted card has been recognized as lost or stolen. " +
-                    "Further action will be restricted. " +
-                    "We apologize for the inconvenience.");
-        }
+        System.out.println("The inserted card has been recognized as lost or stolen. " +
+                "Further action will be restricted. " +
+                "We apologize for the inconvenience.");
     }
 
     public void error(){
@@ -109,27 +108,30 @@ public class ATM{
         BigDecimal toWithdraw = BigDecimal.valueOf(userInput);
         BigDecimal count;
 
-        if(userInput > u.getBalance() || userInput > checkTotalBalance()){
+        if(userInput > u.getBalance()){
+            System.out.println("Insufficient funds in account.");
+        } else if(userInput > checkTotalBalance()){
             error();
-        }
+        } else{
 
-        for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()){
-            count = toWithdraw.remainder(entry.getKey());
+            for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
+                count = toWithdraw.remainder(entry.getKey());
 
 
-            /*if withdrawing $257,
-                  257 - [(257 % 100) * 100] = 57
-                  57 - [(57 % 50) * 50] = 7
-                  7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
-                  7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
+                /*if withdrawing $257,
+                      257 - [(257 % 100) * 100] = 57
+                      57 - [(57 % 50) * 50] = 7
+                      7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
+                      7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
 
-            */
-            if(toWithdraw.compareTo(count) >= 0){
-                toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
-                // equivalent to toWithdraw -= count * entry.getKey()
+                */
+                if (toWithdraw.compareTo(count) >= 0) {
+                    toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
+                    // equivalent to toWithdraw -= count * entry.getKey()
 
-                //updates the count for the respective currency
-                balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue()).subtract(count)).intValue());
+                    //updates the count for the respective currency
+                    balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue()).subtract(count)).intValue());
+                }
             }
         }
 
