@@ -11,7 +11,7 @@ public class ATM_Runner{
 
     public static void main(String[] args){
         System.out.println("Initialising ATM...\n");
-        ArrayList<Card> validCards = readCards(); // get validcards into a list by calling the readCards method
+        ArrayList<Card> validCards = readCards(); // get validCards into a list by calling the readCards method
         HashMap<BigDecimal, Integer> balance = new HashMap<>(); // initialise balance
         System.out.println("Enter the number of note/coins in the form: 100,50,20,10,5,2,1,0.50,0.20,0.10,0.05");
         Scanner balanceReader = new Scanner(System.in);
@@ -32,10 +32,10 @@ public class ATM_Runner{
         ATM atm = new ATM(balance, validCards, LocalDate.now()); // create the ATM object
         boolean running = true;
         while(running) { // loops entire thing
-            while(true) { // break when done with the atm/when the card is ejected so it prompts for another card
+            while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
                 Scanner atmInput = new Scanner(System.in); // create scanner to get user input
                 System.out.println("Please insert your card (Enter Card Number).\n");
-                String cardNumber = atmInput.next(); // cardnumber from user input
+                String cardNumber = atmInput.next(); // cardNumber from user input
                 int cardIndex = atm.checkCardNumber(cardNumber); // gets the card object from the number
                 if(cardIndex == -1){ // card was not found
                     System.out.println("Card not linked to any account in the system. " +
@@ -54,18 +54,36 @@ public class ATM_Runner{
 
                     switch (option) {
                         case "1":
-                            System.out.println("Please enter the amount you would like to withdraw\n");
+                            System.out.println("Please enter the amount you would like to withdraw. Enter 'cancel'" +
+                                    "to cancel the transaction\n");
                             String withdrawAmount = atmInput.next();
+                            switch(checkString(withdrawAmount)) {
+                                case 1: // deposit amount is a number
+                                    //atm.deposit();
+                                case -1: // cancel option
+                                    break;
+                                default: // invalid input
+                                    System.out.println("Invalid input.\n");
+                            }
                         case "2":
-                            System.out.println("Please enter the amount you would like to deposit\n");
+                            System.out.println("Please enter the amount you would like to deposit. Enter 'cancel'" +
+                                    "to cancel the transaction\n");
                             String depositAmount = atmInput.next();
+                            switch(checkString(depositAmount)){
+                                case 1: // deposit amount is a number
+                                    //atm.deposit();
+                                case -1: // cancel option
+                                    break;
+                                default: // invalid input
+                                    System.out.println("Invalid input.\n");
+                            }
                         case "3":
                             System.out.println("Your balance is \n");
                         case "4":
                             atmInput.close();
-                            logged_in = false;
+                            logged_in = false; // prompts for another card
                         default:
-                            System.out.println("Invalid Input, please try again.");
+                            System.out.println("Invalid Input, please try again.\n");
                     }
                 }
             }
@@ -88,13 +106,25 @@ public class ATM_Runner{
                 boolean stolen = "1".equals(line[3]);
                 validCards.add(new Card(line[0], line[4], line[1], line[2], "placeholder", stolen));
                 // adds a card object into the validCards list
-                // card has format (card_number, pin, start_date, expiry_date, UID, stolen
-                // card list has format cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
+                // card has the format (card_number, pin, start_date, expiry_date, UID, stolen
+                // card list has the format cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
             }
             input.close();
         } catch(Exception e){
             System.out.println("error"); // placeholder
         }
         return validCards; // returns the arraylist of cards to pass to an ATM object
+    }
+
+    private static int checkString(String str){
+        if(str.equals("cancel")){
+            return -1;
+        }
+        try {
+            Double.parseDouble(str);
+            return 1;
+        } catch (NumberFormatException e) {
+            return -2;
+        }
     }
 }
