@@ -102,7 +102,7 @@ public class ATM{
                 "\nWe apologize for the inconvenience.");
     }
 
-    public void error(){
+    public void insuffATMFunds(){
         System.out.println("ERROR: Insufficient funds remaining in the ATM.");
     }
 
@@ -121,7 +121,7 @@ public class ATM{
         if(userInput > u.getBalance()){
             insuffUserFunds(u);
         } else if(userInput > checkTotalBalance()){
-            error();
+            insuffATMFunds();
         } else{
 
             for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
