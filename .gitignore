@@ -7,3 +7,4 @@ build
 #Ignore Card Number Generator output
 __pycache__
 output.txt
+cards
