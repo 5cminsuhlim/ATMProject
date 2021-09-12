@@ -1,8 +1,36 @@
 import random
 import sys
+
+##Run With Sys Args:
+#Arg 1: Total number of desired cards to be generated
+#Arg 2 (Optional): Card Lost/Stolen Bias Mode
+#                   Limit total lost/stolen to < 10%
+#                   Enable by setting arg to "1"
+
+def lostOrStolenStatusBias(total):
+    #Bias = 10% Max
+    total_left = abs(total/10)
+    output = []
+    for i in range(0, total):
+        if(total_left > 0):
+            rand_var = random.randint(0,1)
+            if(rand_var == 1):
+                total_left -= 1
+            output.append(str(rand_var))
+        else:
+            output.append("0")
+    return output
+
 if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
     i = 0
     text_file = open("output.txt", "w")
+    if(len(sys.argv) > 2 and sys.argv[2] == "1"):
+        lost_stolen = lostOrStolenStatusBias(int(sys.argv[1]))
+    else:
+        lost_stolen = []
+        for i in range(0, int(sys.argv[1])):
+            lost_stolen.append(str(random.randint(0,1)))
+    print(lost_stolen)
     while(i<int(sys.argv[1])):
         #Details Format
         #cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
@@ -19,16 +47,11 @@ if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
             random_day = str(random.randint(1,31))
         random_issue_year = str(random.randint(2017,2019))
         random_expiry_year = str(random.randint(2020,2022))
-        issue_string = random_day + "/" + random_month
-        issue_string = issue_string + "/" + random_issue_year
+        issue_string = random_day + "/" + random_month + "/" + random_issue_year
         expiry_string = random_month + "/" + random_expiry_year
-        lost_stolen_status = str(random.randint(0,1))
-        blocked_status = str(0)
-        joined_string += "," + issue_string
-        joined_string += "," + expiry_string
-        joined_string += "," + lost_stolen_status
-        joined_string += "," + joined_pin
-        joined_string = joined_string + "\n"
+        lost_stolen_status = lost_stolen[0]
+        lost_stolen.pop(0)
+        joined_string += "," + issue_string + "," + expiry_string + "," + lost_stolen_status + "," + joined_pin + "\n"
         text_file.write(joined_string)
         i += 1
     text_file.close()
