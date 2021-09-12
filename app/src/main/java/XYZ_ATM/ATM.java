@@ -14,12 +14,18 @@ public class ATM{
     private ArrayList<Card> validCards;
     private LocalDate date;
     private int transactionNo = 0;
+    private String adminPin = "9746346416"; //made w/ RNG
 
-    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date, int transactionNo) {
+    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date, int transactionNo, String adminPin) {
         this.balance = balance;
         this.validCards = validCards;
         this.date = date;
         this.transactionNo = transactionNo;
+        this.adminPin = adminPin;
+    }
+
+    public boolean isAdmin(String userInput){
+        return userInput == adminPin;
     }
 
     public int isValid(Card c,String userInPin){
