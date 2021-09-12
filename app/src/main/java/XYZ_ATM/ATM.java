@@ -11,11 +11,13 @@ public class ATM{
     private HashMap<BigDecimal, Integer> balance;
     private ArrayList<Card> validCards;
     private LocalDate date;
+    private int transactionNo;
 
-    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date) {
+    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date, int transactionNo) {
         this.balance = balance;
         this.validCards = validCards;
         this.date = date;
+        this.transactionNo = transactionNo;
     }
 
     public int isValid(Card c,String userInPin){
@@ -102,6 +104,11 @@ public class ATM{
         System.out.println("ERROR: Insufficient funds remaining in the ATM.");
     }
 
+    public void insuffUserFunds(User u){
+        System.out.println("Insufficient funds in account " + u.getFullName(). +
+                " Current balance: " + u.getBalance());
+    }
+
     //incomplete
     public void withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
         // can call atm.error and will know if the transaction failed.
@@ -109,7 +116,7 @@ public class ATM{
         BigDecimal count;
 
         if(userInput > u.getBalance()){
-            System.out.println("Insufficient funds in account.");
+            insuffUserFunds(u);
         } else if(userInput > checkTotalBalance()){
             error();
         } else{
@@ -137,6 +144,8 @@ public class ATM{
 
         //subtract withdrawn amount from userBalance
         u.setBalance(u.getBalance() - userInput);
+
+        System.out.println("Print receipt")
     }
 
     //incomplete
