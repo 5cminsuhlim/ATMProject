@@ -1,24 +1,26 @@
 package XYZ_ATM;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.math.BigDecimal;
 
 public class ATM{
 
-    private HashMap<Double, Integer> balance;
+    private HashMap<BigDecimal, Integer> balance;
     private ArrayList<Card> validCards;
     private LocalDate date;
 
-    public ATM(HashMap<Double, Integer> balance, ArrayList<Card> validCards, LocalDate date) {
+    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date) {
         this.balance = balance;
         this.validCards = validCards;
-        this.date = LocalDate.now();
+        this.date = date;
     }
 
     public int isValid(Card c,String userInPin){
 
-        if(!checkPin(c,userPin)){
+        if(!checkPin(c,userInPin)){
             return -2;
         }
         else if(!checkExpDate(c)){
@@ -28,6 +30,7 @@ public class ATM{
             return -4;
         }
         else if(!c.isStolen()){
+            apologize(c);
             return -5;
         }
         else if(!c.isBlocked()){
@@ -38,24 +41,28 @@ public class ATM{
         }
     }
 
-    public boolean checkCardNumber(String UserIn){
+    public int checkCardNumber(String UserIn){
 
         if (UserIn.length() != 5) {
             // Returns -11 if the user entered a wrong size card
             return -11;
         }
-        for (int i = 0, i < validCards.size(),i++){
-            if(validCards.get(i).getCardNumber().equals(UserIn)){
+        for (int i = 0; i < validCards.size(); i++){
+            if(validCards.get(i).getCard_number().equals(UserIn)){
                 // return index if card is found in validCards
                 return i;
             }
         }
         //Return -1 if Card does not exist.
-        return -1
+        return -1;
+    }
+
+    public ArrayList<Card> getCardList(){
+        return this.validCards;
     }
 
     public Card getCard(int cardIndex){
-        return validcCards.get(cardIndex);
+        return validCards.get(cardIndex);
     }
 
     public boolean checkPin(Card c, String userPin){
@@ -64,32 +71,31 @@ public class ATM{
 
     public boolean checkExpDate(Card c){
         String dateString;
-        dateString = date.toString(); // converts to string in the format YYYY-MM-DD
+        dateString = this.date.toString(); // converts to string in the format YYYY-MM
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
         //gets the year and date, without the "-" so it looks like 202109
-        int cardExpiry = Integer.parseInt(c.getExpiry_date().substring(0,4) + c.getExpiry_date().substring(5,7));
-        return currentDate < cardExpiry;
+        int cardExpiry = Integer.parseInt(c.getExpiry_date().substring(0,2) + c.getExpiry_date().substring(3,7));
+        // card expiry is in the form MM/YYYY, changing to YYYYMM
+        return currentDate <= cardExpiry;
         //since the years are just numbers, later dates are just bigger numbers so making sure the expiry date is bigger
     }
 
-    public void setBalance(HashMap<Double, Integer> balance){
+    public void setBalance(HashMap<BigDecimal, Integer> balance){
         this.balance = balance;
     }
 
     public boolean checkIssDate(Card c){
         String dateString;
-        dateString = date.toString();
+        dateString = this.date.toString();
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
-        int cardIssue = Integer.parseInt(c.getStart_date().substring(0,4) + c.getStart_date().substring(5,7));
+        int cardIssue = Integer.parseInt(c.getStart_date().substring(0,2) + c.getStart_date().substring(3,7));
         return currentDate >= cardIssue; // making sure the card is active already
     }
 
     public void apologize(Card c){
-        if(c.isStolen()){
-            System.out.println("The inserted card has been recognized as lost or stolen. " +
-                    "Further action will be restricted. " +
-                    "We apologize for the inconvenience.");
-        }
+        System.out.println("The inserted card has been recognized as lost or stolen. " +
+                "Further action will be restricted. " +
+                "We apologize for the inconvenience.");
     }
 
     public void error(){
@@ -97,37 +103,35 @@ public class ATM{
     }
 
     //incomplete
-    public void withdraw(User u, double userInput){
-        double toWithdraw = userInput;
-        double count;
+    public void withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
+        // can call atm.error and will know if the transaction failed.
+        BigDecimal toWithdraw = BigDecimal.valueOf(userInput);
+        BigDecimal count;
 
-        if(userInput > u.getBalance() && userInput > checkTotalBalance()){
+        if(userInput > u.getBalance()){
+            System.out.println("Insufficient funds in account.");
+        } else if(userInput > checkTotalBalance()){
             error();
-            return u.getBalance();
-        }
-        else if(userInput > u.getBalance()){
-            return u.getBalance();
-        }
-        else if(userInput > checkTotalBalance()){
-            error();
-        }
+        } else{
 
-        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
-            count = toWithdraw % entry.getKey();
+            for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
+                count = toWithdraw.remainder(entry.getKey());
 
 
-            /*if withdrawing $257,
-                  257 - [(257 % 100) * 100] = 57
-                  57 - [(57 % 50) * 50] = 7
-                  7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
-                  7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
+                /*if withdrawing $257,
+                      257 - [(257 % 100) * 100] = 57
+                      57 - [(57 % 50) * 50] = 7
+                      7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
+                      7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
 
-            */
-            if(toWithdraw >= count){
-                toWithdraw -= count * entry.getKey();
+                */
+                if (toWithdraw.compareTo(count) >= 0) {
+                    toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
+                    // equivalent to toWithdraw -= count * entry.getKey()
 
-                //updates the count for the respective currency
-                balance.put(entry.getKey(), entry.getValue() - count);
+                    //updates the count for the respective currency
+                    balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue()).subtract(count)).intValue());
+                }
             }
         }
 
@@ -136,23 +140,25 @@ public class ATM{
     }
 
     //incomplete
-    public void deposit(User u, HashMap<Double, Integer> userInput){
-        int received = 0;
+    public void deposit(User u, HashMap<BigDecimal, Integer> userInput){
+        BigDecimal received = BigDecimal.ZERO;
 
-        for(Map.Entry<Double, Integer> entry : userInput.entrySet()){
-            received += entry.getKey() * entry.getValue();
+        for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()){
+            received = received.add(entry.getKey().multiply(BigDecimal.valueOf(entry.getValue())));
+            // equivalent to received += entry.getKey() * entry.getValue()
         }
 
         //combine the count for each type of currency from userInput to the existing ATM balance
         userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
 
         //add received amount to userBalance
-        u.setBalance(u.getBalance() + received);
+        u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());
+        // equivalent to received + u.getBalance()
     }
 
     //returns individual breakdown of each coin/note
     public void checkIndivBalance(){
-        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
+        for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()){
             System.out.println("Currency: " + entry.getKey() +
                     ", Quantity: " + entry.getValue());
         }
@@ -160,18 +166,15 @@ public class ATM{
 
     //returns sum total of all coins/notes
     public double checkTotalBalance(){
-        double totalBal = 0;
-        for(Map.Entry<Double, Integer> entry : balance.entrySet()){
-            totalBal += entry.getKey() * entry.getValue();
+        BigDecimal totalBal = BigDecimal.ZERO;
+        for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()){
+            totalBal =  totalBal.add(entry.getKey().multiply(BigDecimal.valueOf(entry.getValue())));
+            // equivalent to totalBal += entry.getKey() * entry.getValue()
         }
-
-        return totalBal;
+        return totalBal.doubleValue();
     }
 
     public boolean promptUser(int userInput){ //checking to proceed / cancel
-        if(userInput == 1){
-            return true;
-        }
-        return false;
+        return userInput == 1;
     }
 }

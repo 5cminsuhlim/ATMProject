@@ -5,7 +5,7 @@ if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
     text_file = open("output.txt", "w")
     while(i<int(sys.argv[1])):
         #Details Format
-        #cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin,blockedStatus
+        #cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
         current_random = [str(random.randint(0,9)),str(random.randint(0,9)),str(random.randint(0,9)),str(random.randint(0,9)),str(random.randint(0,9))]
         current_pin = [str(random.randint(0,9)),str(random.randint(0,9)),str(random.randint(0,9)),str(random.randint(0,9))]
         joined_pin = "".join(current_pin)
@@ -27,7 +27,7 @@ if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
         joined_string += "," + issue_string
         joined_string += "," + expiry_string
         joined_string += "," + lost_stolen_status
-        joined_string += "," + joined_pin + "," + "0"
+        joined_string += "," + joined_pin
         joined_string = joined_string + "\n"
         text_file.write(joined_string)
         i += 1

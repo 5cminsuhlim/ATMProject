@@ -3,7 +3,6 @@
  */
 package XYZ_ATM;
 
-import Card.java;
 import java.util.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +28,8 @@ class AppTest {
         assertEquals("09/2018",testCard.getStart_date(),"Start date returned is incorrect");
         assertEquals("01/2022",testCard.getExpiry_date(), "Expiry date returned is incorrect");
         assertEquals("6969",testCard.getUID(),"UID returned is incorrect");
-        asseertEquals(false,testCard.isStolen(),"Stolen should not be true");
-        assertEquals(false, testCard.isBlocked(),"Blocked should not be true");
+        assertFalse(testCard.isStolen(), "Stolen should not be true");
+        assertFalse(testCard.isBlocked(), "Blocked should not be true");
     }
 
     @Test
@@ -75,7 +74,7 @@ class AppTest {
         String full_name = "first_name last_name";
         double balance = 2000.00;
 
-        ArrayList<Card> cards = new ArrayList<Card>();
+        ArrayList<Card> cards = new ArrayList<>();
         cards.add(testCard);
 
         User testUser = new User(cards, userID, full_name, balance);
