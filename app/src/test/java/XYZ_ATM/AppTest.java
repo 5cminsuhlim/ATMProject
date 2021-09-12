@@ -34,6 +34,33 @@ class AppTest {
     }
 
     @Test
+    void checkCardSetMethods(){
+        String cardnum = "11111";
+        String pin = "1111";
+        String startdate = "09/2018";
+        String expdate = "01/2022";
+        String UID = "1111";
+        boolean stolen = false;
+
+        Card testCard = new Card(cardnum, pin, startdate, expdate, UID, stolen);
+        assertEquals("1111",testCard.getPin(),"Card Pin returned is incorrect");
+        testCard.setPin("2222"); //Testing set pin method
+        assertEquals("2222",testCard.getPin(),"New pin was not set correctly");
+
+        assertEquals("09/2018",testCard.getStart_date(),"Start date returned is incorrect");
+        testCard.setStart_date("07/2018"); //Testing set start date method
+        assertEquals("07/2018",testCard.getStart_date(),"New start date was not set correctly");
+
+        assertEquals("01/2022",testCard.getExpiry_date(),"Expiry date returned is incorrect");
+        testCard.setExpiry_date("03/2022"); //Testing set expiry date method
+        assertEquals("03/2022",testCard.getExpiry_date(),"New expiry date was not set correctly");
+
+        assertEquals("1111",testCard.getUID(),"UID returned is incorrect");
+        testCard.setUID("2222"); //Testing set UID method
+        assertEquals("2222",testCard.getUID(),"New UID was not set correctly");
+    }
+
+    @Test
     void checkUserClass(){
         String cardnum = "54321";
         String cardpin = "4321";
@@ -56,8 +83,5 @@ class AppTest {
         assertEquals(userID, testUser.getUserID(), "UserID returned is incorrect");
         assertEquals(full_name, testUser.getFullName(), "Full name returned is incorrect");
         assertEquals(balance, testUser.getBalance(), "Balance returned is incorrect");
-
-
-
     }
 }
