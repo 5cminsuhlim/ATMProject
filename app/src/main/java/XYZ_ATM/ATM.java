@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.math.BigDecimal;
+import java.util.Scanner;
+
 
 public class ATM{
 
@@ -143,14 +145,19 @@ public class ATM{
             }
         }
 
-        //subtract withdrawn amount from userBalance
-        u.setBalance(u.getBalance() - userInput);
+        if(toProceed()){
+            //subtract withdrawn amount from userBalance
+            u.setBalance(u.getBalance() - userInput);
 
-        //receipt
-        System.out.println("Receipt Details:" +
-                "\nTransaction No.:" + transactionNo +
-                "\nTransaction Type: Withdrew $" + userInput +
-                "\nAccount Balance: " u.getBalance());
+            //receipt
+            System.out.println("Receipt Details:" +
+                    "\nTransaction No.:" + transactionNo +
+                    "\nTransaction Type: Withdrew $" + userInput +
+                    "\nAccount Balance: " u.getBalance());
+        }
+        else{
+            System.out.println("Transaction cancelled.");
+        }
     }
 
     //incomplete
@@ -163,18 +170,24 @@ public class ATM{
             // equivalent to received += entry.getKey() * entry.getValue()
         }
 
-        //combine the count for each type of currency from userInput to the existing ATM balance
-        userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+        if(toProceed()){
+            //combine the count for each type of currency from userInput to the existing ATM balance
+            userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
 
-        //add received amount to userBalance
-        u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());
-        // equivalent to received + u.getBalance()
+            //add received amount to userBalance
+            u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());
+            // equivalent to received + u.getBalance()
 
-        //receipt
-        System.out.println("Receipt Details:" +
-                "\nTransaction No.:" + transactionNo +
-                "\nTransaction Type: Deposited $" + received +
-                "\nAccount Balance: " u.getBalance());
+            //receipt
+            System.out.println("Receipt Details:" +
+                    "\nTransaction No.:" + transactionNo +
+                    "\nTransaction Type: Deposited $" + received +
+                    "\nAccount Balance: " u.getBalance());
+        }
+        else{
+            System.out.println("Transaction cancelled.");
+        }
+
     }
 
     //returns individual breakdown of each coin/note
@@ -195,7 +208,13 @@ public class ATM{
         return totalBal.doubleValue();
     }
 
-    public boolean promptUser(int userInput){ //checking to proceed / cancel
+    public boolean toProceed(){ //checking to proceed / cancel
+        Scanner prompt = new Scanner(System.in);
+        System.out.println("Do you wish to proceed with the transaction?"+
+                "\nYes = 1" +
+                "\nNo = 2");
+        int userInput = prompt.next();
+
         return userInput == 1;
     }
 }
