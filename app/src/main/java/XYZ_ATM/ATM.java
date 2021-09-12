@@ -11,7 +11,7 @@ public class ATM{
     private HashMap<BigDecimal, Integer> balance;
     private ArrayList<Card> validCards;
     private LocalDate date;
-    private int transactionNo;
+    private int transactionNo = 0;
 
     public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date, int transactionNo) {
         this.balance = balance;
@@ -95,9 +95,9 @@ public class ATM{
     }
 
     public void apologize(Card c){
-        System.out.println("The inserted card has been recognized as lost or stolen. " +
-                "Further action will be restricted. " +
-                "We apologize for the inconvenience.");
+        System.out.println("The inserted card has been recognized as lost or stolen." +
+                "\nFurther action will be restricted." +
+                "\nWe apologize for the inconvenience.");
     }
 
     public void error(){
@@ -106,12 +106,13 @@ public class ATM{
 
     public void insuffUserFunds(User u){
         System.out.println("Insufficient funds in account " + u.getFullName(). +
-                " Current balance: " + u.getBalance());
+                "\nCurrent balance: " + u.getBalance());
     }
 
     //incomplete
     public void withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
         // can call atm.error and will know if the transaction failed.
+        transactionNo++;
         BigDecimal toWithdraw = BigDecimal.valueOf(userInput);
         BigDecimal count;
 
@@ -145,11 +146,16 @@ public class ATM{
         //subtract withdrawn amount from userBalance
         u.setBalance(u.getBalance() - userInput);
 
-        System.out.println("Print receipt")
+        //receipt
+        System.out.println("Receipt Details:" +
+                "\nTransaction No.:" + transactionNo +
+                "\nTransaction Type: Withdrew $" + userInput +
+                "\nAccount Balance: " u.getBalance());
     }
 
     //incomplete
     public void deposit(User u, HashMap<BigDecimal, Integer> userInput){
+        transactionNo++;
         BigDecimal received = BigDecimal.ZERO;
 
         for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()){
@@ -163,6 +169,12 @@ public class ATM{
         //add received amount to userBalance
         u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());
         // equivalent to received + u.getBalance()
+
+        //receipt
+        System.out.println("Receipt Details:" +
+                "\nTransaction No.:" + transactionNo +
+                "\nTransaction Type: Deposited $" + received +
+                "\nAccount Balance: " u.getBalance());
     }
 
     //returns individual breakdown of each coin/note
