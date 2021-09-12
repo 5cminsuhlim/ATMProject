@@ -220,6 +220,7 @@ public class ATM{
                 "\nYes = 1" +
                 "\nNo = 2");
         int userInput = prompt.next();
+        prompt.close()
 
         return userInput == 1;
     }
