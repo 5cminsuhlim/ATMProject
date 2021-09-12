@@ -33,6 +33,9 @@ public class ATM_Runner{
         boolean running = true;
         while(running) { // loops entire thing
             while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
+                //GOING TO NEED TO CHECK WHETHER USER OR ADMIN HERE
+
+
                 Scanner atmInput = new Scanner(System.in); // create scanner to get user input
                 System.out.println("Please insert your card (Enter Card Number).\n");
                 String cardNumber = atmInput.next(); // cardNumber from user input
