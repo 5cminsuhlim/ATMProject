@@ -2,35 +2,46 @@ package XYZ_ATM;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Scanner;
+
 
 public class Admin {
+    ATM currATM;
 
-    private String adminID;
-    private String adminPin;
-
-    public Admin(String adminID, String aPin) {
-        this.adminID = adminID;
-        this.adminPin = aPin;
+    public void adminCheckATMBal(){
+        currAtm.checkIndivBalance();
+        System.out.println("Total Balance: " + currATM.checkTotalBalance());
     }
 
-    public String getAdminID() {
-        return adminID;
-    }
+    public void adminAddATMFunds(){
+        Scanner prompt = new Scanner(System.in);
+        boolean complete = false;
+        BigDecimal currency;
+        int count;
 
-    public void setAdminID(String adminID) {
-        this.adminID = adminID;
-    }
+        while(!complete) {
+            System.out.println("What coin/note is being inserted?");
+            currency = prompt.next();
 
-    public String getAdminPin() {
-        return adminPin;
-    }
+            System.out.println("How many?");
+            count = prompt.next();
 
-    public void setAdminPin(String adminPin) {
-        this.adminPin = adminPin;
-    }
+            //update count for matching currency that's being inputted by admin
+            for(Map.Entry<BigDecimal, Integer> entry : currATM.balance.entrySet()) {
+                if(currency.equals(entry.getKey())){
+                    currATM.balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue()).add(count)).intValue());
+                }
+            }
 
-    public void adminSetBal(ATM currAtm, HashMap<BigDecimal, Integer> balance){
-        currAtm.setBalance(balance);
+            System.out.println("Continue with maintenance?" +
+                    "\nYes = 1" +
+                    "\nNo = 2");
+            int adminInput = prompt.next();
+
+            if (adminInput == 1) {
+                complete = True;
+            }
+        }
     }
 
 
