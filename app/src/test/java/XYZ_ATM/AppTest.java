@@ -136,16 +136,61 @@ class AppTest {
         ATM testATM = new ATM(balance, testCards, testDate);
 
         //Checking correct input
-        assertEquals(0, checkCardNumber("11111"), "Index for first valid card returned is incorrect");
-        assertEquals(testCard1, getCard(0), "Card returned is incorrect");
-        assertEquals(1, checkCardNumber("22222"), "Index for second valid card returned is incorrect");
-        assertEquals(testCard2, getCard(1), "Card returned is incorrect");
+        assertEquals(0, testATM.checkCardNumber("11111"), "Index for first valid card returned is incorrect");
+        assertEquals(testCard1, testATM.getCard(0), "Card returned is incorrect");
+        assertEquals(1, testATM.checkCardNumber("22222"), "Index for second valid card returned is incorrect");
+        assertEquals(testCard2, testATM.getCard(1), "Card returned is incorrect");
 
         //Checking incorrect input
-        assertEquals(-1, checkCardNumber("12345"), "System does not identify that the card DOES NOT exist");
+        assertEquals(-1, testATM.checkCardNumber("12345"), "System does not identify that the card DOES NOT exist");
 
         //Checking short/long input length
-        assertEquals(-11, checkCardNumber("123"), "System does not identify that the card number is of incorrect size");
-        assertEquals(-11, checkCardNumber("1234567"), "System does not identify that the card number is of incorrect size");
+        assertEquals(-11, testATM.checkCardNumber("123"), "System does not identify that the card number is of incorrect size");
+        assertEquals(-11, testATM.checkCardNumber("1234567"), "System does not identify that the card number is of incorrect size");
+    }
+
+    @Test
+    void checkIssDateTest(){
+        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        balance.put(100.00, 10);
+        balance.put(50.00, 10);
+        balance.put(20.00, 10);
+        balance.put(10.00, 10);
+        balance.put(5.00, 10);
+        balance.put(2.00, 10);
+        balance.put(1.00, 10);
+        balance.put(0.50, 10);
+        balance.put(0.20, 10);
+        balance.put(0.10, 10);
+        balance.put(0.5, 10);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018"; //Start date before today
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+        String cardnum2 = "22222";
+        String cardpin2 = "2222";
+        String startdate2 = "09/2022"; //Start day after today
+        String expdate2 = "02/2025";
+        String UID2 = "2222";
+        boolean stolen2 = false;
+
+        Card testCard2 = new Card(cardnum2,cardpin2,startdate2,expdate2,UID2,stolen2);
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
+        testCards.add(testCard1);
+        testCards.add(testCard2);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM = new ATM(balance, testCards, testDate);
+
+        assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
+        assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
     }
 }
