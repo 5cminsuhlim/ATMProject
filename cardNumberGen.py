@@ -26,11 +26,11 @@ if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
     text_file = open("output.txt", "w")
     if(len(sys.argv) > 2 and sys.argv[2] == "1"):
         lost_stolen = lostOrStolenStatusBias(int(sys.argv[1]))
+        random.shuffle(lost_stolen)
     else:
         lost_stolen = []
         for i in range(0, int(sys.argv[1])):
             lost_stolen.append(str(random.randint(0,1)))
-    print(lost_stolen)
     while(i<int(sys.argv[1])):
         #Details Format
         #cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
