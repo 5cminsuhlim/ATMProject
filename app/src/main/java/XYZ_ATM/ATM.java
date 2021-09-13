@@ -153,7 +153,9 @@ public class ATM{
 
         if(toProceed()){
             //subtract withdrawn amount from userBalance
-            u.setBalance(u.getBalance() - userInput);
+            u.setBalance((BigDecimal.valueOf(userInput).subtract(BigDecimal.valueOf(u.getBalance()))).doubleValue());
+            //equivalent to u.setBalance(u.getBalance() - userInput)
+
 
             //receipt
             System.out.println("Receipt Details:" +
