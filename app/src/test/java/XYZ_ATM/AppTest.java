@@ -4,15 +4,13 @@
 package XYZ_ATM;
 
 import java.util.*;
+import java.lang.*;
+import java.math.*;
+import java.time.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    }
-
     @Test
     void CheckCardClass(){
         String cardnum = "54321";
@@ -82,5 +80,138 @@ class AppTest {
         assertEquals(userID, testUser.getUserID(), "UserID returned is incorrect");
         assertEquals(full_name, testUser.getFullName(), "Full name returned is incorrect");
         assertEquals(balance, testUser.getBalance(), "Balance returned is incorrect");
+    }
+
+    @Test
+    void checkCardNumberTest(){
+        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
+
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+        String cardnum2 = "22222";
+        String cardpin2 = "2222";
+        String startdate2 = "04/2019";
+        String expdate2 = "02/2023";
+        String UID2 = "2222";
+        boolean stolen2 = false;
+
+        Card testCard2 = new Card(cardnum2,cardpin2,startdate2,expdate2,UID2,stolen2);
+
+        String cardnum3 = "33333";
+        String cardpin3 = "3333";
+        String startdate3 = "05/2018";
+        String expdate3 = "07/2022";
+        String UID3 = "3333";
+        boolean stolen3 = false;
+
+        Card testCard3 = new Card(cardnum3,cardpin3,startdate3,expdate3,UID3,stolen3);
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
+        testCards.add(testCard1);
+        testCards.add(testCard2);
+        testCards.add(testCard3);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM = new ATM(balance, testCards, testDate);
+
+        //Checking correct input
+        assertEquals(0, testATM.checkCardNumber("11111"), "Index for first valid card returned is incorrect");
+        assertEquals(testCard1, testATM.getCard(0), "Card returned is incorrect");
+        assertEquals(1, testATM.checkCardNumber("22222"), "Index for second valid card returned is incorrect");
+        assertEquals(testCard2, testATM.getCard(1), "Card returned is incorrect");
+
+        //Checking incorrect input
+        assertEquals(-1, testATM.checkCardNumber("12345"), "System does not identify that the card DOES NOT exist");
+
+        //Checking short/long input length
+        assertEquals(-11, testATM.checkCardNumber("123"), "System does not identify that the card number is of incorrect size");
+        assertEquals(-11, testATM.checkCardNumber("1234567"), "System does not identify that the card number is of incorrect size");
+    }
+
+    @Test
+    void checkIssDateTest(){
+        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018"; //Start date before today
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+        String cardnum2 = "22222";
+        String cardpin2 = "2222";
+        String startdate2 = "09/2022"; //Start day after today
+        String expdate2 = "02/2025";
+        String UID2 = "2222";
+        boolean stolen2 = false;
+
+        Card testCard2 = new Card(cardnum2,cardpin2,startdate2,expdate2,UID2,stolen2);
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
+        testCards.add(testCard1);
+        testCards.add(testCard2);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM = new ATM(balance, testCards, testDate);
+
+        assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
+        assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
     }
 }
