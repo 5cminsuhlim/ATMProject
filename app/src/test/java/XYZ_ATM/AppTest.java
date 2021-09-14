@@ -55,6 +55,14 @@ class AppTest {
         assertEquals("1111",testCard.getUID(),"UID returned is incorrect");
         testCard.setUID("2222"); //Testing set UID method
         assertEquals("2222",testCard.getUID(),"New UID was not set correctly");
+
+        assertEquals(false, testCard.isBlocked(), "Non-blocked card is returning true");
+        testCard.setBlocked(true); //Testing set blocked method
+        assertEquals(true, testCard.isBlocked(), "Blocked card is returning false");
+
+        assertEquals(false, testCard.isStolen(), "Non-stolen card is returning true");
+        testCard.setStolen(true); //Testing set stolen method
+        assertEquals(true, testCard.isStolen(), "Stolen card is returning false");
     }
 
     @Test
