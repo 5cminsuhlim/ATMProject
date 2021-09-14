@@ -4,15 +4,13 @@
 package XYZ_ATM;
 
 import java.util.*;
+import java.lang.*;
+import java.math.*;
+import java.time.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    }
-
     @Test
     void CheckCardClass(){
         String cardnum = "54321";
@@ -87,17 +85,29 @@ class AppTest {
     @Test
     void checkCardNumberTest(){
         HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
-        balance.put(100.00, 10);
-        balance.put(50.00, 10);
-        balance.put(20.00, 10);
-        balance.put(10.00, 10);
-        balance.put(5.00, 10);
-        balance.put(2.00, 10);
-        balance.put(1.00, 10);
-        balance.put(0.50, 10);
-        balance.put(0.20, 10);
-        balance.put(0.10, 10);
-        balance.put(0.5, 10);
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
+
 
         String cardnum1 = "11111";
         String cardpin1 = "1111";
@@ -152,17 +162,28 @@ class AppTest {
     @Test
     void checkIssDateTest(){
         HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
-        balance.put(100.00, 10);
-        balance.put(50.00, 10);
-        balance.put(20.00, 10);
-        balance.put(10.00, 10);
-        balance.put(5.00, 10);
-        balance.put(2.00, 10);
-        balance.put(1.00, 10);
-        balance.put(0.50, 10);
-        balance.put(0.20, 10);
-        balance.put(0.10, 10);
-        balance.put(0.5, 10);
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
 
         String cardnum1 = "11111";
         String cardpin1 = "1111";
