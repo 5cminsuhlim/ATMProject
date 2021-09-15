@@ -88,6 +88,17 @@ class AppTest {
         assertEquals(userID, testUser.getUserID(), "UserID returned is incorrect");
         assertEquals(full_name, testUser.getFullName(), "Full name returned is incorrect");
         assertEquals(balance, testUser.getBalance(), "Balance returned is incorrect");
+
+        String cardnum2 = "11111";
+        String cardpin2 = "1111";
+        String startdate2 = "08/2018";
+        String expdate2 = "02/2022";
+        String UID2 = "1111";
+        boolean stolen2 = false;
+
+        Card testCard2 = new Card(cardnum2,cardpin2,startdate2,expdate2,UID2,stolen2);
+        testUser.addCard(testCard2); //Adding a new card to testUser
+        assertEquals(cards, testUser.getCards(), "Card ArrayList is incorrect");
     }
 
     @Test
