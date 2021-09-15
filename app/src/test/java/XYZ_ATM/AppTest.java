@@ -102,6 +102,54 @@ class AppTest {
     }
 
     @Test
+    void checkUserSetMethods(){
+        String cardnum = "11111";
+        String cardpin = "1111";
+        String startdate = "09/2018";
+        String expdate = "01/2022";
+        String UID = "1111";
+        boolean stolen = false;
+
+        Card testCard = new Card(cardnum,cardpin,startdate,expdate,UID,stolen);
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double balance = 2000.00;
+
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(testCard);
+
+        User testUser = new User(cards, userID, full_name, balance);
+
+        String cardnum1 = "22222";
+        String cardpin1 = "2222";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+        ArrayList<Card> cards1 = new ArrayList<>();
+        cards1.add(testCard1);
+
+        assertEquals(cards, testUser.getCards(), "Card ArrayList returned is incorrect");
+        testUser.setCards(cards1);
+        assertEquals(cards1, testUser.getCards(), "After setting cards, method returned incorrect arraylist");
+
+        assertEquals("1111", testUser.getUserID(), "User ID returned is incorrect");
+        testUser.setUserID("2222");
+        assertEquals("2222", testUser.getUserID(), "After setting UserID, method returned incorrect value");
+
+        assertEquals("first_name last_name", testUser.getFullName(), "Fullname returned is incorrect");
+        testUser.setFullName("abc 123");
+        assertEquals("abc 123", testUser.getFullName(), "After setting fullname, method returned incorrect value");
+
+        assertEquals(2000.00, testUser.getBalance(), "Balance returned is incorrect");
+        testUser.setBalance(2500.00);
+        assertEquals(2500, testUser.getBalance(), "After setting balance, method returned incorrect value");
+    }
+
+    @Test
     void checkCardNumberTest(){
         HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
