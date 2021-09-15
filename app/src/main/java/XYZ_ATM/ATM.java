@@ -126,13 +126,13 @@ public class ATM{
 
         if(userInput > u.getBalance()){
             insuffUserFunds(u);
-        } else if(userInput > checkTotalBalance()){
+        }
+        else if(userInput > checkTotalBalance()){
             insuffATMFunds();
-        } else{
-
+        }
+        else{
             for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
                 count = toWithdraw.remainder(entry.getKey());
-
 
                 /*if withdrawing $257,
                       257 - [(257 % 100) * 100] = 57
@@ -141,6 +141,7 @@ public class ATM{
                       7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
 
                 */
+
                 if (toWithdraw.compareTo(count) >= 0) {
                     toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
                     // equivalent to toWithdraw -= count * entry.getKey()
@@ -150,22 +151,15 @@ public class ATM{
                 }
             }
         }
+        //subtract withdrawn amount from userBalance
+        u.setBalance((BigDecimal.valueOf(userInput).subtract(BigDecimal.valueOf(u.getBalance()))).doubleValue());
+        //equivalent to u.setBalance(u.getBalance() - userInput)
 
-        if(toProceed()){
-            //subtract withdrawn amount from userBalance
-            u.setBalance((BigDecimal.valueOf(userInput).subtract(BigDecimal.valueOf(u.getBalance()))).doubleValue());
-            //equivalent to u.setBalance(u.getBalance() - userInput)
-
-
-            //receipt
-            System.out.println("Receipt Details:" +
-                    "\nTransaction No.:" + transactionNo +
-                    "\nTransaction Type: Withdrew $" + userInput +
-                    "\nAccount Balance: " u.getBalance());
-        }
-        else{
-            System.out.println("Transaction cancelled.");
-        }
+        //receipt
+        System.out.println("Receipt Details:" +
+                "\nTransaction No.:" + transactionNo +
+                "\nTransaction Type: Withdrew $" + userInput +
+                "\nAccount Balance: " u.getBalance());
     }
 
     //incomplete
@@ -178,24 +172,18 @@ public class ATM{
             // equivalent to received += entry.getKey() * entry.getValue()
         }
 
-        if(toProceed()){
-            //combine the count for each type of currency from userInput to the existing ATM balance
-            userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+        //combine the count for each type of currency from userInput to the existing ATM balance
+        userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
 
-            //add received amount to userBalance
-            u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());
-            // equivalent to received + u.getBalance()
+        //add received amount to userBalance
+        u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());
+        // equivalent to received + u.getBalance()
 
-            //receipt
-            System.out.println("Receipt Details:" +
-                    "\nTransaction No.:" + transactionNo +
-                    "\nTransaction Type: Deposited $" + received +
-                    "\nAccount Balance: " u.getBalance());
-        }
-        else{
-            System.out.println("Transaction cancelled.");
-        }
-
+        //receipt
+        System.out.println("Receipt Details:" +
+                "\nTransaction No.:" + transactionNo +
+                "\nTransaction Type: Deposited $" + received +
+                "\nAccount Balance: " u.getBalance());
     }
 
     //returns individual breakdown of each coin/note
@@ -214,16 +202,5 @@ public class ATM{
             // equivalent to totalBal += entry.getKey() * entry.getValue()
         }
         return totalBal.doubleValue();
-    }
-
-    public boolean toProceed(){ //checking to proceed / cancel
-        Scanner prompt = new Scanner(System.in);
-        System.out.println("Do you wish to proceed with the transaction?"+
-                "\nYes = 1" +
-                "\nNo = 2");
-        int userInput = prompt.next();
-        prompt.close()
-
-        return userInput == 1;
     }
 }
