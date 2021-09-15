@@ -113,7 +113,7 @@ public class ATM{
     }
 
     public void insuffUserFunds(User u){
-        System.out.println("Insufficient funds in account " + u.getFullName(). +
+        System.out.println("Insufficient funds in account " + u.getFullName() +
                 "\nCurrent balance: " + u.getBalance());
     }
 
@@ -159,7 +159,7 @@ public class ATM{
         System.out.println("Receipt Details:" +
                 "\nTransaction No.:" + transactionNo +
                 "\nTransaction Type: Withdrew $" + userInput +
-                "\nAccount Balance: " u.getBalance());
+                "\nAccount Balance: " + u.getBalance());
     }
 
     //incomplete
@@ -183,7 +183,7 @@ public class ATM{
         System.out.println("Receipt Details:" +
                 "\nTransaction No.:" + transactionNo +
                 "\nTransaction Type: Deposited $" + received +
-                "\nAccount Balance: " u.getBalance());
+                "\nAccount Balance: " + u.getBalance());
     }
 
     //returns individual breakdown of each coin/note

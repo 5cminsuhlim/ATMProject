@@ -40,7 +40,7 @@ public class Admin {
 
             if (adminInput == 1) {
                 complete = True;
-                prompt.close()
+                prompt.close();
             }
         }
     }
