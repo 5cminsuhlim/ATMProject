@@ -88,7 +88,7 @@ public class ATM{
         dateString = this.date.toString(); // converts to string in the format YYYY-MM
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
         //gets the year and date, without the "-" so it looks like 202109
-        int cardExpiry = Integer.parseInt(c.getExpiry_date().substring(0,2) + c.getExpiry_date().substring(3,7));
+        int cardExpiry = Integer.parseInt(c.getExpiry_date().substring(3,7) + c.getExpiry_date().substring(0,2));
         // card expiry is in the form MM/YYYY, changing to YYYYMM
         return currentDate <= cardExpiry;
         //since the years are just numbers, later dates are just bigger numbers so making sure the expiry date is bigger
@@ -133,7 +133,7 @@ public class ATM{
         String dateString;
         dateString = this.date.toString();
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
-        int cardIssue = Integer.parseInt(c.getStart_date().substring(0,2) + c.getStart_date().substring(3,7));
+        int cardIssue = Integer.parseInt(c.getStart_date().substring(6,10) + c.getStart_date().substring(3,5));
         return currentDate >= cardIssue; // making sure the card is active already
     }
 
@@ -148,7 +148,7 @@ public class ATM{
     }
 
     public void insuffUserFunds(User u){
-        System.out.println("Insufficient funds in account " + u.getFullName(). +
+        System.out.println("Insufficient funds in account " + u.getFullName() +
                 "\nCurrent balance: " + u.getBalance());
     }
 
@@ -174,7 +174,7 @@ public class ATM{
         System.out.println("Receipt Details:" +
                 "\nTransaction No.:" + transactionNo +
                 "\nTransaction Type: Withdrew $" + userInput +
-                "\nAccount Balance: " u.getBalance());
+                "\nAccount Balance: " + u.getBalance());
     }
 
     //incomplete
@@ -198,7 +198,7 @@ public class ATM{
         System.out.println("Receipt Details:" +
                 "\nTransaction No.:" + transactionNo +
                 "\nTransaction Type: Deposited $" + received +
-                "\nAccount Balance: " u.getBalance());
+                "\nAccount Balance: " + u.getBalance());
     }
 
     //returns individual breakdown of each coin/note

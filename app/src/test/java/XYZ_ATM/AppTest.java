@@ -254,7 +254,7 @@ class AppTest {
 
         String cardnum1 = "11111";
         String cardpin1 = "1111";
-        String startdate1 = "09/2018"; //Start date before today
+        String startdate1 = "09/2018"; //Start date before today (valid)
         String expdate1 = "01/2022";
         String UID1 = "1111";
         boolean stolen1 = false;
@@ -263,7 +263,7 @@ class AppTest {
 
         String cardnum2 = "22222";
         String cardpin2 = "2222";
-        String startdate2 = "09/2022"; //Start day after today
+        String startdate2 = "09/2022"; //Start day after today (invalid)
         String expdate2 = "02/2025";
         String UID2 = "2222";
         boolean stolen2 = false;
@@ -280,5 +280,61 @@ class AppTest {
 
         assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
         assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
+    }
+
+    @Test
+    void checkExpDateTest(){
+        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022"; //Expiry date after today (valid)
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+        String cardnum2 = "22222";
+        String cardpin2 = "2222";
+        String startdate2 = "09/2017";
+        String expdate2 = "02/2020"; //Expiry date before today (invalid)
+        String UID2 = "2222";
+        boolean stolen2 = false;
+
+        Card testCard2 = new Card(cardnum2,cardpin2,startdate2,expdate2,UID2,stolen2);
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
+        testCards.add(testCard1);
+        testCards.add(testCard2);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM = new ATM(balance, testCards, testDate);
+
+        assertEquals(true, testATM.checkExpDate(testCard1), "Card with valid expiry date is returning an incorrect value");
+        assertEquals(false, testATM.checkExpDate(testCard2), "Card with invalid expiry date is returning an incorrect value");
     }
 }
