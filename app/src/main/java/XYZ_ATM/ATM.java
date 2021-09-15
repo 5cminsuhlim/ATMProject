@@ -75,10 +75,6 @@ public class ATM{
         return validCards.get(cardIndex);
     }
 
-    public HashMap<BigDecimal, Integer> getBalance(){
-        return balance;
-    }
-
     public boolean checkPin(Card c, String userPin){
         return userPin.equals(c.getPin());
     }
