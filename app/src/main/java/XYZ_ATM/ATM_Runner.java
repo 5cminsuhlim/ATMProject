@@ -33,7 +33,31 @@ public class ATM_Runner{
         boolean running = true;
         while(running) { // loops entire thing
             while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
+                //GOING TO NEED TO CHECK WHETHER USER OR ADMIN HERE
                 Scanner atmInput = new Scanner(System.in); // create scanner to get user input
+                System.out.println("Are you an admin or user?" +
+                        "\nAdmin = 1" +
+                        "\nUser = 2");
+                int userType = atmInput.next();
+
+                //if user claims to be an admin
+                if(userType == 1){
+                    System.out.println("Please enter admin access code: ");
+                    String enteredPin = atmInput.next();
+
+                    //checking if valid pin
+                    if(atm.isAdmin(enteredPin)){
+                        //do admin stuff
+                    }
+                    else{
+                        System.out.println("Incorrect pin. Access denied.");
+                        break;
+                    }
+                }
+                //if user is user
+                else if(userType == 2){
+                    //do user stuff
+                }
                 System.out.println("Please insert your card (Enter Card Number).\n");
                 String cardNumber = atmInput.next(); // cardNumber from user input
                 int cardIndex = atm.checkCardNumber(cardNumber); // gets the card object from the number

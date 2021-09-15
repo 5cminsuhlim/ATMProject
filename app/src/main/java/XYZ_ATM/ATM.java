@@ -5,17 +5,27 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.math.BigDecimal;
+import java.util.Scanner;
+
 
 public class ATM{
 
     private HashMap<BigDecimal, Integer> balance;
     private ArrayList<Card> validCards;
     private LocalDate date;
+    private int transactionNo = 0;
+    private String adminPin = "9746346416"; //made w/ RNG
 
-    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date) {
+    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date, int transactionNo, String adminPin) {
         this.balance = balance;
         this.validCards = validCards;
         this.date = date;
+        this.transactionNo = transactionNo;
+        this.adminPin = adminPin;
+    }
+
+    public boolean isAdmin(String userInput){
+        return userInput == adminPin;
     }
 
     public int isValid(Card c,String userInPin){
@@ -93,30 +103,36 @@ public class ATM{
     }
 
     public void apologize(Card c){
-        System.out.println("The inserted card has been recognized as lost or stolen. " +
-                "Further action will be restricted. " +
-                "We apologize for the inconvenience.");
+        System.out.println("The inserted card has been recognized as lost or stolen." +
+                "\nFurther action will be restricted." +
+                "\nWe apologize for the inconvenience.");
     }
 
-    public void error(){
+    public void insuffATMFunds(){
         System.out.println("ERROR: Insufficient funds remaining in the ATM.");
+    }
+
+    public void insuffUserFunds(User u){
+        System.out.println("Insufficient funds in account " + u.getFullName(). +
+                "\nCurrent balance: " + u.getBalance());
     }
 
     //incomplete
     public void withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
         // can call atm.error and will know if the transaction failed.
+        transactionNo++;
         BigDecimal toWithdraw = BigDecimal.valueOf(userInput);
         BigDecimal count;
 
         if(userInput > u.getBalance()){
-            System.out.println("Insufficient funds in account.");
-        } else if(userInput > checkTotalBalance()){
-            error();
-        } else{
-
+            insuffUserFunds(u);
+        }
+        else if(userInput > checkTotalBalance()){
+            insuffATMFunds();
+        }
+        else{
             for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
                 count = toWithdraw.remainder(entry.getKey());
-
 
                 /*if withdrawing $257,
                       257 - [(257 % 100) * 100] = 57
@@ -125,6 +141,7 @@ public class ATM{
                       7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
 
                 */
+
                 if (toWithdraw.compareTo(count) >= 0) {
                     toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
                     // equivalent to toWithdraw -= count * entry.getKey()
@@ -134,13 +151,20 @@ public class ATM{
                 }
             }
         }
-
         //subtract withdrawn amount from userBalance
-        u.setBalance(u.getBalance() - userInput);
+        u.setBalance((BigDecimal.valueOf(userInput).subtract(BigDecimal.valueOf(u.getBalance()))).doubleValue());
+        //equivalent to u.setBalance(u.getBalance() - userInput)
+
+        //receipt
+        System.out.println("Receipt Details:" +
+                "\nTransaction No.:" + transactionNo +
+                "\nTransaction Type: Withdrew $" + userInput +
+                "\nAccount Balance: " u.getBalance());
     }
 
     //incomplete
     public void deposit(User u, HashMap<BigDecimal, Integer> userInput){
+        transactionNo++;
         BigDecimal received = BigDecimal.ZERO;
 
         for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()){
@@ -154,6 +178,12 @@ public class ATM{
         //add received amount to userBalance
         u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());
         // equivalent to received + u.getBalance()
+
+        //receipt
+        System.out.println("Receipt Details:" +
+                "\nTransaction No.:" + transactionNo +
+                "\nTransaction Type: Deposited $" + received +
+                "\nAccount Balance: " u.getBalance());
     }
 
     //returns individual breakdown of each coin/note
@@ -172,9 +202,5 @@ public class ATM{
             // equivalent to totalBal += entry.getKey() * entry.getValue()
         }
         return totalBal.doubleValue();
-    }
-
-    public boolean promptUser(int userInput){ //checking to proceed / cancel
-        return userInput == 1;
     }
 }
