@@ -31,6 +31,7 @@ if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
         lost_stolen = []
         for i in range(0, int(sys.argv[1])):
             lost_stolen.append(str(random.randint(0,1)))
+    i = 0
     while(i<int(sys.argv[1])):
         #Details Format
         #cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
