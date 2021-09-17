@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
 import java.math.BigDecimal;
-import XYZ_ATM.*
 
 public class ATM_Runner{
 
@@ -48,7 +47,6 @@ public class ATM_Runner{
                     if(atm.isAdmin(enteredPin)){
                         //do admin stuff
                         boolean done = false;
-                        Admin admin = new Admin();
 
                         while(!done){
                             System.out.println("Options: \n1: Check ATM Balance \n2: Add Funds \n3: Exit\n");
@@ -56,7 +54,8 @@ public class ATM_Runner{
 
                             switch (option) {
                                 case "1":
-                                    admin.adminCheckATMBal(atm);
+                                    atm.checkIndivBalance();
+                                    System.out.println("Total Balance: " + atm.checkTotalBalance());
                                 case "2":
                                     HashMap<BigDecimal, Integer> adminInput = new HashMap<>();
                                     adminInput.put(new BigDecimal("100.00"), 0);
