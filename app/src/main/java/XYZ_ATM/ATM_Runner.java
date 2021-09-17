@@ -9,17 +9,13 @@ public class ATM_Runner{
 
     public static void main(String[] args){
         //NEED FILE OF USERS ASSOCIATED W/ CARDS
-
-
+        Scanner atmInput = new Scanner (System.in);
         System.out.println("Initialising ATM...\n");
         ArrayList<Card> validCards = readCards(); // get validCards into a list by calling the readCards method
+        ArrayList<User> userList = readUsers(validCards);
         HashMap<BigDecimal, Integer> balance = new HashMap<>(); // initialise balance
         System.out.println("Enter the number of note/coins in the form: 100,50,20,10,5,2,1,0.50,0.20,0.10,0.05");
-        Scanner balanceReader = new Scanner (System.in);
-        String[] balanceIn = new String[11];
-        String userin = balanceReader.nextLine();
-        balanceIn = userin.split(","); // reads input and splits into an array
-        balanceReader.close();
+        String[] balanceIn = atmInput.nextLine().split(",");
         balance.put(new BigDecimal("100.00"), Integer.parseInt(balanceIn[0]));
         balance.put(new BigDecimal("50.00"), Integer.parseInt(balanceIn[1]));
         balance.put(new BigDecimal("20.00"), Integer.parseInt(balanceIn[2]));
@@ -32,12 +28,11 @@ public class ATM_Runner{
         balance.put(new BigDecimal("0.10"), Integer.parseInt(balanceIn[9]));
         balance.put(new BigDecimal("0.05"), Integer.parseInt(balanceIn[10])); // add values to balance
 
-        ATM atm = new ATM(balance, validCards, LocalDate.now(),0,"9746346416"); // create the ATM object
+        ATM atm = new ATM(balance, validCards, userList, LocalDate.now(),0,"9746346416"); // create the ATM object
         boolean running = true;
         while(running) { // loops entire thing
             while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
                 //GOING TO NEED TO CHECK WHETHER USER OR ADMIN HERE
-                Scanner atmInput = new Scanner(System.in); // create scanner to get user input
                 System.out.println("Are you an admin or user?" +
                         "\nAdmin = 1" +
                         "\nUser = 2");
@@ -101,16 +96,23 @@ public class ATM_Runner{
                     if(cardIndex == -1){ // card was not found
                         System.out.println("Card not linked to any account in the system. " +
                                 "Please try again or use a different card.\n");
-                        atmInput.close();
                         break; // prompt for card again
                     } else if(cardIndex == -11){
                         System.out.println("Card number must be 5 digits. Please try again.\n");
+                        break;
                     }
 
                     Card card = atm.getCard(cardIndex); // gets the card object of the entered card
+                    System.out.println("Please enter your PIN: \n");
+                    String cardPin = atmInput.next(); // cardNumber from user input
+                    int valid = atm.isValid(card, cardPin);
+                    System.out.println("valid = " + valid);
+                    if(valid != 0){
+                        break;
+                    }
 
-                    //USER ASSOCIATED w/ CARD
-                    //User user =
+                    int userNum = atm.getUserFromCard(card);
+                    User user = atm.getUserList().get(userNum);
 
                     boolean logged_in = true;
                     while(logged_in){
@@ -124,12 +126,14 @@ public class ATM_Runner{
                                 String withdrawAmount = atmInput.next();
                                 switch(checkString(withdrawAmount)) {
                                     case 1: // withdraw amount is a number
-                                        atm.withdraw(user, BigDecimal.valueOf(Double.valueOf(withdrawAmount)));
+                                        atm.withdraw(user, Double.valueOf(withdrawAmount));
+                                        break;
                                     case -1: // cancel option
                                         break;
                                     default: // invalid input
                                         System.out.println("Invalid input.\n");
                                 }
+                                break;
                             case "2":
                                 System.out.println("Please enter the amount you would like to deposit. Enter 'cancel'" +
                                         "to cancel the transaction\n");
@@ -164,6 +168,7 @@ public class ATM_Runner{
                                         }
 
                                         atm.deposit(user, userInput);
+                                        break;
                                     case -1: // cancel option
                                         break;
                                     default: // invalid input
@@ -171,9 +176,10 @@ public class ATM_Runner{
                                 }
                             case "3":
                                 System.out.println("Your balance is $" + user.getBalance());
+                                break;
                             case "4":
-                                atmInput.close();
                                 logged_in = false; // prompts for another card
+                                break;
                             default:
                                 System.out.println("Invalid Input, please try again.\n");
                         }
@@ -188,8 +194,7 @@ public class ATM_Runner{
         Scanner reader = new Scanner(System.in);
         System.out.println("Enter card file name: "); // reads in card file name
         //GRADLE HAS RUINED THE BELOW THINGO V
-        String filename = "output.txt"; // need to fix this so it gets the absolute path
-        reader.close();
+        String filename = reader.nextLine(); // need to fix this so it gets the absolute path
         ArrayList<Card> validCards = new ArrayList<>();
         try{
             File file = new File(filename);
@@ -203,11 +208,43 @@ public class ATM_Runner{
                 // card has the format (card_number, pin, start_date, expiry_date, UID, stolen
                 // card list has the format cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
             }
-            input.close();
         } catch(Exception e){
-            System.out.println("error"); // placeholder
+            System.out.println("Error reading card file. Please try again.\n"); // placeholder
+
         }
         return validCards; // returns the arraylist of cards to pass to an ATM object
+    }
+
+    private static ArrayList<User> readUsers(ArrayList<Card> cards){
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Enter user file name: "); // reads in userList file name
+        String filename = reader.next(); // need to fix this so it gets the absolute path
+        ArrayList<User> userList = new ArrayList<>();
+        try{
+            File file = new File(filename);
+            Scanner input = new Scanner(file);
+            int i = 1;
+            while (input.hasNextLine()) { //reads all lines of the file
+                String[] line = input.nextLine().split(",");
+                // splits the line using regex to get rid of comma , each item is a variable for User
+                User newUser = new User(line[0], line[1], Double.parseDouble(line[2]));
+                if(i != 5){
+                    newUser.addCard(cards.get(i-1));
+                    newUser.addCard(cards.get(i));
+                    userList.add(newUser);
+                    i += 2;
+                }
+                newUser.addCard(cards.get(i-1));
+                userList.add(newUser);
+
+                // adds a user object into the userList
+                // user has the format (userID, fullName, balance)
+                // userList file has same format
+            }
+        } catch(Exception e){
+            System.out.println("Error reading users file. Please try again.\n"); // placeholder
+        }
+        return userList; // returns the arraylist of cards to pass to an ATM object
     }
 
     private static int checkString(String str){

@@ -9,8 +9,8 @@ public class User{
     private String fullName;
     private double balance;
 
-    public User(ArrayList<Card> cards, String userID, String fullName, double balance) {
-        this.cards = cards;
+    public User(String userID, String fullName, double balance) {
+        this.cards = new ArrayList<>();
         this.userID = userID;
         this.fullName = fullName;
         this.balance = balance;
