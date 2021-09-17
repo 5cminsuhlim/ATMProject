@@ -21,6 +21,13 @@ def lostOrStolenStatusBias(total):
             output.append("0")
     return output
 
+def leadingZero(value):
+    value = int(value)
+    if(value < 10):
+        return_value = "0" + str(value)
+        return return_value
+    return str(value)
+
 if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
     i = 0
     text_file = open("output.txt", "w")
@@ -40,12 +47,16 @@ if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
         joined_pin = "".join(current_pin)
         joined_string = "".join(current_random)
         random_month = str(random.randint(1,12))
+        random_month = leadingZero(random_month)
         if(random_month == 2):
             random_day = str(random.randint(1,28))
+            random_day = leadingZero(random_day)
         elif(random_month == 4 or random_month == 6 or random_month == 9 or random_month == 11):
             random_day = str(random.randint(1,30))
+            random_day = leadingZero(random_day)
         else:
             random_day = str(random.randint(1,31))
+            random_day = leadingZero(random_day)
         random_issue_year = str(random.randint(2017,2019))
         random_expiry_year = str(random.randint(2020,2022))
         issue_string = random_day + "/" + random_month + "/" + random_issue_year
