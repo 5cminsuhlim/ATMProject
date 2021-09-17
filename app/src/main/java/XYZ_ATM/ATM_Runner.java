@@ -92,57 +92,58 @@ public class ATM_Runner{
                 //if user is user
                 else if(userType == 2){
                     //do user stuff
-                }
-                System.out.println("Please insert your card (Enter Card Number).\n");
-                String cardNumber = atmInput.next(); // cardNumber from user input
-                int cardIndex = atm.checkCardNumber(cardNumber); // gets the card object from the number
-                if(cardIndex == -1){ // card was not found
-                    System.out.println("Card not linked to any account in the system. " +
-                            "Please try again or use a different card.\n");
-                    atmInput.close();
-                    break; // prompt for card again
-                } else if(cardIndex == -11){
-                    System.out.println("Card number must be 5 digits. Please try again.\n");
-                }
+                    System.out.println("Please insert your card (Enter Card Number).\n");
+                    String cardNumber = atmInput.next(); // cardNumber from user input
+                    int cardIndex = atm.checkCardNumber(cardNumber); // gets the card object from the number
+                    if(cardIndex == -1){ // card was not found
+                        System.out.println("Card not linked to any account in the system. " +
+                                "Please try again or use a different card.\n");
+                        atmInput.close();
+                        break; // prompt for card again
+                    } else if(cardIndex == -11){
+                        System.out.println("Card number must be 5 digits. Please try again.\n");
+                    }
 
-                Card card = atm.getCard(cardIndex); // gets the card object of the entered card number
-                boolean logged_in = true;
-                while(logged_in){
-                    System.out.println("Options: \n1: Withdraw\n2: Deposit\n3: Check Balance\n4: Exit\n");
-                    String option = atmInput.next();
+                    Card card = atm.getCard(cardIndex); // gets the card object of the entered card number
+                    boolean logged_in = true;
+                    while(logged_in){
+                        System.out.println("Options: \n1: Withdraw\n2: Deposit\n3: Check Balance\n4: Exit\n");
+                        String option = atmInput.next();
 
-                    switch (option) {
-                        case "1":
-                            System.out.println("Please enter the amount you would like to withdraw. Enter 'cancel'" +
-                                    "to cancel the transaction\n");
-                            String withdrawAmount = atmInput.next();
-                            switch(checkString(withdrawAmount)) {
-                                case 1: // deposit amount is a number
-                                    //atm.deposit();
-                                case -1: // cancel option
-                                    break;
-                                default: // invalid input
-                                    System.out.println("Invalid input.\n");
-                            }
-                        case "2":
-                            System.out.println("Please enter the amount you would like to deposit. Enter 'cancel'" +
-                                    "to cancel the transaction\n");
-                            String depositAmount = atmInput.next();
-                            switch(checkString(depositAmount)){
-                                case 1: // deposit amount is a number
-                                    //atm.deposit();
-                                case -1: // cancel option
-                                    break;
-                                default: // invalid input
-                                    System.out.println("Invalid input.\n");
-                            }
-                        case "3":
-                            System.out.println("Your balance is \n");
-                        case "4":
-                            atmInput.close();
-                            logged_in = false; // prompts for another card
-                        default:
-                            System.out.println("Invalid Input, please try again.\n");
+                        switch (option) {
+                            case "1":
+                                System.out.println("Please enter the amount you would like to withdraw. Enter 'cancel'" +
+                                        "to cancel the transaction\n");
+                                String withdrawAmount = atmInput.next();
+                                switch(checkString(withdrawAmount)) {
+                                    case 1: // withdraw amount is a number
+                                        //need a user object
+                                        atm.withdraw();
+                                    case -1: // cancel option
+                                        break;
+                                    default: // invalid input
+                                        System.out.println("Invalid input.\n");
+                                }
+                            case "2":
+                                System.out.println("Please enter the amount you would like to deposit. Enter 'cancel'" +
+                                        "to cancel the transaction\n");
+                                String depositAmount = atmInput.next();
+                                switch(checkString(depositAmount)){
+                                    case 1: // deposit amount is a number
+                                        //atm.deposit();
+                                    case -1: // cancel option
+                                        break;
+                                    default: // invalid input
+                                        System.out.println("Invalid input.\n");
+                                }
+                            case "3":
+                                System.out.println("Your balance is \n");
+                            case "4":
+                                atmInput.close();
+                                logged_in = false; // prompts for another card
+                            default:
+                                System.out.println("Invalid Input, please try again.\n");
+                        }
                     }
                 }
             }
