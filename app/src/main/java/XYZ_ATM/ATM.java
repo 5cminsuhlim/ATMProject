@@ -15,35 +15,41 @@ public class ATM{
     private LocalDate date;
     private int transactionNo = 0;
     private String adminPin = "9746346416"; //made w/ RNG
+    private ArrayList<User> userList;
 
-    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, LocalDate date, int transactionNo, String adminPin) {
+    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, ArrayList<User> userList, LocalDate date, int transactionNo, String adminPin) {
         this.balance = balance;
         this.validCards = validCards;
+        this.userList = userList;
         this.date = date;
         this.transactionNo = transactionNo;
         this.adminPin = adminPin;
     }
 
     public boolean isAdmin(String userInput){
-        return userInput == adminPin;
+        return userInput.equals(adminPin);
     }
 
     public int isValid(Card c,String userInPin){
 
         if(!checkPin(c,userInPin)){
+            System.out.println("Incorrect Pin.\n");
             return -2;
         }
         else if(!checkExpDate(c)){
+            System.out.println("This card is expired.\n");
             return -3;
         }
         else if(!checkIssDate(c)){
+            System.out.println("This card has not been activated yet.\n");
             return -4;
         }
-        else if(!c.isStolen()){
+        else if(c.isStolen()){
             apologize(c);
             return -5;
         }
-        else if(!c.isBlocked()){
+        else if(c.isBlocked()){
+            System.out.println("This card is blocked.\n");
             return -6;
         }
         else{
@@ -69,6 +75,18 @@ public class ATM{
 
     public ArrayList<Card> getCardList(){
         return this.validCards;
+    }
+
+    public ArrayList<User> getUserList(){
+        return this.userList;
+    }
+
+    public int getUserFromCard(Card card){
+        for(int i = 0; i < this.userList.size(); i++){
+            if(this.userList.get(i).getCards().contains(card)){
+                return i;
+            }
+        } return -1; // user not found
     }
 
     public Card getCard(int cardIndex){
@@ -163,7 +181,7 @@ public class ATM{
             removeFunds(userInput);
         }
         //subtract withdrawn amount from userBalance
-        u.setBalance((BigDecimal.valueOf(userInput).subtract(BigDecimal.valueOf(u.getBalance()))).doubleValue());
+        u.setBalance(BigDecimal.valueOf(u.getBalance()).subtract(BigDecimal.valueOf(userInput)).doubleValue());
         //equivalent to u.setBalance(u.getBalance() - userInput)
 
         //receipt
