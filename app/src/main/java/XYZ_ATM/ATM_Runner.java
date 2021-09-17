@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 public class ATM_Runner{
 
     public static void main(String[] args){
+        //NEED FILE OF USERS ASSOCIATED W/ CARDS
+
+
         System.out.println("Initialising ATM...\n");
         ArrayList<Card> validCards = readCards(); // get validCards into a list by calling the readCards method
         HashMap<BigDecimal, Integer> balance = new HashMap<>(); // initialise balance
@@ -104,7 +107,11 @@ public class ATM_Runner{
                         System.out.println("Card number must be 5 digits. Please try again.\n");
                     }
 
-                    Card card = atm.getCard(cardIndex); // gets the card object of the entered card number
+                    Card card = atm.getCard(cardIndex); // gets the card object of the entered card
+
+                    //USER ASSOCIATED w/ CARD
+                    //User user =
+
                     boolean logged_in = true;
                     while(logged_in){
                         System.out.println("Options: \n1: Withdraw\n2: Deposit\n3: Check Balance\n4: Exit\n");
@@ -117,8 +124,7 @@ public class ATM_Runner{
                                 String withdrawAmount = atmInput.next();
                                 switch(checkString(withdrawAmount)) {
                                     case 1: // withdraw amount is a number
-                                        //need a user object
-                                        atm.withdraw();
+                                        atm.withdraw(user, BigDecimal.valueOf(Double.valueOf(withdrawAmount)));
                                     case -1: // cancel option
                                         break;
                                     default: // invalid input
@@ -130,14 +136,41 @@ public class ATM_Runner{
                                 String depositAmount = atmInput.next();
                                 switch(checkString(depositAmount)){
                                     case 1: // deposit amount is a number
-                                        //atm.deposit();
+                                        BigDecimal received = BigDecimal.ZERO;
+
+                                        HashMap<BigDecimal, Integer> userInput = new HashMap<>();
+                                        userInput.put(new BigDecimal("100.00"), 0);
+                                        userInput.put(new BigDecimal("50.00"), 0);
+                                        userInput.put(new BigDecimal("20.00"), 0);
+                                        userInput.put(new BigDecimal("10.00"), 0);
+                                        userInput.put(new BigDecimal("5.00"), 0);
+                                        userInput.put(new BigDecimal("2.00"), 0);
+                                        userInput.put(new BigDecimal("1.00"), 0);
+                                        userInput.put(new BigDecimal("0.50"), 0);
+                                        userInput.put(new BigDecimal("0.20"), 0);
+                                        userInput.put(new BigDecimal("0.10"), 0);
+                                        userInput.put(new BigDecimal("0.05"), 0);
+
+                                        for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()){
+                                            System.out.println("How many $" + entry.getKey() + " will be inserted?");
+                                            userInput.put(entry.getKey(), Integer.parseInt(atmInput.next()));
+
+                                            received = received.add(entry.getKey().multiply(BigDecimal.valueOf(entry.getValue())));
+                                        }
+
+                                        if(!BigDecimal.valueOf(Double.valueOf(depositAmount)).equals(received)){
+                                            System.out.println("Invalid amount.\n");
+                                            break;
+                                        }
+
+                                        atm.deposit(user, userInput);
                                     case -1: // cancel option
                                         break;
                                     default: // invalid input
                                         System.out.println("Invalid input.\n");
                                 }
                             case "3":
-                                System.out.println("Your balance is \n");
+                                System.out.println("Your balance is $" + user.getBalance());
                             case "4":
                                 atmInput.close();
                                 logged_in = false; // prompts for another card
