@@ -1,29 +1,27 @@
 package XYZ_ATM;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
+import java.math.RoundingMode;
+import java.util.*;
 import java.time.LocalDate;
 import java.math.BigDecimal;
-import java.util.Scanner;
 
 
 public class ATM{
 
-    private HashMap<BigDecimal, Integer> balance;
+    private LinkedHashMap<BigDecimal, Integer> balance;
     private ArrayList<Card> validCards;
     private LocalDate date;
     private int transactionNo = 0;
-    private String adminPin = "9746346416"; //made w/ RNG
+    private String adminPin; //made w/ RNG
     private ArrayList<User> userList;
 
-    public ATM(HashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, ArrayList<User> userList, LocalDate date, int transactionNo, String adminPin) {
+    public ATM(LinkedHashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, ArrayList<User> userList, LocalDate date, int transactionNo, String adminPin) {
         this.balance = balance;
         this.validCards = validCards;
         this.userList = userList;
         this.date = date;
         this.transactionNo = transactionNo;
-        this.adminPin = adminPin;
+        this.adminPin = "9746346416";
     }
 
     public boolean isAdmin(String userInput){
@@ -118,29 +116,33 @@ public class ATM{
         userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
     }
 
-    public void removeFunds(double userInput){
+    public int removeFunds(double userInput){
         BigDecimal toWithdraw = BigDecimal.valueOf(userInput);
-        BigDecimal count;
 
-        for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
-            count = toWithdraw.remainder(entry.getKey());
+        ArrayList<BigDecimal> keys = new ArrayList<>(); // array lists to hold values, don't want to update the
+        //  amount at an early point if there is an error later down the track
+        ArrayList<Integer> values = new ArrayList<>();
 
-                /*if withdrawing $257,
-                      257 - [(257 % 100) * 100] = 57
-                      57 - [(57 % 50) * 50] = 7
-                      7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
-                      7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
+        for(BigDecimal key : balance.keySet()){ // traverse the balance arraylist by the keys
 
-                */
+            BigDecimal times = toWithdraw.divide(key).setScale(0, RoundingMode.DOWN); // how many times the
+            // current note can be divided into the toWithdraw value
 
-            if (toWithdraw.compareTo(count) >= 0) {
-                toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
-                // equivalent to toWithdraw -= count * entry.getKey()
-
-                //updates the count for the respective currency
-                balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue()).subtract(count)).intValue());
+            if(times.compareTo(BigDecimal.ZERO) > 0){ // if the note can be divided more than 0 times
+                toWithdraw = toWithdraw.subtract(times.multiply(key));
+                if((BigDecimal.valueOf(balance.get(key)).subtract(times)).intValue() < 0){ // if it would
+                    // make number of notes go negative, an error
+                    return -1;
+                } else {
+                    keys.add(key);
+                    values.add(BigDecimal.valueOf(balance.get(key)).subtract(times).intValue());
+                }
             }
         }
+        for(int i = 0; i < keys.size(); i++){
+            balance.put(keys.get(i), values.get(i)); // if everything goes well, subtract values from balance
+            // and return a 1
+        } return 1;
     }
 
     public boolean checkIssDate(Card c){
@@ -152,9 +154,10 @@ public class ATM{
     }
 
     public void apologize(Card c){
-        System.out.println("The inserted card has been recognized as lost or stolen." +
-                "\nFurther action will be restricted." +
-                "\nWe apologize for the inconvenience.");
+        System.out.println("""
+                The inserted card has been recognized as lost or stolen.
+                Further action will be restricted.
+                We apologize for the inconvenience.""");
     }
 
     public void insuffATMFunds(){
@@ -166,29 +169,44 @@ public class ATM{
                 "\nCurrent balance: " + u.getBalance());
     }
 
+    public void invalidInput(){
+        System.out.println("Invalid amount.");
+    }
+
     //incomplete
-    public void withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
+    public int withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
         // can call atm.error and will know if the transaction failed.
-        transactionNo++;
 
         if(userInput > u.getBalance()){
             insuffUserFunds(u);
+            return -1;
         }
         else if(userInput > checkTotalBalance()){
             insuffATMFunds();
+            return -2;
+        }
+        else if(BigDecimal.ZERO.compareTo(BigDecimal.valueOf(userInput).remainder(new BigDecimal("0.05"))) != 0){
+            System.out.println(userInput);
+
+            invalidInput();
+            return -3;
         }
         else{
-            removeFunds(userInput);
+            if(removeFunds(userInput) == 1){
+                transactionNo++;
+                u.setBalance(BigDecimal.valueOf(u.getBalance()).subtract(BigDecimal.valueOf(userInput)).doubleValue());
+                //subtract withdrawn amount from userBalance
+                //equivalent to u.setBalance(u.getBalance() - userInput)
+                //receipt
+                System.out.println("Receipt Details:" +
+                        "\nTransaction No.:" + transactionNo +
+                        "\nTransaction Type: Withdrew $" + userInput +
+                        "\nAccount Balance: " + u.getBalance());
+                return 0;
+            } else{
+                return -2;
+            }
         }
-        //subtract withdrawn amount from userBalance
-        u.setBalance(BigDecimal.valueOf(u.getBalance()).subtract(BigDecimal.valueOf(userInput)).doubleValue());
-        //equivalent to u.setBalance(u.getBalance() - userInput)
-
-        //receipt
-        System.out.println("Receipt Details:" +
-                "\nTransaction No.:" + transactionNo +
-                "\nTransaction Type: Withdrew $" + userInput +
-                "\nAccount Balance: " + u.getBalance());
     }
 
     //incomplete
