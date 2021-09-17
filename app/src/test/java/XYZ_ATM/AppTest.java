@@ -210,7 +210,7 @@ class AppTest {
 
         LocalDate testDate = LocalDate.now();
 
-        ATM testATM = new ATM(balance, testCards, testDate);
+        ATM testATM = new ATM(balance, testCards, testDate,0,"9746346416");
 
         //Checking correct input
         assertEquals(0, testATM.checkCardNumber("11111"), "Index for first valid card returned is incorrect");
@@ -276,7 +276,7 @@ class AppTest {
 
         LocalDate testDate = LocalDate.now();
 
-        ATM testATM = new ATM(balance, testCards, testDate);
+        ATM testATM = new ATM(balance, testCards, testDate,0,"9746346416");
 
         assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
         assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
@@ -332,7 +332,7 @@ class AppTest {
 
         LocalDate testDate = LocalDate.now();
 
-        ATM testATM = new ATM(balance, testCards, testDate);
+        ATM testATM = new ATM(balance, testCards, testDate,0,"9746346416");
 
         assertEquals(true, testATM.checkExpDate(testCard1), "Card with valid expiry date is returning an incorrect value");
         assertEquals(false, testATM.checkExpDate(testCard2), "Card with invalid expiry date is returning an incorrect value");
