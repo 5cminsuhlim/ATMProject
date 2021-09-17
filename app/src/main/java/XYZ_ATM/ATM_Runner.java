@@ -1,9 +1,7 @@
 package XYZ_ATM;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 import java.time.LocalDate;
 import java.math.BigDecimal;
 
@@ -17,19 +15,19 @@ public class ATM_Runner{
         Scanner balanceReader = new Scanner(System.in);
         String[] balanceIn = balanceReader.next().split(","); // reads input and splits into an array
         balanceReader.close();
-        balance.put(new BigDecimal(100), Integer.parseInt(balanceIn[0]));
-        balance.put(new BigDecimal(50), Integer.parseInt(balanceIn[1]));
-        balance.put(new BigDecimal(20), Integer.parseInt(balanceIn[2]));
-        balance.put(new BigDecimal(10), Integer.parseInt(balanceIn[3]));
-        balance.put(new BigDecimal(5), Integer.parseInt(balanceIn[4]));
-        balance.put(new BigDecimal(2), Integer.parseInt(balanceIn[5]));
-        balance.put(new BigDecimal(1), Integer.parseInt(balanceIn[6]));
+        balance.put(new BigDecimal("100.00"), Integer.parseInt(balanceIn[0]));
+        balance.put(new BigDecimal("50.00"), Integer.parseInt(balanceIn[1]));
+        balance.put(new BigDecimal("20.00"), Integer.parseInt(balanceIn[2]));
+        balance.put(new BigDecimal("10.00"), Integer.parseInt(balanceIn[3]));
+        balance.put(new BigDecimal("5.00"), Integer.parseInt(balanceIn[4]));
+        balance.put(new BigDecimal("2.00"), Integer.parseInt(balanceIn[5]));
+        balance.put(new BigDecimal("1.00"), Integer.parseInt(balanceIn[6]));
         balance.put(new BigDecimal("0.50"), Integer.parseInt(balanceIn[7]));
         balance.put(new BigDecimal("0.20"), Integer.parseInt(balanceIn[8]));
         balance.put(new BigDecimal("0.10"), Integer.parseInt(balanceIn[9]));
         balance.put(new BigDecimal("0.05"), Integer.parseInt(balanceIn[10])); // add values to balance
 
-        ATM atm = new ATM(balance, validCards, LocalDate.now()); // create the ATM object
+        ATM atm = new ATM(balance, validCards, LocalDate.now(),0,"9746346416"); // create the ATM object
         boolean running = true;
         while(running) { // loops entire thing
             while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
@@ -38,7 +36,7 @@ public class ATM_Runner{
                 System.out.println("Are you an admin or user?" +
                         "\nAdmin = 1" +
                         "\nUser = 2");
-                int userType = atmInput.next();
+                int userType = Integer.parseInt(atmInput.next());
 
                 //if user claims to be an admin
                 if(userType == 1){
@@ -60,13 +58,13 @@ public class ATM_Runner{
                                     admin.adminCheckATMBal(atm);
                                 case "2":
                                     HashMap<BigDecimal, Integer> adminInput = new HashMap<>();
-                                    adminInput.put(new BigDecimal(100), 0);
-                                    adminInput.put(new BigDecimal(50), 0);
-                                    adminInput.put(new BigDecimal(20), 0);
-                                    adminInput.put(new BigDecimal(10), 0);
-                                    adminInput.put(new BigDecimal(5), 0);
-                                    adminInput.put(new BigDecimal(2), 0);
-                                    adminInput.put(new BigDecimal(1), 0);
+                                    adminInput.put(new BigDecimal("100.00"), 0);
+                                    adminInput.put(new BigDecimal("50.00"), 0);
+                                    adminInput.put(new BigDecimal("20.00"), 0);
+                                    adminInput.put(new BigDecimal("10.00"), 0);
+                                    adminInput.put(new BigDecimal("5.00"), 0);
+                                    adminInput.put(new BigDecimal("2.00"), 0);
+                                    adminInput.put(new BigDecimal("1.00"), 0);
                                     adminInput.put(new BigDecimal("0.50"), 0);
                                     adminInput.put(new BigDecimal("0.20"), 0);
                                     adminInput.put(new BigDecimal("0.10"), 0);
@@ -74,7 +72,7 @@ public class ATM_Runner{
 
                                     for(Map.Entry<BigDecimal, Integer> entry : adminInput.entrySet()){
                                         System.out.println("How many $" + entry.getKey() + " will be inserted?");
-                                        adminInput.put(entry.getKey(), atmInput.next());
+                                        adminInput.put(entry.getKey(), Integer.parseInt(atmInput.next()));
                                     }
 
                                     atm.addFunds(adminInput);

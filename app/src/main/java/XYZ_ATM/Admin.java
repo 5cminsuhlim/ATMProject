@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 
 public class Admin {
-    public void adminCheckATMBal(currATM){
-        currAtm.checkIndivBalance();
+    public void adminCheckATMBal(ATM currATM){
+        currATM.checkIndivBalance();
         System.out.println("Total Balance: " + currATM.checkTotalBalance());
     }
 
