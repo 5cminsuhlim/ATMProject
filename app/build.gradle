@@ -35,8 +35,13 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'ATM_Runner.App'
+    mainClass = 'XYZ_ATM.ATM_Runner'
 }
+
+tasks.register('Pls'){
+    standardInput = System.in
+}
+
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.

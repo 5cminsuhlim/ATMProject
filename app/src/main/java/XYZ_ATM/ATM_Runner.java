@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
 import java.math.BigDecimal;
-import XYZ_ATM.*
+
 
 public class ATM_Runner{
 
@@ -13,8 +13,10 @@ public class ATM_Runner{
         ArrayList<Card> validCards = readCards(); // get validCards into a list by calling the readCards method
         HashMap<BigDecimal, Integer> balance = new HashMap<>(); // initialise balance
         System.out.println("Enter the number of note/coins in the form: 100,50,20,10,5,2,1,0.50,0.20,0.10,0.05");
-        Scanner balanceReader = new Scanner(System.in);
-        String[] balanceIn = balanceReader.next().split(","); // reads input and splits into an array
+        Scanner balanceReader = new Scanner (System.in);
+        String[] balanceIn = new String[11];
+        String userin = balanceReader.nextLine();
+        balanceIn = userin.split(","); // reads input and splits into an array
         balanceReader.close();
         balance.put(new BigDecimal("100.00"), Integer.parseInt(balanceIn[0]));
         balance.put(new BigDecimal("50.00"), Integer.parseInt(balanceIn[1]));
@@ -152,7 +154,8 @@ public class ATM_Runner{
     private static ArrayList<Card> readCards(){
         Scanner reader = new Scanner(System.in);
         System.out.println("Enter card file name: "); // reads in card file name
-        String filename = reader.next(); // need to fix this so it gets the absolute path
+        //GRADLE HAS RUINED THE BELOW THINGO V
+        String filename = "output.txt"; // need to fix this so it gets the absolute path
         reader.close();
         ArrayList<Card> validCards = new ArrayList<>();
         try{
