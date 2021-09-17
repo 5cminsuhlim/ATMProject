@@ -27,7 +27,6 @@ def leadingZero(value):
         return_value = "0" + str(value)
         return return_value
     return str(value)
-    
 
 if(len(sys.argv) > 1 and  sys.argv[1].isdigit()):
     i = 0
