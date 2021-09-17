@@ -90,8 +90,39 @@ public class ATM{
         //since the years are just numbers, later dates are just bigger numbers so making sure the expiry date is bigger
     }
 
-    public void setBalance(HashMap<BigDecimal, Integer> balance){
-        this.balance = balance;
+    public void setBalance(HashMap<BigDecimal, Integer> userInput){
+        for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()) {
+            balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue())).intValue());
+        }
+    }
+
+    public void addFunds(HashMap<BigDecimal, Integer> userInput){
+        userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+    }
+
+    public void removeFunds(double userInput){
+        BigDecimal toWithdraw = BigDecimal.valueOf(userInput);
+        BigDecimal count;
+
+        for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
+            count = toWithdraw.remainder(entry.getKey());
+
+                /*if withdrawing $257,
+                      257 - [(257 % 100) * 100] = 57
+                      57 - [(57 % 50) * 50] = 7
+                      7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
+                      7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
+
+                */
+
+            if (toWithdraw.compareTo(count) >= 0) {
+                toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
+                // equivalent to toWithdraw -= count * entry.getKey()
+
+                //updates the count for the respective currency
+                balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue()).subtract(count)).intValue());
+            }
+        }
     }
 
     public boolean checkIssDate(Card c){
@@ -121,8 +152,6 @@ public class ATM{
     public void withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
         // can call atm.error and will know if the transaction failed.
         transactionNo++;
-        BigDecimal toWithdraw = BigDecimal.valueOf(userInput);
-        BigDecimal count;
 
         if(userInput > u.getBalance()){
             insuffUserFunds(u);
@@ -131,25 +160,7 @@ public class ATM{
             insuffATMFunds();
         }
         else{
-            for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()) {
-                count = toWithdraw.remainder(entry.getKey());
-
-                /*if withdrawing $257,
-                      257 - [(257 % 100) * 100] = 57
-                      57 - [(57 % 50) * 50] = 7
-                      7 - [(7 % 20) * 20] = -133 (would be skipped since toWithdraw < toSubtract)
-                      7 - [(7%10) * 10] = -63 (would be skipped since toWithdraw < toSubtract)
-
-                */
-
-                if (toWithdraw.compareTo(count) >= 0) {
-                    toWithdraw = toWithdraw.subtract(count).multiply(entry.getKey());
-                    // equivalent to toWithdraw -= count * entry.getKey()
-
-                    //updates the count for the respective currency
-                    balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue()).subtract(count)).intValue());
-                }
-            }
+            removeFunds(userInput);
         }
         //subtract withdrawn amount from userBalance
         u.setBalance((BigDecimal.valueOf(userInput).subtract(BigDecimal.valueOf(u.getBalance()))).doubleValue());
@@ -173,7 +184,7 @@ public class ATM{
         }
 
         //combine the count for each type of currency from userInput to the existing ATM balance
-        userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+        addFunds(userInput);
 
         //add received amount to userBalance
         u.setBalance(received.add(BigDecimal.valueOf(u.getBalance())).doubleValue());

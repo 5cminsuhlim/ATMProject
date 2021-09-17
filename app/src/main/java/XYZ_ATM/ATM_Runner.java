@@ -48,6 +48,41 @@ public class ATM_Runner{
                     //checking if valid pin
                     if(atm.isAdmin(enteredPin)){
                         //do admin stuff
+                        boolean done = false;
+                        Admin admin = new Admin();
+
+                        while(!done){
+                            System.out.println("Options: \n1: Check ATM Balance \n2: Add Funds \n3: Exit\n");
+                            String option = atmInput.next();
+
+                            switch (option) {
+                                case "1":
+                                    admin.adminCheckATMBal(atm);
+                                case "2":
+                                    HashMap<BigDecimal, Integer> adminInput = new HashMap<>();
+                                    adminInput.put(new BigDecimal(100), 0);
+                                    adminInput.put(new BigDecimal(50), 0);
+                                    adminInput.put(new BigDecimal(20), 0);
+                                    adminInput.put(new BigDecimal(10), 0);
+                                    adminInput.put(new BigDecimal(5), 0);
+                                    adminInput.put(new BigDecimal(2), 0);
+                                    adminInput.put(new BigDecimal(1), 0);
+                                    adminInput.put(new BigDecimal("0.50"), 0);
+                                    adminInput.put(new BigDecimal("0.20"), 0);
+                                    adminInput.put(new BigDecimal("0.10"), 0);
+                                    adminInput.put(new BigDecimal("0.05"), 0);
+
+                                    for(Map.Entry<BigDecimal, Integer> entry : adminInput.entrySet()){
+                                        System.out.println("How many $" + entry.getKey() + " will be inserted?");
+                                        adminInput.put(entry.getKey(), atmInput.next());
+                                    }
+
+                                    atm.addFunds(adminInput);
+                                case "3":
+                                    done = true;
+                                    System.out.println("Exiting admin mode...");
+                            }
+                        }
                     }
                     else{
                         System.out.println("Incorrect pin. Access denied.");
