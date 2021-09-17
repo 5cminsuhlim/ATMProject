@@ -116,8 +116,9 @@ public class ATM_Runner{
                                         "to cancel the transaction\n");
                                 String withdrawAmount = atmInput.next();
                                 switch(checkString(withdrawAmount)) {
-                                    case 1: // deposit amount is a number
-                                        //atm.deposit();
+                                    case 1: // withdraw amount is a number
+                                        //need a user object
+                                        atm.withdraw();
                                     case -1: // cancel option
                                         break;
                                     default: // invalid input
