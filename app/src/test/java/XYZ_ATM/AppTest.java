@@ -83,7 +83,8 @@ class AppTest {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(testCard);
 
-        User testUser = new User(cards, userID, full_name, balance);
+        User testUser = new User(userID, full_name, balance);
+        testUser.setCards(cards);
         assertEquals(cards, testUser.getCards(), "Card ArrayList is incorrect");
         assertEquals(userID, testUser.getUserID(), "UserID returned is incorrect");
         assertEquals(full_name, testUser.getFullName(), "Full name returned is incorrect");
@@ -119,7 +120,7 @@ class AppTest {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(testCard);
 
-        User testUser = new User(cards, userID, full_name, balance);
+        User testUser = new User(userID, full_name, balance);
 
         String cardnum1 = "22222";
         String cardpin1 = "2222";
@@ -132,6 +133,7 @@ class AppTest {
         ArrayList<Card> cards1 = new ArrayList<>();
         cards1.add(testCard1);
 
+        testUser.setCards(cards);
         assertEquals(cards, testUser.getCards(), "Card ArrayList returned is incorrect");
         testUser.setCards(cards1);
         assertEquals(cards1, testUser.getCards(), "After setting cards, method returned incorrect arraylist");
@@ -210,7 +212,14 @@ class AppTest {
 
         LocalDate testDate = LocalDate.now();
 
-        ATM testATM = new ATM(balance, testCards, testDate,0,"9746346416");
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 2000.00;
+        User testUser = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<User>();
+        testUserList.add(testUser);
+
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
 
         //Checking correct input
         assertEquals(0, testATM.checkCardNumber("11111"), "Index for first valid card returned is incorrect");
@@ -276,10 +285,17 @@ class AppTest {
 
         LocalDate testDate = LocalDate.now();
 
-        ATM testATM = new ATM(balance, testCards, testDate,0,"9746346416");
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 2000.00;
+        User testUser = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<User>();
+        testUserList.add(testUser);
 
-        //assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
-        //assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+
+        assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
+        assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
     }
 
     @Test
@@ -332,7 +348,14 @@ class AppTest {
 
         LocalDate testDate = LocalDate.now();
 
-        ATM testATM = new ATM(balance, testCards, testDate,0,"9746346416");
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 2000.00;
+        User testUser = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<User>();
+        testUserList.add(testUser);
+
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
 
         assertEquals(true, testATM.checkExpDate(testCard1), "Card with valid expiry date is returning an incorrect value");
         assertEquals(false, testATM.checkExpDate(testCard2), "Card with invalid expiry date is returning an incorrect value");
