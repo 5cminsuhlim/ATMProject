@@ -29,8 +29,8 @@ public class ATM_Runner{
             while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
                 //GOING TO NEED TO CHECK WHETHER USER OR ADMIN HERE
                 System.out.println("Are you an admin or user?" +
-                        "Admin = 1" +
-                        "User = 2");
+                        "\nAdmin = 1" +
+                        "\nUser = 2");
                 int userType = Integer.parseInt(atmInput.next());
 
                 //if user claims to be an admin
