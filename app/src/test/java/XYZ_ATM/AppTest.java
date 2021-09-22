@@ -516,9 +516,9 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        String userID = "1111";
-        String full_name = "first_name last_name";
-        double userBalance = 100000.00;
+        userID = "1111";
+        full_name = "first_name last_name";
+        userBalance = 100000.00;
         User testUser2 = new User(userID, full_name, userBalance);
         testUserList.add(testUser2);
 
