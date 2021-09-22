@@ -50,7 +50,7 @@ public class ATM_Runner{
                             switch (option) {
                                 case "1" -> {
                                     System.out.println(atm.checkIndivBalance());
-                                    System.out.println("Total Balance: " + String.format("%,.2f", atm.checkTotalBalance()));
+                                    System.out.println("Total Balance: $" + String.format("%,.2f", atm.checkTotalBalance()));
                                     //System.out.println("Total Balance: " + atm.checkTotalBalance());
                                 }
                                 case "2" -> {
