@@ -587,4 +587,5 @@ class AppTest {
     LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
     ATM testATM = new ATM(balance, testCards, testUserList,testDate);
     assertEquals(1,testATM.getUserFromCard(testCard1),"Insufficent User Funds");
+    }
 }
