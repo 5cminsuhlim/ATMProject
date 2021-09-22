@@ -154,9 +154,9 @@ public class ATM{
     }
 
     public void apologize(Card c){
-        System.out.println("The inserted card has been recognized as lost or stolen." +
-                "Further action will be restricted." +
-                "We apologize for the inconvenience.");
+        System.out.println("The inserted card with card number " + c.getCard_number() + " has been recognized as lost or stolen." +
+                "\nFurther action will be restricted." +
+                "\nWe apologize for the inconvenience.");
     }
 
     public void insuffATMFunds(){
@@ -172,9 +172,7 @@ public class ATM{
         System.out.println("Invalid amount.");
     }
 
-    //incomplete
-    public int withdraw(User u, double userInput){ // should probably instead return a bool, so that ATM_Runner
-        // can call atm.error and will know if the transaction failed.
+    public int withdraw(User u, double userInput){
 
         if(userInput > u.getBalance()){
             insuffUserFunds(u);
@@ -202,7 +200,8 @@ public class ATM{
                         "\nTransaction Type: Withdrew $" + userInput +
                         "\nAccount Balance: " + u.getBalance());
                 return 0;
-            } else{
+            }
+            else{
                 return -2;
             }
         }
