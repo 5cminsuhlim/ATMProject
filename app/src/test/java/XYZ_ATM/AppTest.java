@@ -641,7 +641,7 @@ class AppTest {
 
         LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
         int count = 10;
-        userInput.put(new BigDecimal(amount), count);
+        userInput.put(new BigDecimal(count), 1);
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
         assertEquals(0,testATM.deposit(userInput),"Deposit Failed");
