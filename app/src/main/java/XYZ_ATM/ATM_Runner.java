@@ -126,6 +126,10 @@ public class ATM_Runner{
                                     BigDecimal received = BigDecimal.ZERO;
                                     LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
                                     for (String amount : amounts) {
+                                        if(Double.parseDouble(amount) < 5){
+                                            break;
+                                        }
+
                                         System.out.println("How many $" + amount + " will be inserted?");
                                         int count = atmInput.nextInt();
                                         userInput.put(new BigDecimal(amount), count);
