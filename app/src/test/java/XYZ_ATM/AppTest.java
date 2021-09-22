@@ -644,6 +644,6 @@ class AppTest {
         userInput.put(new BigDecimal(count), 1);
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
-        assertEquals(0,testATM.deposit(userInput),"Deposit Failed");
+        assertEquals(0,testATM.deposit(testUser, userInput),"Deposit Failed");
     }
 }
