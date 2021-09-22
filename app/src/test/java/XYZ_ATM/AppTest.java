@@ -466,7 +466,7 @@ class AppTest {
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
 
-        assertEquals(1270,testATM.checkTotalBalance());
+        assertEquals(1270,testATM.checkTotalBalance(),"ATM balance Incorrect");
     }
 
 }
