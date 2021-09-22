@@ -106,13 +106,13 @@ public class ATM{
         //since the years are just numbers, later dates are just bigger numbers so making sure the expiry date is bigger
     }
 
-    public void setBalance(HashMap<BigDecimal, Integer> userInput){
+    public void setBalance(LinkedHashMap<BigDecimal, Integer> userInput){
         for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()) {
             balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue())).intValue());
         }
     }
 
-    public void addFunds(HashMap<BigDecimal, Integer> userInput){
+    public void addFunds(LinkedHashMap<BigDecimal, Integer> userInput){
         userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
     }
 
@@ -210,7 +210,7 @@ public class ATM{
     }
 
     //incomplete
-    public void deposit(User u, HashMap<BigDecimal, Integer> userInput){
+    public void deposit(User u, LinkedHashMap<BigDecimal, Integer> userInput){
         transactionNo++;
         BigDecimal received = BigDecimal.ZERO;
 
