@@ -522,4 +522,75 @@ class AppTest {
                 "\nFurther action will be restricted." +
                 "\nWe apologize for the inconvenience.", testATM.apologize(testCard1), "Apology message is not correctly printed");
     }
+    @Test
+    void withdrawlTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
+
+        LinkedHashMap<BigDecimal, Integer> balance2 = new LinkedHashMap<BigDecimal, Integer>();
+        BigDecimal bd1002 = new BigDecimal("50.00");
+        balance2.put(bd1002, 1);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
+        testCards.add(testCard1);
+
+        LocalDate testDate = LocalDate.now();
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 1000.00;
+        User testUser = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<User>();
+        testUserList.add(testUser);
+
+        userID = "1111";
+        full_name = "first_name last_name";
+        userBalance = 100000.00;
+        User testUser2 = new User(userID, full_name, userBalance);
+        testUserList.add(testUser2);
+
+        double userOverBalance = 1500.00;
+        double userNonValidAmmount = 750.02;
+        double atmOverBalance = 25000.00;
+        double smallAmmount = 100.00;
+        double validAmmount = 750.00;
+
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+        ATM testATM2 = new ATM(balance2, testCards, testUserList,testDate);
+        assertEquals(-1,testATM.withdraw(testUser, userOverBalance),"Insufficent User Funds");
+        assertEquals(-2,testATM.withdraw(testUser2, atmOverBalance),"Insufficent ATM Funds");
+        // assertEquals(-4,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
+        assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
+        assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
+    }
 }
