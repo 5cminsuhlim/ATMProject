@@ -153,7 +153,7 @@ class AppTest {
 
     @Test
     void checkCardNumberTest(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -237,7 +237,7 @@ class AppTest {
 
     @Test
     void checkIssDateTest(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -300,7 +300,7 @@ class AppTest {
 
     @Test
     void checkExpDateTest(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -363,7 +363,7 @@ class AppTest {
 
     @Test
     void TestATM(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -419,7 +419,7 @@ class AppTest {
 
     @Test
     void tchecktotalbal(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -464,7 +464,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(1270,testATM.checkTotalBalance());
     }
