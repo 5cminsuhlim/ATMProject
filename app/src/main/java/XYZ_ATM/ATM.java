@@ -237,11 +237,12 @@ public class ATM{
     }
 
     //returns individual breakdown of each coin/note
-    public void checkIndivBalance(){
+    public String checkIndivBalance(){
+        String returnstr = "";
         for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()){
-            System.out.println("Currency: " + entry.getKey() +
-                    ", Quantity: " + entry.getValue());
+            returnstr = returnstr + "Currency: " + entry.getKey().toString() + ", Quantity: " + entry.getValue().toString() + "\n";
         }
+        return returnstr;
     }
 
     //returns sum total of all coins/notes
