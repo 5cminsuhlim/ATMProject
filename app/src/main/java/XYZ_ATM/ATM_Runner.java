@@ -61,7 +61,7 @@ public class ATM_Runner{
                                     atm.checkIndivBalance();
                                     System.out.println("Total Balance: " + atm.checkTotalBalance());
                                 case "2":
-                                    HashMap<BigDecimal, Integer> adminInput = new HashMap<>();
+                                    LinkedHashMap<BigDecimal, Integer> adminInput = new LinkedHashMap<>();
                                     adminInput.put(new BigDecimal("100.00"), 0);
                                     adminInput.put(new BigDecimal("50.00"), 0);
                                     adminInput.put(new BigDecimal("20.00"), 0);
@@ -146,7 +146,7 @@ public class ATM_Runner{
                                     case 1: // deposit amount is a number
                                         BigDecimal received = BigDecimal.ZERO;
 
-                                        HashMap<BigDecimal, Integer> userInput = new HashMap<>();
+                                        LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
                                         userInput.put(new BigDecimal("100.00"), 0);
                                         userInput.put(new BigDecimal("50.00"), 0);
                                         userInput.put(new BigDecimal("20.00"), 0);
