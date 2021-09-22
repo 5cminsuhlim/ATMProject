@@ -219,7 +219,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         //Checking correct input
         assertEquals(0, testATM.checkCardNumber("11111"), "Index for first valid card returned is incorrect");
@@ -292,7 +292,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
         assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
@@ -355,7 +355,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(true, testATM.checkExpDate(testCard1), "Card with valid expiry date is returning an incorrect value");
         assertEquals(false, testATM.checkExpDate(testCard2), "Card with invalid expiry date is returning an incorrect value");
@@ -408,7 +408,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(true, testATM.isAdmin("9746346416"), "ATM does not recognise correct adminPin");
         assertEquals(false,testATM.isAdmin("12345"), "ATM does not recognise incorrect adminPin");
