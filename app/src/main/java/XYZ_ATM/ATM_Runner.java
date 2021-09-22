@@ -17,10 +17,10 @@ public class ATM_Runner{
 
         String[] amounts = new String[] {"100.00", "50.00", "20.00", "10.00",
                 "5.00", "2.00", "1.00", "0.50", "0.20", "0.10", "0.05"};
-        for(int i = 0; i < amounts.length; i++) {
-            System.out.println("How many $" + amounts[i] + " will be inserted?");
+        for(String amount : amounts) {
+            System.out.println("How many $" + amount + " will be inserted?");
             int count = atmInput.nextInt();
-            balance.put(new BigDecimal(amounts[i]), count);
+            balance.put(new BigDecimal(amount), count);
         }
 
         ATM atm = new ATM(balance, validCards, userList, LocalDate.now()); // create the ATM object
@@ -120,12 +120,17 @@ public class ATM_Runner{
                                 }
                             }
                             case "2" -> {
-                                System.out.println("Are you sure you would like to deposit? Enter 'cancel' to exit the transaction: ");
+                                System.out.println("Please enter the amount you would like to deposit. Enter 'cancel' " +
+								        "to cancel the transaction\n");
                                 String depositAmount = atmInput.next();
                                 if (checkString(depositAmount) != -1) {
                                     BigDecimal received = BigDecimal.ZERO;
                                     LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
                                     for (String amount : amounts) {
+                                        if(Double.parseDouble(amount) < 5){
+                                            break;
+                                        }
+
                                         System.out.println("How many $" + amount + " will be inserted?");
                                         int count = atmInput.nextInt();
                                         userInput.put(new BigDecimal(amount), count);

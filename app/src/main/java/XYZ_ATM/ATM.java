@@ -163,6 +163,10 @@ public class ATM{
         System.out.println("ERROR: Insufficient funds remaining in the ATM.");
     }
 
+    public void insuffATMBills(){
+        System.out.println("ERROR: Insufficient bills remaining in the ATM.");
+    }
+
     public void insuffUserFunds(User u){
         System.out.println("Insufficient funds in account " + u.getFullName() +
                 "\nCurrent balance: " + u.getBalance());
@@ -202,7 +206,8 @@ public class ATM{
                 return 0;
             }
             else{
-                return -2;
+                insuffATMBills();
+                return -4;
             }
         }
     }
