@@ -591,4 +591,59 @@ class AppTest {
     assertEquals(0,testATM.getUserFromCard(testCard1),"User Not Found Error");
     assertEquals(-1,testATM.getUserFromCard(testCard2),"User found but shouldn't be");
     }
+
+    @Test
+    void depositTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
+        testCards.add(testCard1);
+
+        LocalDate testDate = LocalDate.now();
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 1000.00;
+        User testUser = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<User>();
+        testUserList.add(testUser);
+
+        LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
+        int count = 10;
+        userInput.put(new BigDecimal(count), 1);
+
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+        assertEquals(0,testATM.deposit(testUser, userInput),"Deposit Failed");
+    }
 }
