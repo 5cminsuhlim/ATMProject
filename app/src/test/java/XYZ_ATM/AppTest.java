@@ -495,6 +495,10 @@ class AppTest {
         balance.put(bd010, 10);
         balance.put(bd005, 10);
 
+        LinkedHashMap<BigDecimal, Integer> balance2 = new LinkedHashMap<BigDecimal, Integer>();
+        BigDecimal bd1002 = new BigDecimal("100.00");
+        balance2.put(bd1002, 1);
+
         String cardnum1 = "11111";
         String cardpin1 = "1111";
         String startdate1 = "09/2018";
@@ -525,11 +529,14 @@ class AppTest {
         double userOverBalance = 1500.00;
         double userNonValidAmmount = 750.02;
         double atmOverBalance = 25000.00;
+        double smallAmmount = 50.00;
         double validAmmount = 750.00;
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+        ATM testATM2 = new ATM(balanc2, testCards, testUserList,testDate);
         assertEquals(-1,testATM.withdraw(testUser, userOverBalance),"Insufficent User Funds");
         assertEquals(-2,testATM.withdraw(testUser2, atmOverBalance),"Insufficent ATM Funds");
+        assertEquals(-2,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
         assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
         assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
     }
