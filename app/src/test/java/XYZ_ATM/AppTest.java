@@ -470,7 +470,8 @@ class AppTest {
     }
 
     @Test
-    void withdraw_test(){
+    void withdrawlTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
