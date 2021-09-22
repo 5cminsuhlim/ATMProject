@@ -112,8 +112,9 @@ public class ATM{
         }
     }
 
-    public void addFunds(LinkedHashMap<BigDecimal, Integer> userInput){
+    public int addFunds(LinkedHashMap<BigDecimal, Integer> userInput){
         userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+        return 0;
     }
 
     public int removeFunds(double userInput){
