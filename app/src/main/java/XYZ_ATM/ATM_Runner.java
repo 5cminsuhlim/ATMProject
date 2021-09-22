@@ -15,12 +15,21 @@ public class ATM_Runner{
         ArrayList<User> userList = readUsers(validCards);
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<>(); // initialise balance
 
-        String[] amounts = new String[] {"100.00", "50.00", "20.00", "10.00",
-                "5.00", "2.00", "1.00", "0.50", "0.20", "0.10", "0.05"};
-        for(int i = 0; i < amounts.length; i++) {
-            System.out.println("How many $" + amounts[i] + " will be inserted?");
-            int count = atmInput.nextInt();
-            balance.put(new BigDecimal(amounts[i]), count);
+        balance.put(new BigDecimal("100.00"), 0);
+        balance.put(new BigDecimal("50.00"), 0);
+        balance.put(new BigDecimal("20.00"), 0);
+        balance.put(new BigDecimal("10.00"), 0);
+        balance.put(new BigDecimal("5.00"), 0);
+        balance.put(new BigDecimal("2.00"), 0);
+        balance.put(new BigDecimal("1.00"), 0);
+        balance.put(new BigDecimal("0.50"), 0);
+        balance.put(new BigDecimal("0.20"), 0);
+        balance.put(new BigDecimal("0.10"), 0);
+        balance.put(new BigDecimal("0.05"), 0);
+
+        for(Map.Entry<BigDecimal, Integer> entry : balance.entrySet()){
+            System.out.println("How many $" + entry.getKey() + " will be inserted?");
+            balance.put(entry.getKey(), Integer.parseInt(atmInput.next()));
         }
 
         ATM atm = new ATM(balance, validCards, userList, LocalDate.now(),0,"9746346416"); // create the ATM object
@@ -28,10 +37,9 @@ public class ATM_Runner{
         while(running) { // loops entire thing
             while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
                 //GOING TO NEED TO CHECK WHETHER USER OR ADMIN HERE
-                System.out.println("""
-                        Are you an admin or user?
-                        Admin = 1
-                        User = 2""");
+                System.out.println("Are you an admin or user?" +
+                        "\nAdmin = 1" +
+                        "\nUser = 2");
                 int userType = Integer.parseInt(atmInput.next());
 
                 //if user claims to be an admin
@@ -49,23 +57,32 @@ public class ATM_Runner{
                             String option = atmInput.next();
 
                             switch (option) {
-                                case "1" -> {
+                                case "1":
                                     atm.checkIndivBalance();
                                     System.out.println("Total Balance: " + atm.checkTotalBalance());
-                                }
-                                case "2" -> {
-                                    LinkedHashMap<BigDecimal, Integer> adminInput = new LinkedHashMap<>();
-                                    for (String amount : amounts) {
-                                        System.out.println("How many $" + amount + " will be inserted?");
-                                        int count = atmInput.nextInt();
-                                        adminInput.put(new BigDecimal(amount), count);
+                                case "2":
+                                    HashMap<BigDecimal, Integer> adminInput = new HashMap<>();
+                                    adminInput.put(new BigDecimal("100.00"), 0);
+                                    adminInput.put(new BigDecimal("50.00"), 0);
+                                    adminInput.put(new BigDecimal("20.00"), 0);
+                                    adminInput.put(new BigDecimal("10.00"), 0);
+                                    adminInput.put(new BigDecimal("5.00"), 0);
+                                    adminInput.put(new BigDecimal("2.00"), 0);
+                                    adminInput.put(new BigDecimal("1.00"), 0);
+                                    adminInput.put(new BigDecimal("0.50"), 0);
+                                    adminInput.put(new BigDecimal("0.20"), 0);
+                                    adminInput.put(new BigDecimal("0.10"), 0);
+                                    adminInput.put(new BigDecimal("0.05"), 0);
+
+                                    for(Map.Entry<BigDecimal, Integer> entry : adminInput.entrySet()){
+                                        System.out.println("How many $" + entry.getKey() + " will be inserted?");
+                                        adminInput.put(entry.getKey(), Integer.parseInt(atmInput.next()));
                                     }
+
                                     atm.addFunds(adminInput);
-                                }
-                                case "3" -> {
+                                case "3":
                                     done = true;
                                     System.out.println("Exiting admin mode...");
-                                }
                             }
                         }
                     }
@@ -93,6 +110,7 @@ public class ATM_Runner{
                     System.out.println("Please enter your PIN: \n");
                     String cardPin = atmInput.next(); // cardNumber from user input
                     int valid = atm.isValid(card, cardPin);
+                    System.out.println("valid = " + valid);
                     if(valid != 0){
                         break;
                     }
@@ -106,11 +124,11 @@ public class ATM_Runner{
                         String option = atmInput.next();
 
                         switch (option) {
-                            case "1" -> {
-                                System.out.println("Please enter the amount you would like to withdraw. Enter 'cancel' " +
+                            case "1":
+                                System.out.println("Please enter the amount you would like to withdraw. Enter 'cancel'" +
                                         "to cancel the transaction\n");
                                 String withdrawAmount = atmInput.next();
-                                switch (checkString(withdrawAmount)) {
+                                switch(checkString(withdrawAmount)) {
                                     case 1: // withdraw amount is a number
                                         atm.withdraw(user, Double.valueOf(withdrawAmount));
                                         break;
@@ -119,31 +137,55 @@ public class ATM_Runner{
                                     default: // invalid input
                                         System.out.println("Invalid input.\n");
                                 }
-                            }
-                            case "2" -> {
-                                System.out.println("Are you sure you would like to deposit? Enter 'cancel' to exit the transaction: ");
+                                break;
+                            case "2":
+                                System.out.println("Please enter the amount you would like to deposit. Enter 'cancel'" +
+                                        "to cancel the transaction\n");
                                 String depositAmount = atmInput.next();
-                                if (checkString(depositAmount) != -1) {
-                                    BigDecimal received = BigDecimal.ZERO;
-                                    LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
-                                    for (String amount : amounts) {
-                                        System.out.println("How many $" + amount + " will be inserted?");
-                                        int count = atmInput.nextInt();
-                                        userInput.put(new BigDecimal(amount), count);
-                                        received = received.add(new BigDecimal(amount).multiply(BigDecimal.valueOf(count)));
-                                    }
+                                switch(checkString(depositAmount)){
+                                    case 1: // deposit amount is a number
+                                        BigDecimal received = BigDecimal.ZERO;
 
-                                    if (received.doubleValue() == 0) {
-                                        System.out.println("Please enter notes/coins if you wish to make a deposit.\n");
+                                        HashMap<BigDecimal, Integer> userInput = new HashMap<>();
+                                        userInput.put(new BigDecimal("100.00"), 0);
+                                        userInput.put(new BigDecimal("50.00"), 0);
+                                        userInput.put(new BigDecimal("20.00"), 0);
+                                        userInput.put(new BigDecimal("10.00"), 0);
+                                        userInput.put(new BigDecimal("5.00"), 0);
+                                        userInput.put(new BigDecimal("2.00"), 0);
+                                        userInput.put(new BigDecimal("1.00"), 0);
+                                        userInput.put(new BigDecimal("0.50"), 0);
+                                        userInput.put(new BigDecimal("0.20"), 0);
+                                        userInput.put(new BigDecimal("0.10"), 0);
+                                        userInput.put(new BigDecimal("0.05"), 0);
+
+                                        for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()){
+                                            System.out.println("How many $" + entry.getKey() + " will be inserted?");
+                                            userInput.put(entry.getKey(), Integer.parseInt(atmInput.next()));
+
+                                            received = received.add(entry.getKey().multiply(BigDecimal.valueOf(entry.getValue())));
+                                        }
+
+                                        if(!BigDecimal.valueOf(Double.valueOf(depositAmount)).equals(received)){
+                                            System.out.println("Invalid amount.\n");
+                                            break;
+                                        }
+
+                                        atm.deposit(user, userInput);
                                         break;
-                                    }
-
-                                    atm.deposit(user, userInput);
+                                    case -1: // cancel option
+                                        break;
+                                    default: // invalid input
+                                        System.out.println("Invalid input.\n");
                                 }
-                            }
-                            case "3" -> System.out.println("Your balance is $" + user.getBalance());
-                            case "4" -> logged_in = false; // prompts for another card
-                            default -> System.out.println("Invalid Input, please try again.\n");
+                            case "3":
+                                System.out.println("Your balance is $" + user.getBalance());
+                                break;
+                            case "4":
+                                logged_in = false; // prompts for another card
+                                break;
+                            default:
+                                System.out.println("Invalid Input, please try again.\n");
                         }
                     }
                 }
