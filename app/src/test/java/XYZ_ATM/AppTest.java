@@ -507,17 +507,17 @@ class AppTest {
         BigDecimal bd0202 = new BigDecimal("0.20");
         BigDecimal bd0102 = new BigDecimal("0.10");
         BigDecimal bd0052 = new BigDecimal("0.05");
-        balance.put(bd1002, 1);
-        balance.put(bd502, 0);
-        balance.put(bd202, 0);
-        balance.put(bd102, 0);
-        balance.put(bd52, 0);
-        balance.put(bd22, 0);
-        balance.put(bd12, 0);
-        balance.put(bd0502, 0);
-        balance.put(bd0202, 0);
-        balance.put(bd0102, 0);
-        balance.put(bd0052, 0);
+        balance2.put(bd1002, 1);
+        balance2.put(bd502, 0);
+        balance2.put(bd202, 0);
+        balance2.put(bd102, 0);
+        balance2.put(bd52, 0);
+        balance2.put(bd22, 0);
+        balance2.put(bd12, 0);
+        balance2.put(bd0502, 0);
+        balance2.put(bd0202, 0);
+        balance2.put(bd0102, 0);
+        balance2.put(bd0052, 0);
 
         String cardnum1 = "11111";
         String cardpin1 = "1111";
