@@ -153,7 +153,7 @@ class AppTest {
 
     @Test
     void checkCardNumberTest(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -219,7 +219,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         //Checking correct input
         assertEquals(0, testATM.checkCardNumber("11111"), "Index for first valid card returned is incorrect");
@@ -237,7 +237,7 @@ class AppTest {
 
     @Test
     void checkIssDateTest(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -292,7 +292,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(true, testATM.checkIssDate(testCard1), "Card with valid issue date is returning an incorrect value");
         assertEquals(false, testATM.checkIssDate(testCard2), "Card with invalid issue date is returning an incorrect value");
@@ -300,7 +300,7 @@ class AppTest {
 
     @Test
     void checkExpDateTest(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -355,7 +355,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(true, testATM.checkExpDate(testCard1), "Card with valid expiry date is returning an incorrect value");
         assertEquals(false, testATM.checkExpDate(testCard2), "Card with invalid expiry date is returning an incorrect value");
@@ -363,7 +363,7 @@ class AppTest {
 
     @Test
     void TestATM(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -408,7 +408,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(true, testATM.isAdmin("9746346416"), "ATM does not recognise correct adminPin");
         assertEquals(false,testATM.isAdmin("12345"), "ATM does not recognise incorrect adminPin");
@@ -419,7 +419,7 @@ class AppTest {
 
     @Test
     void tchecktotalbal(){
-        HashMap<BigDecimal, Integer> balance = new HashMap<BigDecimal, Integer>();
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
         BigDecimal bd20 = new BigDecimal("20.00");
@@ -463,8 +463,8 @@ class AppTest {
         User testUser = new User(userID, full_name, userBalance);
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
-
-        ATM testATM = new ATM(balance, testCards, testUserList,testDate,0,"9746346416");
+      
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(1270,testATM.checkTotalBalance(),"ATM balance Incorrect");
     }

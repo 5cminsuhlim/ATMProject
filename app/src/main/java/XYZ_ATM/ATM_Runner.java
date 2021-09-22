@@ -32,7 +32,7 @@ public class ATM_Runner{
             balance.put(entry.getKey(), Integer.parseInt(atmInput.next()));
         }
 
-        ATM atm = new ATM(balance, validCards, userList, LocalDate.now(),0,"9746346416"); // create the ATM object
+        ATM atm = new ATM(balance, validCards, userList, LocalDate.now()); // create the ATM object
         boolean running = true;
         while(running) { // loops entire thing
             while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
