@@ -48,10 +48,8 @@ public class ATM_Runner{
                             String option = atmInput.next();
 
                             switch (option) {
-                                case "1":
-                                    System.out.println(atm.checkIndivBalance());
                                 case "1" -> {
-                                    atm.checkIndivBalance();
+                                    System.out.println(atm.checkIndivBalance());
                                     System.out.println("Total Balance: " + atm.checkTotalBalance());
                                 }
                                 case "2" -> {
