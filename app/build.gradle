@@ -42,6 +42,10 @@ tasks.register('Pls'){
     standardInput = System.in
 }
 
+run{
+    standardInput=System.in
+}
+
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
