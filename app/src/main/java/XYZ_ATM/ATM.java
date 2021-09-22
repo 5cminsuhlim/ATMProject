@@ -149,7 +149,7 @@ public class ATM{
         String dateString;
         dateString = this.date.toString();
         int currentDate = Integer.parseInt(dateString.substring(0,4) + dateString.substring(5,7));
-        int cardIssue = Integer.parseInt(c.getStart_date().substring(6,10) + c.getStart_date().substring(3,5));
+        int cardIssue = Integer.parseInt(c.getStart_date().substring(3,7) + c.getStart_date().substring(0,2));
         return currentDate >= cardIssue; // making sure the card is active already
     }
 
