@@ -201,7 +201,7 @@ public class ATM{
                 //receipt
                 System.out.println("Receipt Details:" +
                         "\nTransaction No.:" + transactionNo +
-                        "\nTransaction Type: Withdrew $" + userInput +
+                        "\nTransaction Type: Withdrew $" + String.format("%,.2f", userInput) +
                         "\nAccount Balance: " + u.getBalance());
                 return 0;
             }
@@ -231,7 +231,7 @@ public class ATM{
         //receipt
         System.out.println("Receipt Details:" +
                 "\nTransaction No.:" + transactionNo +
-                "\nTransaction Type: Deposited $" + received +
+                "\nTransaction Type: Deposited $" + String.format("%,.2f", received) +
                 "\nAccount Balance: " + u.getBalance());
 
         return 0;
