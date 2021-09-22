@@ -469,7 +469,6 @@ class AppTest {
         assertEquals(1270,testATM.checkTotalBalance(),"ATM balance Incorrect");
     }
 
-    //incomplete
     @Test
     void withdrawTest(){
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
@@ -561,4 +560,31 @@ class AppTest {
         assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
         assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
     }
+
+    @Test
+    void getUserFromCardTest(){
+    String cardnum1 = "11111";
+    String cardpin1 = "1111";
+    String startdate1 = "09/2018";
+    String expdate1 = "01/2022";
+    String UID1 = "1111";
+    boolean stolen1 = false;
+
+    Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+    ArrayList<Card> testCards = new ArrayList<Card>();
+    testCards.add(testCard1);
+
+    LocalDate testDate = LocalDate.now();
+
+    String userID = "1111";
+    String full_name = "first_name last_name";
+    double userBalance = 1000.00;
+    User testUser = new User(userID, full_name, userBalance);
+    ArrayList<User> testUserList = new ArrayList<User>();
+    testUserList.add(testUser);
+
+    LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
+    ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+    assertEquals(1,testATM.getUserFromCard(testCard1),"Insufficent User Funds");
 }
