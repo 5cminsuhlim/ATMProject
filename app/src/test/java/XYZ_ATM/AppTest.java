@@ -497,7 +497,27 @@ class AppTest {
 
         LinkedHashMap<BigDecimal, Integer> balance2 = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd1002 = new BigDecimal("100.00");
-        balance2.put(bd1002, 1);
+        BigDecimal bd502 = new BigDecimal("50.00");
+        BigDecimal bd202 = new BigDecimal("20.00");
+        BigDecimal bd102 = new BigDecimal("10.00");
+        BigDecimal bd52 = new BigDecimal("5.00");
+        BigDecimal bd22 = new BigDecimal("2.00");
+        BigDecimal bd12 = new BigDecimal("1.00");
+        BigDecimal bd0502 = new BigDecimal("0.50");
+        BigDecimal bd0202 = new BigDecimal("0.20");
+        BigDecimal bd0102 = new BigDecimal("0.10");
+        BigDecimal bd0052 = new BigDecimal("0.05");
+        balance.put(bd1002, 1);
+        balance.put(bd502, 0);
+        balance.put(bd202, 0);
+        balance.put(bd102, 0);
+        balance.put(bd52, 0);
+        balance.put(bd22, 0);
+        balance.put(bd12, 0);
+        balance.put(bd0502, 0);
+        balance.put(bd0202, 0);
+        balance.put(bd0102, 0);
+        balance.put(bd0052, 0);
 
         String cardnum1 = "11111";
         String cardpin1 = "1111";
