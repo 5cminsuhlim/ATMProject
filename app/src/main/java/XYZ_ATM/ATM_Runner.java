@@ -120,29 +120,36 @@ public class ATM_Runner{
                                 }
                             }
                             case "2" -> {
-                                System.out.println("Please enter the amount you would like to deposit. Enter 'cancel' " +
-								        "to cancel the transaction\n");
-                                String depositAmount = atmInput.next();
-                                if (checkString(depositAmount) != -1) {
-                                    BigDecimal received = BigDecimal.ZERO;
-                                    LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
-                                    for (String amount : amounts) {
-                                        if(Double.parseDouble(amount) < 5){
-                                            break;
-                                        }
-
-                                        System.out.println("How many $" + amount + " will be inserted?");
-                                        int count = atmInput.nextInt();
-                                        userInput.put(new BigDecimal(amount), count);
-                                        received = received.add(new BigDecimal(amount).multiply(BigDecimal.valueOf(count)));
-                                    }
-
-                                    if (received.doubleValue() == 0) {
-                                        System.out.println("Please enter notes/coins if you wish to make a deposit.\n");
+                                BigDecimal received = BigDecimal.ZERO;
+                                LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
+                                for (String amount : amounts) {
+                                    if(Double.parseDouble(amount) < 5){
                                         break;
                                     }
 
-                                    atm.deposit(user, userInput);
+                                    System.out.println("How many $" + amount + " will be inserted?");
+                                    int count = atmInput.nextInt();
+                                    userInput.put(new BigDecimal(amount), count);
+                                    received = received.add(new BigDecimal(amount).multiply(BigDecimal.valueOf(count)));
+                                }
+
+                                if (received.doubleValue() == 0) {
+                                    System.out.println("No money inputted. Cancelling deposit...\n");
+                                    break;
+                                }
+
+                                System.out.println("Deposited amount: " + received +
+                                        "\nAre you sure you want to proceed with the deposit? Enter '1' to proceed." +
+                                        "\nEnter 'cancel' to cancel the transaction.");
+
+                                String userChoice = atmInput.next();
+                                switch(checkString(userChoice)){
+                                    case 1: //deposit amount is a number
+                                        atm.deposit(user, userInput);
+                                    case -1:
+                                        break;
+                                    default:
+                                        System.out.println("Invalid input.\n");
                                 }
                             }
                             case "3" -> System.out.println("Your balance is $" + user.getBalance());
