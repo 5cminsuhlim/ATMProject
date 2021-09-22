@@ -522,7 +522,6 @@ class AppTest {
                 "\nFurther action will be restricted." +
                 "\nWe apologize for the inconvenience.", testATM.apologize(testCard1), "Apology message is not correctly printed");
     }
-
     @Test
     void withdrawlTest(){
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
@@ -594,5 +593,4 @@ class AppTest {
         assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
         assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
     }
-
 }
