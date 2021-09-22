@@ -639,6 +639,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
+        LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
         int count = 10;
         userInput.put(new BigDecimal(amount), count);
 
