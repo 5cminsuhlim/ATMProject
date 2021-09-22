@@ -516,14 +516,20 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 100000.00;
+        User testUser2 = new User(userID, full_name, userBalance);
+        testUserList.add(testUser2);
+
         double userOverBalance = 1500.00;
         double userNonValidAmmount = 750.02;
-        double atmOverBalance = 2500.00;
+        double atmOverBalance = 25000.00;
         double validAmmount = 750.00;
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
         assertEquals(-1,testATM.withdraw(testUser, userOverBalance),"Insufficent User Funds");
-        assertEquals(-2,testATM.withdraw(testUser, atmOverBalance),"Insufficent ATM Funds");
+        assertEquals(-2,testATM.withdraw(testUser2, atmOverBalance),"Insufficent ATM Funds");
         assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
         assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
     }
