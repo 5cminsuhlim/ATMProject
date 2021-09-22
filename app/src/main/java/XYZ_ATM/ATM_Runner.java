@@ -120,8 +120,8 @@ public class ATM_Runner{
                                 }
                             }
                             case "2" -> {
-                                System.out.println("Are you sure you would like to deposit? Enter 'yes' to continue or "
-								+ " 'cancel' to exit the transaction: ");
+                                System.out.println("Please enter the amount you would like to deposit. Enter 'cancel' " +
+								        "to cancel the transaction\n");
                                 String depositAmount = atmInput.next();
                                 if (checkString(depositAmount) != -1) {
                                     BigDecimal received = BigDecimal.ZERO;
