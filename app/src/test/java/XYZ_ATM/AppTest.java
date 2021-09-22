@@ -496,8 +496,28 @@ class AppTest {
         balance.put(bd005, 10);
 
         LinkedHashMap<BigDecimal, Integer> balance2 = new LinkedHashMap<BigDecimal, Integer>();
-        BigDecimal bd1002 = new BigDecimal("50.00");
+        BigDecimal bd1002 = new BigDecimal("100.00");
+        BigDecimal bd502 = new BigDecimal("50.00");
+        BigDecimal bd202 = new BigDecimal("20.00");
+        BigDecimal bd102 = new BigDecimal("10.00");
+        BigDecimal bd52 = new BigDecimal("5.00");
+        BigDecimal bd22 = new BigDecimal("2.00");
+        BigDecimal bd12 = new BigDecimal("1.00");
+        BigDecimal bd0502 = new BigDecimal("0.50");
+        BigDecimal bd0202 = new BigDecimal("0.20");
+        BigDecimal bd0102 = new BigDecimal("0.10");
+        BigDecimal bd0052 = new BigDecimal("0.05");
         balance2.put(bd1002, 1);
+        balance2.put(bd502, 0);
+        balance2.put(bd202, 0);
+        balance2.put(bd102, 0);
+        balance2.put(bd52, 0);
+        balance2.put(bd22, 0);
+        balance2.put(bd12, 0);
+        balance2.put(bd0502, 0);
+        balance2.put(bd0202, 0);
+        balance2.put(bd0102, 0);
+        balance2.put(bd0052, 0);
 
         String cardnum1 = "11111";
         String cardpin1 = "1111";
@@ -529,14 +549,14 @@ class AppTest {
         double userOverBalance = 1500.00;
         double userNonValidAmmount = 750.02;
         double atmOverBalance = 25000.00;
-        double smallAmmount = 100.00;
+        double smallAmmount = 50.00;
         double validAmmount = 750.00;
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
         ATM testATM2 = new ATM(balance2, testCards, testUserList,testDate);
         assertEquals(-1,testATM.withdraw(testUser, userOverBalance),"Insufficent User Funds");
         assertEquals(-2,testATM.withdraw(testUser2, atmOverBalance),"Insufficent ATM Funds");
-        // assertEquals(-4,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
+        assertEquals(-4,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
         assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
         assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
     }
