@@ -582,6 +582,7 @@ class AppTest {
     double userBalance = 1000.00;
     User testUser = new User(userID, full_name, userBalance);
     ArrayList<User> testUserList = new ArrayList<User>();
+    testUser.addCard(testCard1);
     testUserList.add(testUser);
 
     LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
