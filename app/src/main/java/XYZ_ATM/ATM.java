@@ -212,8 +212,7 @@ public class ATM{
         }
     }
 
-    //incomplete
-    public void deposit(User u, LinkedHashMap<BigDecimal, Integer> userInput){
+    public int deposit(User u, LinkedHashMap<BigDecimal, Integer> userInput){
         transactionNo++;
         BigDecimal received = BigDecimal.ZERO;
 
@@ -234,6 +233,8 @@ public class ATM{
                 "\nTransaction No.:" + transactionNo +
                 "\nTransaction Type: Deposited $" + received +
                 "\nAccount Balance: " + u.getBalance());
+
+        return 0;
     }
 
     //returns individual breakdown of each coin/note
