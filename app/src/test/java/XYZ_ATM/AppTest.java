@@ -537,6 +537,7 @@ class AppTest {
         assertEquals(-1,testATM.withdraw(testUser, userOverBalance),"Insufficent User Funds");
         assertEquals(-2,testATM.withdraw(testUser2, atmOverBalance),"Insufficent ATM Funds");
         assertEquals(-2,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
+        System.out.println(testATM2.withdraw(testUser2, smallAmmount));
         assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
         assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
     }
