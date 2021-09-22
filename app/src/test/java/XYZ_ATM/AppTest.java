@@ -418,7 +418,7 @@ class AppTest {
     }
 
     @Test
-    void tchecktotalbal(){
+    void checkTotalBalanceTest(){
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
@@ -469,8 +469,9 @@ class AppTest {
         assertEquals(1270,testATM.checkTotalBalance(),"ATM balance Incorrect");
     }
 
+    //incomplete
     @Test
-    void withdrawlTest(){
+    void withdrawTest(){
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
