@@ -154,10 +154,9 @@ public class ATM{
     }
 
     public void apologize(Card c){
-        System.out.println("""
-                The inserted card has been recognized as lost or stolen.
-                Further action will be restricted.
-                We apologize for the inconvenience.""");
+        System.out.println("The inserted card has been recognized as lost or stolen." +
+                "Further action will be restricted." +
+                "We apologize for the inconvenience.");
     }
 
     public void insuffATMFunds(){
