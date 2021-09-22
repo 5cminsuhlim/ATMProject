@@ -582,16 +582,13 @@ class AppTest {
     String full_name = "first_name last_name";
     double userBalance = 1000.00;
     User testUser = new User(userID, full_name, userBalance);
-    User testUser1 = new User(userID, full_name, userBalance);
     ArrayList<User> testUserList = new ArrayList<User>();
     testUser.addCard(testCard1);
-    testUser1.addCard(testCard1);
     testUserList.add(testUser);
 
     LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
     ATM testATM = new ATM(balance, testCards, testUserList,testDate);
     assertEquals(0,testATM.getUserFromCard(testCard1),"User Not Found Error");
-    assertEquals(1,testATM.getUserFromCard(testCard1),"User Not Found Error");
     assertEquals(-1,testATM.getUserFromCard(testCard2),"User found but shouldn't be");
     }
 }
