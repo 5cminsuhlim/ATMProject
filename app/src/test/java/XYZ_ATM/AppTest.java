@@ -533,7 +533,7 @@ class AppTest {
         double validAmmount = 750.00;
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
-        ATM testATM2 = new ATM(balanc2, testCards, testUserList,testDate);
+        ATM testATM2 = new ATM(balance2, testCards, testUserList,testDate);
         assertEquals(-1,testATM.withdraw(testUser, userOverBalance),"Insufficent User Funds");
         assertEquals(-2,testATM.withdraw(testUser2, atmOverBalance),"Insufficent ATM Funds");
         assertEquals(-2,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
