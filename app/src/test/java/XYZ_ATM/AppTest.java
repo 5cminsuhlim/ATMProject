@@ -639,7 +639,7 @@ class AppTest {
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
 
-        int count = 10
+        int count = 10;
         userInput.put(new BigDecimal(amount), count);
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
