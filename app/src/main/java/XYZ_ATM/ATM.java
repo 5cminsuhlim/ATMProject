@@ -11,16 +11,16 @@ public class ATM{
     private LinkedHashMap<BigDecimal, Integer> balance;
     private ArrayList<Card> validCards;
     private LocalDate date;
-    private int transactionNo = 0;
+    private int transactionNo;
     private String adminPin; //made w/ RNG
     private ArrayList<User> userList;
 
-    public ATM(LinkedHashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, ArrayList<User> userList, LocalDate date, int transactionNo, String adminPin) {
+    public ATM(LinkedHashMap<BigDecimal, Integer> balance, ArrayList<Card> validCards, ArrayList<User> userList, LocalDate date) {
         this.balance = balance;
         this.validCards = validCards;
         this.userList = userList;
         this.date = date;
-        this.transactionNo = transactionNo;
+        this.transactionNo = 0;
         this.adminPin = "9746346416";
     }
 
