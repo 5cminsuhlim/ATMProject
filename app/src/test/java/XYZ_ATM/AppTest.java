@@ -518,7 +518,7 @@ class AppTest {
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
-        assertEquals("The inserted card with card number " + c.getCard_number() + " has been recognized as lost or stolen." +
+        assertEquals("The inserted card with card number " + testCard1.getCard_number() + " has been recognized as lost or stolen." +
                 "\nFurther action will be restricted." +
                 "\nWe apologize for the inconvenience.", testATM.apologize(testCard1), "Apology message is not correctly printed");
     }
