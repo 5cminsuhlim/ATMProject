@@ -463,7 +463,7 @@ class AppTest {
         User testUser = new User(userID, full_name, userBalance);
         ArrayList<User> testUserList = new ArrayList<User>();
         testUserList.add(testUser);
-
+      
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
         assertEquals(1270,testATM.checkTotalBalance());
