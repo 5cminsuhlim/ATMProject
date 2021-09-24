@@ -700,12 +700,11 @@ class AppTest {
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
 
-        //assertEquals(0, testATM.isValid(testCard1, "1111"), "Valid test card does not pass checks");
-        //assertEquals(-2, testATM.isValid(testCard1, "0000"), "Invalid pin check in isValid function error");
-        //assertEquals(-3, testATM.isValid(testCard2, "1111"), "Expiry check in isValid function error");
-        //assertEquals(-4, testATM.isValid(testCard3, "1111"), "Issue date check in isValid function error");
-        //assertEquals(-5, testATM.isValid(testCard4, "1111"), "Stolen check in isValid function error");
-       // assertEquals(-6, testATM.isValid(testCard5, "1111"), "Blocked check in isValid function error");
+        assertEquals(0, testATM.isValid(testCard1), "Valid test card does not pass checks");
+        assertEquals(-3, testATM.isValid(testCard2), "Expiry check in isValid function error");
+        assertEquals(-4, testATM.isValid(testCard3), "Issue date check in isValid function error");
+        assertEquals(-5, testATM.isValid(testCard4), "Stolen check in isValid function error");
+        assertEquals(-6, testATM.isValid(testCard5), "Blocked check in isValid function error");
     }
 
     @Test

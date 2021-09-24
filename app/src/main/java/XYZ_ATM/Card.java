@@ -15,14 +15,14 @@ public class Card{
     private boolean blocked;
 
 
-    public Card(String card_number, String pin, String start_date, String expiry_date, String UID, boolean stolen){
+    public Card(String card_number, String pin, String start_date, String expiry_date, String UID, boolean blocked){
         this.card_number = card_number;
         this.pin = pin;
         this.start_date = start_date;
         this.expiry_date = expiry_date;
         this.UID = UID;
-        this.stolen = stolen;
-        this.blocked = false;
+        this.blocked = blocked;
+        this.stolen = false;
 
     }
 

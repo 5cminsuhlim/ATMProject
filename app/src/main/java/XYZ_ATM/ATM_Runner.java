@@ -215,29 +215,56 @@ public class ATM_Runner{
             }
         }
         // runs when admin shuts down atm
-        boolean notSaved = true;
-        while(notSaved){
+        boolean notSavedUser = true;
+        while(notSavedUser){
             System.out.println("Enter user file name:");
             String filename = atmInput.next();
             File f = new File(filename);
             if(f.exists() && !f.isDirectory()){
                 f.delete();
                 try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream("users"), StandardCharsets.UTF_8))) {
+                        new FileOutputStream(filename), StandardCharsets.UTF_8))) {
                     ArrayList<User> users = atm.getUserList();
                     for(User u : users) {
                         writer.write(u.getUserID() + "," + u.getFullName() + "," + u.getBalance() + "\n");
                     }
                 }
                 catch(Exception e){
-                    System.out.println("Saving failed.");
+                    System.out.println("Saving userlist failed.");
                 }
-                notSaved = false;
-            } else{
+                notSavedUser = false;
+                System.out.println("Users Saved");
+            }
+            else{
                 System.out.println("File does not exist. Please try again");
             }
         }
 
+        boolean notSavedCard = true;
+        while(notSavedCard){
+            System.out.println("Enter card file name:");
+            String filename = atmInput.next();
+            File f = new File(filename);
+            if(f.exists() && !f.isDirectory()){
+                f.delete();
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(filename), StandardCharsets.UTF_8))) {
+                    ArrayList<Card> cards = atm.getCardList();
+                    for(Card c : cards) {
+                        int blocked = c.isBlocked()? 1 : 0;
+                        writer.write(c.getCard_number() + "," + c.getStart_date() + "," + c.getExpiry_date()
+                                + "," + blocked + "," + c.getPin() + "\n");
+                    }
+                }
+                catch(Exception e){
+                    System.out.println("Saving cardList failed.");
+                }
+                notSavedCard = false;
+                System.out.println("Cards Saved.");
+            } else{
+                System.out.println("File does not exist. Please try again");
+            }
+        }
     }
 
     private static int checkString(String str){
