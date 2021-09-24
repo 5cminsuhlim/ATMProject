@@ -120,10 +120,33 @@ public class ATM_Runner{
                     }
 
                     Card card = atm.getCard(cardIndex); // gets the card object of the entered card
+
+                    if(atm.isValid(card) != 0){
+                        break;
+                    }
+
                     System.out.println("Please enter your PIN: \n");
-                    String cardPin = atmInput.next(); // cardNumber from user input
-                    int valid = atm.isValid(card, cardPin);
-                    if (valid != 0) {
+                    int i = 0;
+                    boolean valid = false; //Initialised as invalid
+                    while(i<3){ //Check pin 3 times
+                        String cardPin = atmInput.next(); // cardPin from user input
+                        valid = atm.checkPin(card, cardPin);
+                        if(!valid){
+                            i++;
+                            if(3-i>1){
+                                System.out.println("You have " + (3-i) + " attempts left. Please try again.");
+                            }
+                            else if(3-i==1){
+                                System.out.println("You have " + (3-i) + " attempt left. Please try again.");
+                            }
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    if (!valid) {
+                        card.setBlocked(true);
+                        System.out.println("Unfortunately this card has been blocked.");
                         break;
                     }
 
