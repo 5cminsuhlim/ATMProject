@@ -195,59 +195,66 @@ public class ATM_Runner{
     }
 
     private static ArrayList<Card> readCards(){
-        Scanner reader = new Scanner(System.in);
-        System.out.println("Enter card file name: "); // reads in card file name
-        //GRADLE HAS RUINED THE BELOW THINGO V
-        String filename = reader.nextLine(); // need to fix this so it gets the absolute path
+        boolean success = false;
         ArrayList<Card> validCards = new ArrayList<>();
-        try{
-            File file = new File(filename);
-            Scanner input = new Scanner(file);
-            while (input.hasNextLine()) { //reads all lines of the file
-                String[] line = input.nextLine().split(",");
-                // splits the line using regex to get rid of comma and space, each item is a variable for Card
-                boolean stolen = "1".equals(line[3]);
-                validCards.add(new Card(line[0], line[4], line[1], line[2], "placeholder", stolen));
-                // adds a card object into the validCards list
-                // card has the format (card_number, pin, start_date, expiry_date, UID, stolen
-                // card list has the format cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
-            }
-        } catch(Exception e){
-            System.out.println("Error reading card file. Please try again.\n"); // placeholder
+        while (!success) {
+            Scanner reader = new Scanner(System.in);
+            System.out.println("Enter card file name: "); // reads in card file name
+            //GRADLE HAS RUINED THE BELOW THINGO V
+            String filename = reader.nextLine(); // need to fix this so it gets the absolute path
+            try {
+                File file = new File(filename);
+                Scanner input = new Scanner(file);
+                while (input.hasNextLine()) { //reads all lines of the file
+                    String[] line = input.nextLine().split(",");
+                    // splits the line using regex to get rid of comma and space, each item is a variable for Card
+                    boolean stolen = "1".equals(line[3]);
+                    validCards.add(new Card(line[0], line[4], line[1], line[2], "placeholder", stolen));
+                    // adds a card object into the validCards list
+                    // card has the format (card_number, pin, start_date, expiry_date, UID, stolen
+                    // card list has the format cardNo,dd/mm/yyyy/,mm/yyyy,lostOrStolenStatus,pin
+                    success = true;
+                }
+            } catch (Exception e) {
+                System.out.println("Error reading card file. Please try again.\n"); // placeholder
 
+            }
         }
         return validCards; // returns the arraylist of cards to pass to an ATM object
     }
 
     private static ArrayList<User> readUsers(ArrayList<Card> cards){
         Scanner reader = new Scanner(System.in);
-        System.out.println("Enter user file name: "); // reads in userList file name
-        String filename = reader.next(); // need to fix this so it gets the absolute path
         ArrayList<User> userList = new ArrayList<>();
-        try{
-            File file = new File(filename);
-            Scanner input = new Scanner(file);
-            int i = 1;
-            while (input.hasNextLine()) { //reads all lines of the file
-                String[] line = input.nextLine().split(",");
-                // splits the line using regex to get rid of comma , each item is a variable for User
-                User newUser = new User(line[0], line[1], Double.parseDouble(line[2]));
-                if(i != 5){
-                    newUser.addCard(cards.get(i-1));
-                    newUser.addCard(cards.get(i));
-                    userList.add(newUser);
-                    i += 2;
+        boolean success = false;
+        while (!success) {
+            try {
+                System.out.println("Enter user file name: "); // reads in userList file name
+                String filename = reader.next(); // need to fix this so it gets the absolute path
+                File file = new File(filename);
+                Scanner input = new Scanner(file);
+                int i = 1;
+                while (input.hasNextLine()) { //reads all lines of the file
+                    String[] line = input.nextLine().split(",");
+                    // splits the line using regex to get rid of comma , each item is a variable for User
+                    User newUser = new User(line[0], line[1], Double.parseDouble(line[2]));
+                    if (i != 5) {
+                        newUser.addCard(cards.get(i - 1));
+                        newUser.addCard(cards.get(i));
+                        userList.add(newUser);
+                        i += 2;
+                    } else {
+                        newUser.addCard(cards.get(i - 1));
+                        userList.add(newUser);
+                    }
+                    // adds a user object into the userList
+                    // user has the format (userID, fullName, balance)
+                    // userList file has same format
+                    success = true;
                 }
-                else {
-                    newUser.addCard(cards.get(i-1));
-                    userList.add(newUser);
-                }
-                // adds a user object into the userList
-                // user has the format (userID, fullName, balance)
-                // userList file has same format
+            } catch (Exception e) {
+                System.out.println("Error reading users file. Please try again.\n"); // placeholder
             }
-        } catch(Exception e){
-            System.out.println("Error reading users file. Please try again.\n"); // placeholder
         }
         return userList; // returns the arraylist of cards to pass to an ATM object
     }
