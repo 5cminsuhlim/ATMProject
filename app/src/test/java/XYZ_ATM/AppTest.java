@@ -676,10 +676,10 @@ class AppTest {
 
         Card testCard3 = new Card(cardnum1,cardpin1,startdate2,expdate1,UID1,false); // not active yet
 
-        Card testCard4 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,true); // stolen
+        Card testCard4 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,false); // stolen
+        testCard4.setStolen(true);
 
-        Card testCard5 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,false); // blocked
-        testCard5.setBlocked(true);
+        Card testCard5 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,true); // blocked
 
         ArrayList<Card> testCards = new ArrayList<>();
         testCards.add(testCard1);
