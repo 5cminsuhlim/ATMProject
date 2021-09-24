@@ -1,6 +1,7 @@
 package XYZ_ATM;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.time.LocalDate;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ public class ATM_Runner{
     public static void main(String[] args){
         //NEED FILE OF USERS ASSOCIATED W/ CARDS
         Scanner atmInput = new Scanner (System.in);
-        System.out.println("Initialising ATM...\n");
+        System.out.println("Initialising ATM...");
         ArrayList<Card> validCards = readCards(); // get validCards into a list by calling the readCards method
         ArrayList<User> userList = readUsers(validCards);
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<>(); // initialise balance
@@ -25,8 +26,9 @@ public class ATM_Runner{
 
         ATM atm = new ATM(balance, validCards, userList, LocalDate.now()); // create the ATM object
         boolean running = true;
+        boolean prompting = true;
         while(running) { // loops entire thing
-            while(true) { // break when done with the atm/when the card is ejected, so it prompts for another card
+            while(prompting) { // break when done with the atm/when the card is ejected, so it prompts for another card
                 //GOING TO NEED TO CHECK WHETHER USER OR ADMIN HERE
                 System.out.println("Are you an admin or user?" +
                         "\nAdmin = 1" +
@@ -34,17 +36,17 @@ public class ATM_Runner{
                 int userType = Integer.parseInt(atmInput.next());
 
                 //if user claims to be an admin
-                if(userType == 1){
+                if (userType == 1) {
                     System.out.println("Please enter admin access code: ");
                     String enteredPin = atmInput.next();
 
                     //checking if valid pin
-                    if(atm.isAdmin(enteredPin)){
+                    if (atm.isAdmin(enteredPin)) {
                         //do admin stuff
                         boolean done = false;
 
-                        while(!done){
-                            System.out.println("Options: \n1: Check ATM Balance \n2: Add Funds \n3: Exit\n");
+                        while (!done) {
+                            System.out.println("Options: \n1: Check ATM Balance \n2: Add Funds \n3: Exit \n4: Shut Down ATM\n");
                             String option = atmInput.next();
 
                             switch (option) {
@@ -66,25 +68,30 @@ public class ATM_Runner{
                                     done = true;
                                     System.out.println("Exiting admin mode...");
                                 }
+                                case "4" -> {
+                                    done = true;
+                                    prompting = false;
+                                    running = false;
+                                    System.out.println("Shutting down...");
+                                }
                             }
                         }
-                    }
-                    else{
+                    } else {
                         System.out.println("Incorrect pin. Access denied.");
                         break;
                     }
                 }
                 //if user is user
-                else if(userType == 2){
+                else if (userType == 2) {
                     //do user stuff
                     System.out.println("Please insert your card (Enter Card Number).\n");
                     String cardNumber = atmInput.next(); // cardNumber from user input
                     int cardIndex = atm.checkCardNumber(cardNumber); // gets the card object from the number
-                    if(cardIndex == -1){ // card was not found
+                    if (cardIndex == -1) { // card was not found
                         System.out.println("Card not linked to any account in the system. " +
                                 "Please try again or use a different card.\n");
                         break; // prompt for card again
-                    } else if(cardIndex == -11){
+                    } else if (cardIndex == -11) {
                         System.out.println("Card number must be 5 digits. Please try again.\n");
                         break;
                     }
@@ -93,7 +100,7 @@ public class ATM_Runner{
                     System.out.println("Please enter your PIN: \n");
                     String cardPin = atmInput.next(); // cardNumber from user input
                     int valid = atm.isValid(card, cardPin);
-                    if(valid != 0){
+                    if (valid != 0) {
                         break;
                     }
 
@@ -101,7 +108,7 @@ public class ATM_Runner{
                     User user = atm.getUserList().get(userNum);
 
                     boolean logged_in = true;
-                    while(logged_in){
+                    while (logged_in) {
                         System.out.println("Options: \n1: Withdraw\n2: Deposit\n3: Check Balance\n4: Exit\n");
                         String option = atmInput.next();
 
@@ -124,7 +131,7 @@ public class ATM_Runner{
                                 BigDecimal received = BigDecimal.ZERO;
                                 LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
                                 for (String amount : amounts) {
-                                    if(Double.parseDouble(amount) < 5){
+                                    if (Double.parseDouble(amount) < 5) {
                                         break;
                                     }
 
@@ -144,7 +151,7 @@ public class ATM_Runner{
                                         "\nEnter 'cancel' to cancel the transaction.");
 
                                 String userChoice = atmInput.next();
-                                switch(checkString(userChoice)){
+                                switch (checkString(userChoice)) {
                                     case 1: //deposit amount is a number
                                         atm.deposit(user, userInput);
                                     case -1:
@@ -159,6 +166,29 @@ public class ATM_Runner{
                         }
                     }
                 }
+            }
+        }
+        // runs when admin shuts down atm
+        boolean notSaved = true;
+        while(notSaved){
+            System.out.println("Enter user file name:");
+            String filename = atmInput.next();
+            File f = new File(filename);
+            if(f.exists() && !f.isDirectory()){
+                f.delete();
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream("users"), StandardCharsets.UTF_8))) {
+                    ArrayList<User> users = atm.getUserList();
+                    for(User u : users) {
+                        writer.write(u.getUserID() + "," + u.getFullName() + "," + u.getBalance() + "\n");
+                    }
+                }
+                catch(Exception e){
+                    System.out.println("Saving failed.");
+                }
+                notSaved = false;
+            } else{
+                System.out.println("File does not exist. Please try again");
             }
         }
 
@@ -208,9 +238,10 @@ public class ATM_Runner{
                     userList.add(newUser);
                     i += 2;
                 }
-                newUser.addCard(cards.get(i-1));
-                userList.add(newUser);
-
+                else {
+                    newUser.addCard(cards.get(i-1));
+                    userList.add(newUser);
+                }
                 // adds a user object into the userList
                 // user has the format (userID, fullName, balance)
                 // userList file has same format
