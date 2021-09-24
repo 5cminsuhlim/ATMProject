@@ -106,14 +106,15 @@ public class ATM{
         //since the years are just numbers, later dates are just bigger numbers so making sure the expiry date is bigger
     }
 
-    public void setBalance(LinkedHashMap<BigDecimal, Integer> userInput){
-        for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()) {
-            balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue())).intValue());
-        }
-    }
+//     public void setBalance(LinkedHashMap<BigDecimal, Integer> userInput){
+//         for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()) {
+//             balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue())).intValue());
+//         }
+//     }
 
-    public void addFunds(LinkedHashMap<BigDecimal, Integer> userInput){
+    public int addFunds(LinkedHashMap<BigDecimal, Integer> userInput){
         userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
+        return 0;
     }
 
     public int removeFunds(double userInput){
@@ -201,7 +202,7 @@ public class ATM{
                 //receipt
                 System.out.println("Receipt Details:" +
                         "\nTransaction No.:" + transactionNo +
-                        "\nTransaction Type: Withdrew $" + userInput +
+                        "\nTransaction Type: Withdrew $" + String.format("%,.2f", userInput) +
                         "\nAccount Balance: " + u.getBalance());
                 return 0;
             }
@@ -231,7 +232,7 @@ public class ATM{
         //receipt
         System.out.println("Receipt Details:" +
                 "\nTransaction No.:" + transactionNo +
-                "\nTransaction Type: Deposited $" + received +
+                "\nTransaction Type: Deposited $" + String.format("%,.2f", received) +
                 "\nAccount Balance: " + u.getBalance());
 
         return 0;

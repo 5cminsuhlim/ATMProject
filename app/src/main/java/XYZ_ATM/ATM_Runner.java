@@ -50,7 +50,8 @@ public class ATM_Runner{
                             switch (option) {
                                 case "1" -> {
                                     System.out.println(atm.checkIndivBalance());
-                                    System.out.println("Total Balance: " + atm.checkTotalBalance());
+                                    System.out.println("Total Balance: $" + String.format("%,.2f", atm.checkTotalBalance()));
+                                    //System.out.println("Total Balance: " + atm.checkTotalBalance());
                                 }
                                 case "2" -> {
                                     LinkedHashMap<BigDecimal, Integer> adminInput = new LinkedHashMap<>();
@@ -138,7 +139,7 @@ public class ATM_Runner{
                                     break;
                                 }
 
-                                System.out.println("Deposited amount: " + received +
+                                System.out.println("Deposited amount: " + String.format("%,.2f", received) +
                                         "\nAre you sure you want to proceed with the deposit? Enter '1' to proceed." +
                                         "\nEnter 'cancel' to cancel the transaction.");
 
@@ -152,7 +153,7 @@ public class ATM_Runner{
                                         System.out.println("Invalid input.\n");
                                 }
                             }
-                            case "3" -> System.out.println("Your balance is $" + user.getBalance());
+                            case "3" -> System.out.println("Your balance is $" + String.format("%,.2f", user.getBalance()));
                             case "4" -> logged_in = false; // prompts for another card
                             default -> System.out.println("Invalid Input, please try again.\n");
                         }

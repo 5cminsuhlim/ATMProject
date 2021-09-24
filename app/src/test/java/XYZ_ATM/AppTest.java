@@ -418,7 +418,7 @@ class AppTest {
     }
 
     @Test
-    void tchecktotalbal(){
+    void checkTotalBalanceTest(){
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
@@ -470,7 +470,7 @@ class AppTest {
     }
 
     @Test
-    void withdrawlTest(){
+    void withdrawTest(){
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
         BigDecimal bd100 = new BigDecimal("100.00");
         BigDecimal bd50 = new BigDecimal("50.00");
@@ -496,8 +496,28 @@ class AppTest {
         balance.put(bd005, 10);
 
         LinkedHashMap<BigDecimal, Integer> balance2 = new LinkedHashMap<BigDecimal, Integer>();
-        BigDecimal bd1002 = new BigDecimal("50.00");
+        BigDecimal bd1002 = new BigDecimal("100.00");
+        BigDecimal bd502 = new BigDecimal("50.00");
+        BigDecimal bd202 = new BigDecimal("20.00");
+        BigDecimal bd102 = new BigDecimal("10.00");
+        BigDecimal bd52 = new BigDecimal("5.00");
+        BigDecimal bd22 = new BigDecimal("2.00");
+        BigDecimal bd12 = new BigDecimal("1.00");
+        BigDecimal bd0502 = new BigDecimal("0.50");
+        BigDecimal bd0202 = new BigDecimal("0.20");
+        BigDecimal bd0102 = new BigDecimal("0.10");
+        BigDecimal bd0052 = new BigDecimal("0.05");
         balance2.put(bd1002, 1);
+        balance2.put(bd502, 0);
+        balance2.put(bd202, 0);
+        balance2.put(bd102, 0);
+        balance2.put(bd52, 0);
+        balance2.put(bd22, 0);
+        balance2.put(bd12, 0);
+        balance2.put(bd0502, 0);
+        balance2.put(bd0202, 0);
+        balance2.put(bd0102, 0);
+        balance2.put(bd0052, 0);
 
         String cardnum1 = "11111";
         String cardpin1 = "1111";
@@ -529,15 +549,308 @@ class AppTest {
         double userOverBalance = 1500.00;
         double userNonValidAmmount = 750.02;
         double atmOverBalance = 25000.00;
-        double smallAmmount = 100.00;
+        double smallAmmount = 50.00;
         double validAmmount = 750.00;
 
         ATM testATM = new ATM(balance, testCards, testUserList,testDate);
         ATM testATM2 = new ATM(balance2, testCards, testUserList,testDate);
         assertEquals(-1,testATM.withdraw(testUser, userOverBalance),"Insufficent User Funds");
         assertEquals(-2,testATM.withdraw(testUser2, atmOverBalance),"Insufficent ATM Funds");
-        // assertEquals(-4,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
+        assertEquals(-4,testATM2.withdraw(testUser2, smallAmmount),"Insufficent ATM Funds (Bad Denominations");
         assertEquals(-3,testATM.withdraw(testUser, userNonValidAmmount),"Invalid Ammount Entered");
         assertEquals(0,testATM.withdraw(testUser, validAmmount),"Withdrawl Error");
+    }
+
+    @Test
+    void getUserFromCardTest(){
+    String cardnum1 = "11111";
+    String cardpin1 = "1111";
+    String startdate1 = "09/2018";
+    String expdate1 = "01/2022";
+    String UID1 = "1111";
+    boolean stolen1 = false;
+
+    Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+    Card testCard2 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+    ArrayList<Card> testCards = new ArrayList<Card>();
+    testCards.add(testCard1);
+
+    LocalDate testDate = LocalDate.now();
+
+    String userID = "1111";
+    String full_name = "first_name last_name";
+    double userBalance = 1000.00;
+    User testUser = new User(userID, full_name, userBalance);
+    ArrayList<User> testUserList = new ArrayList<User>();
+    testUser.addCard(testCard1);
+    testUserList.add(testUser);
+
+    LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
+    ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+    assertEquals(0,testATM.getUserFromCard(testCard1),"User Not Found Error");
+    assertEquals(-1,testATM.getUserFromCard(testCard2),"User found but shouldn't be");
+    }
+
+    @Test
+    void depositTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
+        BigDecimal bd100 = new BigDecimal("100.00");
+        BigDecimal bd50 = new BigDecimal("50.00");
+        BigDecimal bd20 = new BigDecimal("20.00");
+        BigDecimal bd10 = new BigDecimal("10.00");
+        BigDecimal bd5 = new BigDecimal("5.00");
+        BigDecimal bd2 = new BigDecimal("2.00");
+        BigDecimal bd1 = new BigDecimal("1.00");
+        BigDecimal bd050 = new BigDecimal("0.50");
+        BigDecimal bd020 = new BigDecimal("0.20");
+        BigDecimal bd010 = new BigDecimal("0.10");
+        BigDecimal bd005 = new BigDecimal("0.05");
+        balance.put(bd100, 10);
+        balance.put(bd50, 10);
+        balance.put(bd20, 10);
+        balance.put(bd10, 10);
+        balance.put(bd5, 10);
+        balance.put(bd2, 10);
+        balance.put(bd1, 10);
+        balance.put(bd050, 10);
+        balance.put(bd020, 10);
+        balance.put(bd010, 10);
+        balance.put(bd005, 10);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        boolean stolen1 = false;
+
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
+        testCards.add(testCard1);
+
+        LocalDate testDate = LocalDate.now();
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 1000.00;
+        User testUser = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<User>();
+        testUserList.add(testUser);
+
+        LinkedHashMap<BigDecimal, Integer> userInput = new LinkedHashMap<>();
+        int count = 10;
+        userInput.put(new BigDecimal(count), 1);
+
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+        assertEquals(0,testATM.deposit(testUser, userInput),"Deposit Failed");
+    }
+
+    @Test
+    void isValidTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<>();
+        balance.put(new BigDecimal("100.00"), 10);
+        balance.put(new BigDecimal("50.00"), 10);
+        balance.put(new BigDecimal("20.00"), 10);
+        balance.put(new BigDecimal("10.00"), 10);
+        balance.put(new BigDecimal("5.00"), 10);
+        balance.put(new BigDecimal("2.00"), 10);
+        balance.put(new BigDecimal("1.00"), 10);
+        balance.put(new BigDecimal("0.50"), 10);
+        balance.put(new BigDecimal("0.20"), 10);
+        balance.put(new BigDecimal("0.10"), 10);
+        balance.put(new BigDecimal("0.05"), 10);
+
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String startdate2 = "09/2022";
+        String expdate1 = "01/2022";
+        String expdate2 = "01/2020";
+        String UID1 = "1111";
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,false); // good/incorrect pin
+
+        Card testCard2 = new Card(cardnum1,cardpin1,startdate1,expdate2,UID1,false); // expired
+
+        Card testCard3 = new Card(cardnum1,cardpin1,startdate2,expdate1,UID1,false); // not active yet
+
+        Card testCard4 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,true); // stolen
+
+        Card testCard5 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,false); // blocked
+        testCard5.setBlocked(true);
+
+        ArrayList<Card> testCards = new ArrayList<>();
+        testCards.add(testCard1);
+        testCards.add(testCard2);
+        testCards.add(testCard3);
+        testCards.add(testCard4);
+        testCards.add(testCard5);
+
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 100000.00;
+        User testUser1 = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<>();
+        testUserList.add(testUser1);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+
+        assertEquals(0, testATM.isValid(testCard1, "1111"), "Valid test card does not pass checks");
+        assertEquals(-2, testATM.isValid(testCard1, "0000"), "Invalid pin check in isValid function error");
+        assertEquals(-3, testATM.isValid(testCard2, "1111"), "Expiry check in isValid function error");
+        assertEquals(-4, testATM.isValid(testCard3, "1111"), "Issue date check in isValid function error");
+        assertEquals(-5, testATM.isValid(testCard4, "1111"), "Stolen check in isValid function error");
+        assertEquals(-6, testATM.isValid(testCard5, "1111"), "Blocked check in isValid function error");
+    }
+
+    @Test
+    void checkIndivBalanceTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<>();
+        balance.put(new BigDecimal("100.00"), 1);
+        balance.put(new BigDecimal("50.00"), 2);
+        balance.put(new BigDecimal("20.00"), 3);
+        balance.put(new BigDecimal("10.00"), 4);
+        balance.put(new BigDecimal("5.00"), 5);
+        balance.put(new BigDecimal("2.00"), 6);
+        balance.put(new BigDecimal("1.00"), 0);
+        balance.put(new BigDecimal("0.50"), 0);
+        balance.put(new BigDecimal("0.20"), 0);
+        balance.put(new BigDecimal("0.10"), 0);
+        balance.put(new BigDecimal("0.05"), 0);
+
+        LinkedHashMap<BigDecimal, Integer> balance2 = new LinkedHashMap<>();
+        balance2.put(new BigDecimal("100.00"), 0);
+        balance2.put(new BigDecimal("50.00"), 0);
+        balance2.put(new BigDecimal("20.00"), 0);
+        balance2.put(new BigDecimal("10.00"), 0);
+        balance2.put(new BigDecimal("5.00"), 0);
+        balance2.put(new BigDecimal("2.00"), 0);
+        balance2.put(new BigDecimal("1.00"), 0);
+        balance2.put(new BigDecimal("0.50"), 0);
+        balance2.put(new BigDecimal("0.20"), 0);
+        balance2.put(new BigDecimal("0.10"), 0);
+        balance2.put(new BigDecimal("0.05"), 0);
+
+        LinkedHashMap<BigDecimal, Integer> balance3 = new LinkedHashMap<>();
+        balance3.put(new BigDecimal("100.00"), 2);
+        balance3.put(new BigDecimal("50.00"), 2);
+        balance3.put(new BigDecimal("20.00"), 2);
+        balance3.put(new BigDecimal("10.00"), 2);
+        balance3.put(new BigDecimal("5.00"), 2);
+        balance3.put(new BigDecimal("2.00"), 2);
+        balance3.put(new BigDecimal("1.00"), 2);
+        balance3.put(new BigDecimal("0.50"), 2);
+        balance3.put(new BigDecimal("0.20"), 2);
+        balance3.put(new BigDecimal("0.10"), 2);
+        balance3.put(new BigDecimal("0.05"), 2);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,false); // good/incorrect pin
+
+        ArrayList<Card> testCards = new ArrayList<>();
+        testCards.add(testCard1);
+
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 100000.00;
+        User testUser1 = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<>();
+        testUserList.add(testUser1);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM1 = new ATM(balance, testCards, testUserList,testDate);
+        ATM testATM2 = new ATM(balance2, testCards, testUserList,testDate);
+        ATM testATM3 = new ATM(balance3, testCards, testUserList,testDate);
+
+        String atm1 = "Currency: 100.00, Quantity: 1\n" +
+                "Currency: 50.00, Quantity: 2\n" +
+                "Currency: 20.00, Quantity: 3\n" +
+                "Currency: 10.00, Quantity: 4\n" +
+                "Currency: 5.00, Quantity: 5\n" +
+                "Currency: 2.00, Quantity: 6\n" +
+                "Currency: 1.00, Quantity: 0\n" +
+                "Currency: 0.50, Quantity: 0\n" +
+                "Currency: 0.20, Quantity: 0\n" +
+                "Currency: 0.10, Quantity: 0\n" +
+                "Currency: 0.05, Quantity: 0\n";
+
+        String atm2 = "Currency: 100.00, Quantity: 0\n" +
+                "Currency: 50.00, Quantity: 0\n" +
+                "Currency: 20.00, Quantity: 0\n" +
+                "Currency: 10.00, Quantity: 0\n" +
+                "Currency: 5.00, Quantity: 0\n" +
+                "Currency: 2.00, Quantity: 0\n" +
+                "Currency: 1.00, Quantity: 0\n" +
+                "Currency: 0.50, Quantity: 0\n" +
+                "Currency: 0.20, Quantity: 0\n" +
+                "Currency: 0.10, Quantity: 0\n" +
+                "Currency: 0.05, Quantity: 0\n";
+
+        String atm3 = "Currency: 100.00, Quantity: 2\n" +
+                "Currency: 50.00, Quantity: 2\n" +
+                "Currency: 20.00, Quantity: 2\n" +
+                "Currency: 10.00, Quantity: 2\n" +
+                "Currency: 5.00, Quantity: 2\n" +
+                "Currency: 2.00, Quantity: 2\n" +
+                "Currency: 1.00, Quantity: 2\n" +
+                "Currency: 0.50, Quantity: 2\n" +
+                "Currency: 0.20, Quantity: 2\n" +
+                "Currency: 0.10, Quantity: 2\n" +
+                "Currency: 0.05, Quantity: 2\n";
+
+        assertEquals(atm1, testATM1.checkIndivBalance(), "Incorrect string for CheckIndivBalance (testATM1)");
+        assertEquals(atm2, testATM2.checkIndivBalance(), "Incorrect string for CheckIndivBalance (testATM2)");
+        assertEquals(atm3, testATM3.checkIndivBalance(), "Incorrect string for CheckIndivBalance (testATM3)");
+    }
+
+    @Test
+    void addFundsTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<>();
+        balance.put(new BigDecimal("100.00"), 1);
+        balance.put(new BigDecimal("50.00"), 2);
+        balance.put(new BigDecimal("20.00"), 3);
+        balance.put(new BigDecimal("10.00"), 4);
+        balance.put(new BigDecimal("5.00"), 5);
+        balance.put(new BigDecimal("2.00"), 6);
+        balance.put(new BigDecimal("1.00"), 7);
+        balance.put(new BigDecimal("0.50"), 8);
+        balance.put(new BigDecimal("0.20"), 9);
+        balance.put(new BigDecimal("0.10"), 10);
+        balance.put(new BigDecimal("0.05"), 0);
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,false); // good/incorrect pin
+
+        ArrayList<Card> testCards = new ArrayList<>();
+        testCards.add(testCard1);
+
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 100000.00;
+        User testUser1 = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<>();
+        testUserList.add(testUser1);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM1 = new ATM(balance, testCards, testUserList,testDate);
+
+        assertEquals(0, testATM1.addFunds(balance), "addFunds error");
     }
 }
