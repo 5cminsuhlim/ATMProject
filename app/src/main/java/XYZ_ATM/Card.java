@@ -89,7 +89,7 @@ public class Card{
                 String[] line = input.nextLine().split(",");
                 // splits the line using regex to get rid of comma and space, each item is a variable for Card
                 boolean stolen = "1".equals(line[3]);
-                validCards.add(new Card(line[0], line[4], line[1], line[2], "placeholder", stolen));
+                validCards.add(new Card(line[0], line[4], line[1], line[2], line[5], stolen));
             }
         }
         catch (Exception e) {

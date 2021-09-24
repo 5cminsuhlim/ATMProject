@@ -40,8 +40,6 @@ public class User{
 
     protected static ArrayList<User> readUsers(String filename, ArrayList<Card> cards){
         ArrayList<User> users = new ArrayList<>();
-        int i = 1;
-
         try{
             File file = new File(filename);
             Scanner input = new Scanner(file);
@@ -50,15 +48,13 @@ public class User{
                 String[] line = input.nextLine().split(",");
                 // splits the line using regex to get rid of comma , each item is a variable for User
                 User newUser = new User(line[0], line[1], Double.parseDouble(line[2]));
-                if (i != 5) {
-                    newUser.addCard(cards.get(i - 1));
-                    newUser.addCard(cards.get(i));
-                    users.add(newUser);
-                    i += 2;
-                } else {
-                    newUser.addCard(cards.get(i - 1));
-                    users.add(newUser);
+                for(Card c : cards) {
+                    if(c.getUID().equals(newUser.getUserID())){
+                        newUser.addCard(c);
+                    }
                 }
+                users.add(newUser);
+
                 // adds a user object into the userList
                 // user has the format (userID, fullName, balance)
                 // userList file has same format
