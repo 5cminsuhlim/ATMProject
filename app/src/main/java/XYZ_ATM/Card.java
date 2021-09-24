@@ -1,4 +1,9 @@
 package XYZ_ATM;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Card{
 
     private String card_number;
@@ -73,4 +78,24 @@ public class Card{
         this.stolen = stolen;
     }
 
+    protected static ArrayList<Card> readCards(String filename){
+        ArrayList<Card> validCards = new ArrayList<>();
+
+        try{
+            File file = new File(filename);
+            Scanner input = new Scanner(file);
+
+            while (input.hasNextLine()) { //reads all lines of the file
+                String[] line = input.nextLine().split(",");
+                // splits the line using regex to get rid of comma and space, each item is a variable for Card
+                boolean stolen = "1".equals(line[3]);
+                validCards.add(new Card(line[0], line[4], line[1], line[2], "placeholder", stolen));
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error reading card file. Please try again.\n"); // placeholder
+        }
+
+        return validCards;
+    }
 }

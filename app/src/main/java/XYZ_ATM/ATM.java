@@ -1,5 +1,6 @@
 package XYZ_ATM;
 
+import java.io.File;
 import java.math.RoundingMode;
 import java.util.*;
 import java.time.LocalDate;
@@ -105,12 +106,6 @@ public class ATM{
         return currentDate <= cardExpiry;
         //since the years are just numbers, later dates are just bigger numbers so making sure the expiry date is bigger
     }
-
-//     public void setBalance(LinkedHashMap<BigDecimal, Integer> userInput){
-//         for(Map.Entry<BigDecimal, Integer> entry : userInput.entrySet()) {
-//             balance.put(entry.getKey(), (BigDecimal.valueOf(entry.getValue())).intValue());
-//         }
-//     }
 
     public int addFunds(LinkedHashMap<BigDecimal, Integer> userInput){
         userInput.forEach((currency, count) -> balance.merge(currency, count, Integer::sum));
@@ -255,5 +250,38 @@ public class ATM{
             // equivalent to totalBal += entry.getKey() * entry.getValue()
         }
         return totalBal.doubleValue();
+    }
+
+    protected static ArrayList<User> readUsers(String filename, ArrayList<Card> cards){
+        ArrayList<User> users = new ArrayList<>();
+        int i = 1;
+
+        try{
+            File file = new File(filename);
+            Scanner input = new Scanner(file);
+
+            while (input.hasNextLine()) { //reads all lines of the file
+                String[] line = input.nextLine().split(",");
+                // splits the line using regex to get rid of comma , each item is a variable for User
+                User newUser = new User(line[0], line[1], Double.parseDouble(line[2]));
+                if (i != 5) {
+                    newUser.addCard(cards.get(i - 1));
+                    newUser.addCard(cards.get(i));
+                    users.add(newUser);
+                    i += 2;
+                } else {
+                    newUser.addCard(cards.get(i - 1));
+                    users.add(newUser);
+                }
+                // adds a user object into the userList
+                // user has the format (userID, fullName, balance)
+                // userList file has same format
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error reading card file. Please try again.\n"); // placeholder
+        }
+
+        return users;
     }
 }
