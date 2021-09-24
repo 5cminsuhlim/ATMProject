@@ -121,7 +121,7 @@ public class ATM{
 
         for(BigDecimal key : balance.keySet()){ // traverse the balance arraylist by the keys
 
-            BigDecimal times = toWithdraw.divide(key).setScale(0, RoundingMode.DOWN); // how many times the
+            BigDecimal times = toWithdraw.divide(key, 0, RoundingMode.DOWN); // how many times the
             // current note can be divided into the toWithdraw value
 
             if(times.compareTo(BigDecimal.ZERO) > 0){ // if the note can be divided more than 0 times
