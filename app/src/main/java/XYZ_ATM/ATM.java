@@ -275,7 +275,8 @@ public class ATM{
             }
         }
         catch (Exception e) {
-            System.out.println("Error reading card file. Please try again.\n"); // placeholder
+            System.out.println("Error reading card file. Please try again.\n");
+            return null;
         }
 
         return users;

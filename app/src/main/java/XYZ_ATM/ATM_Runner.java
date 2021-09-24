@@ -19,10 +19,15 @@ public class ATM_Runner{
         while (!cardSuccess) {
             Scanner reader = new Scanner(System.in);
             System.out.println("Enter card file name: "); // reads in card file name
+
+
             String filename = reader.nextLine(); // need to fix this so it gets the absolute path
 
             validCards = Card.readCards(filename);
-            cardSuccess = true;
+
+            if(validCards != null){
+                cardSuccess = true;
+            }
         }
 
         boolean userSuccess = false;
@@ -34,7 +39,10 @@ public class ATM_Runner{
             String filename = reader.next(); // need to fix this so it gets the absolute path
 
             userList = ATM.readUsers(filename, validCards);
-            userSuccess = true;
+
+            if(userList != null){
+                userSuccess = true;
+            }
         }
 
         LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<>(); // initialise balance
