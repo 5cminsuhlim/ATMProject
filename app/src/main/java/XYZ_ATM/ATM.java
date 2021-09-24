@@ -88,7 +88,7 @@ public class ATM{
         return validCards.get(cardIndex);
     }
 
-    public boolean checkPin(Card c, String userPin){
+    public boolean checkPin(Card c, String userPin){ // returns true if the pin is correct
         return userPin.equals(c.getPin());
     }
 
