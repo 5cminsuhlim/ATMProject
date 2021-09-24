@@ -38,7 +38,7 @@ public class ATM_Runner{
             System.out.println("Enter user file name: "); // reads in userList file name
             String filename = reader.next(); // need to fix this so it gets the absolute path
 
-            userList = ATM.readUsers(filename, validCards);
+            userList = User.readUsers(filename, validCards);
 
             if(userList != null){
                 userSuccess = true;
