@@ -852,4 +852,46 @@ class AppTest {
 
         assertEquals(0, testATM1.addFunds(balance), "addFunds error");
     }
+
+    @Test
+    void checkPinTest(){
+        LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<>();
+        balance.put(new BigDecimal("100.00"), 10);
+        balance.put(new BigDecimal("50.00"), 10);
+        balance.put(new BigDecimal("20.00"), 10);
+        balance.put(new BigDecimal("10.00"), 10);
+        balance.put(new BigDecimal("5.00"), 10);
+        balance.put(new BigDecimal("2.00"), 10);
+        balance.put(new BigDecimal("1.00"), 10);
+        balance.put(new BigDecimal("0.50"), 10);
+        balance.put(new BigDecimal("0.20"), 10);
+        balance.put(new BigDecimal("0.10"), 10);
+        balance.put(new BigDecimal("0.05"), 10);
+
+
+        String cardnum1 = "11111";
+        String cardpin1 = "1111";
+        String startdate1 = "09/2018";
+        String expdate1 = "01/2022";
+        String UID1 = "1111";
+        Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,false); // good/incorrect pin
+
+        ArrayList<Card> testCards = new ArrayList<>();
+        testCards.add(testCard1);
+
+
+        String userID = "1111";
+        String full_name = "first_name last_name";
+        double userBalance = 100000.00;
+        User testUser1 = new User(userID, full_name, userBalance);
+        ArrayList<User> testUserList = new ArrayList<>();
+        testUserList.add(testUser1);
+
+        LocalDate testDate = LocalDate.now();
+
+        ATM testATM = new ATM(balance, testCards, testUserList,testDate);
+
+        assertEquals(true, testATM.checkPin(testCard1, "1111"), "checkPin test does not recognise correct pin");
+        assertEquals(false, testATM.checkPin(testCard1, "0000"), "checkPin test does not recognise wrong pin");
+    }
 }
