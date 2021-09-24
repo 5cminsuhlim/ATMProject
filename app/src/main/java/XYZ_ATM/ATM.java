@@ -29,13 +29,9 @@ public class ATM{
         return userInput.equals(adminPin);
     }
 
-    public int isValid(Card c,String userInPin){
+    public int isValid(Card c){
 
-        if(!checkPin(c,userInPin)){
-            System.out.println("Incorrect Pin.\n");
-            return -2;
-        }
-        else if(!checkExpDate(c)){
+        if(!checkExpDate(c)){
             System.out.println("This card is expired.\n");
             return -3;
         }
