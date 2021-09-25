@@ -901,49 +901,11 @@ class AppTest {
     }
 
     @Test
-    void readUsersTest(){
-        ArrayList<User> testUserList = new ArrayList<>();
-
-        String userID1 = "20009";
-        String full_name1 = "Stephen Pagan";
-        double userBalance1 = 28159.87;
-        User testUser1 = new User(userID1, full_name1, userBalance1);
-        testUserList.add(testUser1);
-
-        String userID2 = "76844";
-        String full_name2 = "Kasey Plata";
-        double userBalance2 = 34204.79;
-        User testUser2 = new User(userID2, full_name2, userBalance2);
-        testUserList.add(testUser2);
-
-        String userID3 = "24199";
-        String full_name3 = "Melissa Gurley";
-        double userBalance3 = 77467.42;
-        User testUser3 = new User(userID3, full_name3, userBalance3);
-        testUserList.add(testUser3);
-
-        String userID4 = "16262";
-        String full_name4 = "Timothy Adams";
-        double userBalance4 = 70581.01;
-        User testUser4 = new User(userID4, full_name4, userBalance4);
-        testUserList.add(testUser4);
-
-        String userID5 = "87964";
-        String full_name5 = "John Davis";
-        double userBalance5 = 80674.00;
-        User testUser5 = new User(userID5, full_name5, userBalance5);
-        testUserList.add(testUser5);
-
-        String cardPath = "../testCardOut.txt";
-        ArrayList<Card> cards = Card.readCards(cardPath);
-
-        String badpath = "this/is/bad/path";
-        String userPath = "../testUserList.txt";
-    @Test
     void testReadCards(){
         String filepath = "../testCardOut.txt";
+        String badpath = "this/is/bad/path";
+
         ArrayList<Card> testreadCards = Card.readCards(filepath);
-        assertEquals(testreadCards.size(),10,"REEE");
         Card testCard1 = new Card("26027","8868","01/2017","01/2021","20009",true);
         Card testCard2 = new Card("18527","2450","10/2018","10/2021","76844",false);
         Card testCard3 = new Card("87745","4297","03/2018","03/2021","24199",false);
@@ -966,33 +928,74 @@ class AppTest {
         manualCards.add(testCard9);
         manualCards.add(testCard10);
 
-        System.out.println(manualCards.get(5).equals(testreadCards.get(5)));
-        System.out.println(manualCards.get(5).getCard_number());
-        System.out.println(manualCards.get(5).getPin());
-        System.out.println(manualCards.get(5).getUID());
-        System.out.println(manualCards.get(5).getExpiry_date());
-        System.out.println(manualCards.get(5).getStart_date());
-        System.out.println(testreadCards.get(5).getCard_number());
-        System.out.println(testreadCards.get(5).getPin());
-        System.out.println(testreadCards.get(5).getStart_date());
-        System.out.println(testreadCards.get(5).getExpiry_date());
-        System.out.println(testreadCards.get(5).getUID());
-
-
-
-        for (int i=0; i<testreadCards.size(); i++){
-            String ErrorString = "Issue with Card Number: ";
-            ErrorString = ErrorString + Integer.toString(i);
-            System.out.println("Sheesh");
-            assertTrue(testreadCards.get(i).equals(manualCards.get(i)),ErrorString);
-
-        }
+        assertNull(Card.readCards(badpath), "readCards returns NULL if given an incorrect path");
+        assertEquals(manualCards, testreadCards, "readCards incorrectly returns an ArrayList of cards from test file");
 
     }
 
+    @Test
+    void readUsersTest(){
+        Card testCard1 = new Card("26027","8868","01/2017","01/2021","20009",true);
+        Card testCard2 = new Card("18527","2450","10/2018","10/2021","76844",false);
+        Card testCard3 = new Card("87745","4297","03/2018","03/2021","24199",false);
+        Card testCard4 = new Card("27223","9361","05/2018","05/2022","16262",false);
+        Card testCard5 = new Card("06970","8591","10/2018","10/2022","87964",false);
+        Card testCard6 = new Card("58976","1001","09/2018","09/2020","20009",false);
+        Card testCard7 = new Card("05095","0164","09/2018","09/2020","76844",false);
+        Card testCard8 = new Card("66498","9198","01/2019","01/2021","24199",false);
+        Card testCard9 = new Card("84695","9253","04/2017","04/2021","16262",false);
+        Card testCard10 = new Card("65199","0207","05/2018","05/2021","87964",false);
 
-        assertNull(User.readUsers(badpath, cards));
-        assertEquals(testUserList, User.readUsers(userPath, cards));
+        ArrayList<User> testUserList = new ArrayList<>();
+
+        String userID1 = "20009";
+        String full_name1 = "Stephen Pagan";
+        double userBalance1 = 28159.87;
+        User testUser1 = new User(userID1, full_name1, userBalance1);
+        testUser1.addCard(testCard1);
+        testUser1.addCard(testCard6);
+        testUserList.add(testUser1);
+
+        String userID2 = "76844";
+        String full_name2 = "Kasey Plata";
+        double userBalance2 = 34204.79;
+        User testUser2 = new User(userID2, full_name2, userBalance2);
+        testUser2.addCard(testCard2);
+        testUser2.addCard(testCard7);
+        testUserList.add(testUser2);
+
+        String userID3 = "24199";
+        String full_name3 = "Melissa Gurley";
+        double userBalance3 = 77467.42;
+        User testUser3 = new User(userID3, full_name3, userBalance3);
+        testUser3.addCard(testCard3);
+        testUser3.addCard(testCard8);
+        testUserList.add(testUser3);
+
+        String userID4 = "16262";
+        String full_name4 = "Timothy Adams";
+        double userBalance4 = 70581.01;
+        User testUser4 = new User(userID4, full_name4, userBalance4);
+        testUser4.addCard(testCard4);
+        testUser4.addCard(testCard9);
+        testUserList.add(testUser4);
+
+        String userID5 = "87964";
+        String full_name5 = "John Davis";
+        double userBalance5 = 80674.00;
+        User testUser5 = new User(userID5, full_name5, userBalance5);
+        testUser5.addCard(testCard5);
+        testUser5.addCard(testCard10);
+        testUserList.add(testUser5);
+
+        String cardPath = "../testCardOut.txt";
+        ArrayList<Card> cards = Card.readCards(cardPath);
+
+        String badpath = "this/is/bad/path";
+        String userPath = "../testUserList.txt";
+
+        assertNull(User.readUsers(badpath, cards), "readUsers returns NULL if given an incorrect path");
+        assertEquals(testUserList, User.readUsers(userPath, cards), "readUsers incorrectly returns an ArrayList of users from test file");
 
     }
 }

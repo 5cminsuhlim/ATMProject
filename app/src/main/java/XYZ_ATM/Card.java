@@ -108,8 +108,6 @@ public class Card{
         }
         Card c = (Card) o;
 
-        System.out.println("Overriding");
-
         return (this.card_number.equals(c.getCard_number()) && this.pin.equals(c.getPin()) &&
                 this.start_date.equals(c.getStart_date()) &&
                 this.expiry_date.equals(c.getExpiry_date()) &&

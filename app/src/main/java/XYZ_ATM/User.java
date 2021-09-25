@@ -93,7 +93,7 @@ public class User {
 
         return (this.cards.equals(u.getCards()) && this.userID.equals(u.getUserID()) &&
                 this.fullName.equals(u.getFullName()) &&
-                BigDecimal.valueOf(this.balance).compareTo(BigDecimal.valueOf(u.getBalance())) == 0);
+                (BigDecimal.valueOf(this.balance).compareTo(BigDecimal.valueOf(u.getBalance())) == 0));
 
     }
 }
