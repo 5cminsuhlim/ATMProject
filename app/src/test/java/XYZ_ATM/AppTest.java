@@ -1048,4 +1048,28 @@ class AppTest {
         assertFalse(testUser1.equals(testCard1), "overriden equals incorrectly asserts that user object and card object are the same");
 
     }
+
+    @Test
+    void cardEqualsTest() {
+        Card testCard1 = new Card("26027","8868","01/2017","01/2021","20009",true);
+
+        Card testCard2 = new Card("26027","8868","01/2017","01/2021","20009",true);
+        Card testCard3 = new Card("11111","8868","01/2017","01/2021","20009",true);
+        Card testCard4 = new Card("26027","8888","01/2017","01/2021","20009",true);
+        Card testCard5 = new Card("26027","8868","02/2017","01/2021","20009",true);
+        Card testCard6 = new Card("26027","8868","01/2017","02/2021","20009",true);
+        Card testCard7 = new Card("26027","8868","01/2017","01/2021","20008",true);
+        String s = "yo";
+
+
+        assertTrue(testCard1.equals((testCard2)),"Cards Should be Considered Equal");
+        assertFalse(testCard2.equals((testCard3)),"Cards Should be Considered not Equal");
+        assertFalse(testCard2.equals((testCard4)),"Cards Should be Considered not Equal");
+        assertFalse(testCard2.equals((testCard5)),"Cards Should be Considered not Equal");
+        assertFalse(testCard2.equals((testCard6)),"Cards Should be Considered not Equal");
+        assertFalse(testCard2.equals((testCard7)),"Cards Should be Considered not Equal");
+        assertFalse(testCard1.equals(s), "overriden equals incorrectly asserts that user object and card object are the same");
+
+    }
+
 }
