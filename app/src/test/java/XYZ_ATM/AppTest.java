@@ -998,4 +998,35 @@ class AppTest {
         assertEquals(testUserList, User.readUsers(userPath, cards), "readUsers incorrectly returns an ArrayList of users from test file");
 
     }
+
+    @Test
+    void usersEqualsTest() {
+        Card testCard1 = new Card("26027","8868","01/2017","01/2021","20009",true);
+        Card testCard2 = new Card("18527","2450","10/2018","10/2021","76844",false);
+        Card testCard6 = new Card("58976","1001","09/2018","09/2020","20009",false);
+        Card testCard7 = new Card("05095","0164","09/2018","09/2020","76844",false);
+
+        String userID1 = "20009";
+        String full_name1 = "Stephen Pagan";
+        double userBalance1 = 28159.87;
+        User testUser1 = new User(userID1, full_name1, userBalance1);
+        testUser1.addCard(testCard1);
+        testUser1.addCard(testCard6);
+
+        String userID2 = "76844";
+        String full_name2 = "Kasey Plata";
+        double userBalance2 = 34204.79;
+        User testUser2 = new User(userID2, full_name2, userBalance2);
+        testUser2.addCard(testCard2);
+        testUser2.addCard(testCard7);
+
+        User testUser3 = new User(userID1, full_name1, userBalance1);
+        testUser3.addCard(testCard1);
+        testUser3.addCard(testCard6);
+
+        assertFalse(testUser1.equals(testUser2), "overridden equals incorrectly asserts that two different users are the same");
+        assertTrue(testUser1.equals(testUser3), "overriden equals incorrectly asserts that the same users are different");
+        assertFalse(testUser1.equals(testCard1), "overriden equals incorrectly asserts that user object and card object are the same");
+
+    }
 }
