@@ -574,7 +574,8 @@ class AppTest {
     Card testCard2 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
     Card testCard3 = new Card("11232",cardpin1,startdate1,expdate1,UID1,stolen1);
 
-    ArrayList<Card> testCards = new ArrayList<Card>();
+
+        ArrayList<Card> testCards = new ArrayList<Card>();
     testCards.add(testCard1);
 
     LocalDate testDate = LocalDate.now();
@@ -900,5 +901,48 @@ class AppTest {
         assertEquals(false, testATM.checkPin(testCard1, "0000"), "checkPin test does not recognise wrong pin");
     }
 
+    @Test
+    void readUsersTest(){
+        ArrayList<User> testUserList = new ArrayList<>();
 
+        String userID1 = "20009";
+        String full_name1 = "Stephen Pagan";
+        double userBalance1 = 28159.87;
+        User testUser1 = new User(userID1, full_name1, userBalance1);
+        testUserList.add(testUser1);
+
+        String userID2 = "76844";
+        String full_name2 = "Kasey Plata";
+        double userBalance2 = 34204.79;
+        User testUser2 = new User(userID2, full_name2, userBalance2);
+        testUserList.add(testUser2);
+
+        String userID3 = "24199";
+        String full_name3 = "Melissa Gurley";
+        double userBalance3 = 77467.42;
+        User testUser3 = new User(userID3, full_name3, userBalance3);
+        testUserList.add(testUser3);
+
+        String userID4 = "16262";
+        String full_name4 = "Timothy Adams";
+        double userBalance4 = 70581.01;
+        User testUser4 = new User(userID4, full_name4, userBalance4);
+        testUserList.add(testUser4);
+
+        String userID5 = "87964";
+        String full_name5 = "John Davis";
+        double userBalance5 = 80674.00;
+        User testUser5 = new User(userID5, full_name5, userBalance5);
+        testUserList.add(testUser5);
+
+        String cardPath = "../testCardOut.txt";
+        ArrayList<Card> cards = Card.readCards(cardPath);
+
+        String badpath = "this/is/bad/path";
+        String userPath = "../testUserList.txt";
+
+        assertNull(User.readUsers(badpath, cards));
+        assertEquals(testUserList, User.readUsers(userPath, cards));
+
+    }
 }
