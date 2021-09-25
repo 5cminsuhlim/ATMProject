@@ -78,18 +78,6 @@ public class Card{
         this.stolen = stolen;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if(!(o instanceof Card)){
-            return false;
-        }
-        Card c = (Card) o;
-        return (this.card_number.equals(c.getCard_number()) && this.pin.equals(c.getPin()) &&
-                this.start_date.equals(c.getStart_date()) &&
-                this.expiry_date.equals(c.getExpiry_date()) &&
-                this.UID.equals(c.getUID()));
-
-    }
 
     protected static ArrayList<Card> readCards(String filename){
         ArrayList<Card> validCards = new ArrayList<>();
@@ -112,4 +100,21 @@ public class Card{
 
         return validCards;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof Card)){
+            return false;
+        }
+        Card c = (Card) o;
+
+        System.out.println("Overriding");
+
+        return (this.card_number.equals(c.getCard_number()) && this.pin.equals(c.getPin()) &&
+                this.start_date.equals(c.getStart_date()) &&
+                this.expiry_date.equals(c.getExpiry_date()) &&
+                this.UID.equals(c.getUID()));
+
+    }
+
 }

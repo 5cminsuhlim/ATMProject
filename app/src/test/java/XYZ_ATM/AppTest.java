@@ -574,8 +574,7 @@ class AppTest {
     Card testCard2 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
     Card testCard3 = new Card("11232",cardpin1,startdate1,expdate1,UID1,stolen1);
 
-
-        ArrayList<Card> testCards = new ArrayList<Card>();
+    ArrayList<Card> testCards = new ArrayList<Card>();
     testCards.add(testCard1);
 
     LocalDate testDate = LocalDate.now();
@@ -940,6 +939,57 @@ class AppTest {
 
         String badpath = "this/is/bad/path";
         String userPath = "../testUserList.txt";
+    @Test
+    void testReadCards(){
+        String filepath = "../testCardOut.txt";
+        ArrayList<Card> testreadCards = Card.readCards(filepath);
+        assertEquals(testreadCards.size(),10,"REEE");
+        Card testCard1 = new Card("26027","8868","01/2017","01/2021","20009",true);
+        Card testCard2 = new Card("18527","2450","10/2018","10/2021","76844",false);
+        Card testCard3 = new Card("87745","4297","03/2018","03/2021","24199",false);
+        Card testCard4 = new Card("27223","9361","05/2018","05/2022","16262",false);
+        Card testCard5 = new Card("06970","8591","10/2018","10/2022","87964",false);
+        Card testCard6 = new Card("58976","1001","09/2018","09/2020","20009",false);
+        Card testCard7 = new Card("05095","0164","09/2018","09/2020","76844",false);
+        Card testCard8 = new Card("66498","9198","01/2019","01/2021","24199",false);
+        Card testCard9 = new Card("84695","9253","04/2017","04/2021","16262",false);
+        Card testCard10 = new Card("65199","0207","05/2018","05/2021","87964",false);
+        ArrayList<Card> manualCards = new ArrayList<Card>();
+        manualCards.add(testCard1);
+        manualCards.add(testCard2);
+        manualCards.add(testCard3);
+        manualCards.add(testCard4);
+        manualCards.add(testCard5);
+        manualCards.add(testCard6);
+        manualCards.add(testCard7);
+        manualCards.add(testCard8);
+        manualCards.add(testCard9);
+        manualCards.add(testCard10);
+
+        System.out.println(manualCards.get(5).equals(testreadCards.get(5)));
+        System.out.println(manualCards.get(5).getCard_number());
+        System.out.println(manualCards.get(5).getPin());
+        System.out.println(manualCards.get(5).getUID());
+        System.out.println(manualCards.get(5).getExpiry_date());
+        System.out.println(manualCards.get(5).getStart_date());
+        System.out.println(testreadCards.get(5).getCard_number());
+        System.out.println(testreadCards.get(5).getPin());
+        System.out.println(testreadCards.get(5).getStart_date());
+        System.out.println(testreadCards.get(5).getExpiry_date());
+        System.out.println(testreadCards.get(5).getUID());
+
+
+
+        for (int i=0; i<testreadCards.size(); i++){
+            String ErrorString = "Issue with Card Number: ";
+            ErrorString = ErrorString + Integer.toString(i);
+            System.out.println("Sheesh");
+            assertTrue(testreadCards.get(i).equals(manualCards.get(i)),ErrorString);
+
+        }
+
+    }
+
 
         assertNull(User.readUsers(badpath, cards));
         assertEquals(testUserList, User.readUsers(userPath, cards));
