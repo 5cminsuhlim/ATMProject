@@ -1024,7 +1024,26 @@ class AppTest {
         testUser3.addCard(testCard1);
         testUser3.addCard(testCard6);
 
+        User testUser4 = new User(userID1, full_name1, userBalance1);
+
+        User testUser5 = new User(userID2, full_name1, userBalance1);
+        testUser5.addCard(testCard1);
+        testUser5.addCard(testCard6);
+
+        User testUser6 = new User(userID1, full_name2, userBalance1);
+        testUser6.addCard(testCard1);
+        testUser6.addCard(testCard6);
+
+        User testUser7 = new User(userID1, full_name1, userBalance2);
+        testUser7.addCard(testCard1);
+        testUser7.addCard(testCard6);
+
+
         assertFalse(testUser1.equals(testUser2), "overridden equals incorrectly asserts that two different users are the same");
+        assertFalse(testUser1.equals(testUser4), "overridden equals incorrectly asserts that users with different cards are the same");
+        assertFalse(testUser1.equals(testUser5), "overridden equals incorrectly asserts that users with different userIDs are the same");
+        assertFalse(testUser1.equals(testUser6), "overridden equals incorrectly asserts that users with different names are the same");
+        assertFalse(testUser1.equals(testUser7), "overridden equals incorrectly asserts that users with different balances are the same");
         assertTrue(testUser1.equals(testUser3), "overriden equals incorrectly asserts that the same users are different");
         assertFalse(testUser1.equals(testCard1), "overriden equals incorrectly asserts that user object and card object are the same");
 
