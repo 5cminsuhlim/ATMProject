@@ -572,6 +572,7 @@ class AppTest {
 
     Card testCard1 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
     Card testCard2 = new Card(cardnum1,cardpin1,startdate1,expdate1,UID1,stolen1);
+    Card testCard3 = new Card("11232",cardpin1,startdate1,expdate1,UID1,stolen1);
 
     ArrayList<Card> testCards = new ArrayList<Card>();
     testCards.add(testCard1);
@@ -589,7 +590,11 @@ class AppTest {
     LinkedHashMap<BigDecimal, Integer> balance = new LinkedHashMap<BigDecimal, Integer>();
     ATM testATM = new ATM(balance, testCards, testUserList,testDate);
     assertEquals(0,testATM.getUserFromCard(testCard1),"User Not Found Error");
-    assertEquals(-1,testATM.getUserFromCard(testCard2),"User found but shouldn't be");
+    //This should return 0 as now if two cards are different objects but hold the same information
+        // they are treated the same
+    assertEquals(0,testATM.getUserFromCard(testCard2),"User Not Found Error");
+    //Completely Different Information Should not Show
+    assertEquals(-1,testATM.getUserFromCard(testCard3),"Card Found When DNE for USER");
     }
 
     @Test
@@ -894,4 +899,6 @@ class AppTest {
         assertEquals(true, testATM.checkPin(testCard1, "1111"), "checkPin test does not recognise correct pin");
         assertEquals(false, testATM.checkPin(testCard1, "0000"), "checkPin test does not recognise wrong pin");
     }
+
+
 }
