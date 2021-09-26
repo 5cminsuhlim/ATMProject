@@ -12,4 +12,6 @@ __pycache__
 output.txt
 cards
 userlist
+userlist.txt
 .DS_Store
+cardlist.txt

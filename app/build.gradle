@@ -43,5 +43,5 @@ tasks.named('test') {
 
 task generate(type:Exec) {
 	workingDir 'src/generate'
-	commandLine 'python3', 'gen.py'
+	commandLine 'python3', 'gen.py', '100', '1000'
 }

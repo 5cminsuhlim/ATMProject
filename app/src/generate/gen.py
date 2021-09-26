@@ -10,8 +10,8 @@ import decimal
 #  Bias: Limit total lost/stolen to < 10%
 
 
-userCount = int(100)
-cardCount = int(4000)
+userCount = int(sys.argv[1])
+cardCount = int(sys.argv[2])
 bias = "y"
 
 
