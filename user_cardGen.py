@@ -41,7 +41,7 @@ def leadingZero(value):
     return str(value)
 
 i = 0
-users_file = open("userlist", "w")
+users_file = open("userlist.txt", "w")
 ids = []
 while(i<userCount):
     #Details Format
@@ -58,7 +58,7 @@ for id in ids:
 users_file.close()
 
 i = 0
-cards_file = open("output.txt", "w")
+cards_file = open("cardlist.txt", "w")
 if bias == "y":
     lost_stolen = lostOrStolenStatusBias(cardCount)
     random.shuffle(lost_stolen)
