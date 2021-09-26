@@ -26,7 +26,7 @@ To access the repository on your computer, copy the link provided and git clone
 
 ## How to Run
 
-Simply type in `gradle run --console=plain` into your terminal interface.
+Simply type in `gradle clean build run --console=plain` into your terminal interface.
 
 
 
