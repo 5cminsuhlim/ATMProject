@@ -50,9 +50,20 @@ public class ATM_Runner{
         String[] amounts = new String[] {"100.00", "50.00", "20.00", "10.00",
                 "5.00", "2.00", "1.00", "0.50", "0.20", "0.10", "0.05"};
         for(String amount : amounts) {
-            System.out.println("How many $" + amount + " will be inserted?");
-            int count = atmInput.nextInt();
-            balance.put(new BigDecimal(amount), count);
+            boolean noterror = true;
+            while(noterror) {
+                int count;
+                try {
+                    System.out.println("How many $" + amount + " will be inserted?");
+                    count = Integer.parseInt(atmInput.nextLine());
+                    balance.put(new BigDecimal(amount), count);
+                    noterror = false;
+                }
+                catch(Exception e){
+                    System.out.println("Only Int Amounts Please");
+                }
+
+            }
         }
 
         ATM atm = new ATM(balance, validCards, userList, LocalDate.now()); // create the ATM object
