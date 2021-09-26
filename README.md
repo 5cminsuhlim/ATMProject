@@ -19,6 +19,7 @@ The purpose of this assignment was to develop particular skills for working in a
 * For user file generation, contributors must have the python names module installed
 * Gradle
 * Java 16 or higher
+* Names Library for generation
 
 ## Clone
 
